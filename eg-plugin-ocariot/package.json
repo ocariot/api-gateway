@@ -1,0 +1,20 @@
+{
+  "name": "eg-plugin-ocariot",
+  "version": "0.1.0",
+  "description": "Express gateway plugin for OCARIoT project",
+  "main": "manifest.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0"
+  }
+}

@@ -6,8 +6,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
-    "express-gateway": "^1.10.2",
-    "express-gateway-plugin-example": "file:express-gateway-plugin-example",
-    "express-gateway-plugin-ocariot": "file:express-gateway-plugin-ocariot"
+    "eg-plugin-ocariot": "file:eg-plugin-ocariot",
+    "express-gateway": "^1.10.2"
   }
 }

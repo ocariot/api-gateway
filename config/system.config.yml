@@ -30,3 +30,5 @@ plugins:
     package: express-gateway-plugin-example
   ocariot:
     package: express-gateway-plugin-ocariot
+  express-gateway:
+    package: express-gateway
