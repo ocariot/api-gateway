@@ -7,6 +7,8 @@ apiEndpoints:
   api:
     host: localhost
     paths: '/ip'
+    scopes:
+      - 'admin'
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
@@ -19,14 +21,19 @@ policies:
   - oauth2
   - proxy
   - rate-limit
-  - example
+  - authorization
+  - authentication
 pipelines:
   default:
     apiEndpoints:
       - api
     policies:
-    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-    # - key-auth:
+      # - authentication:
+      #     action:
+      #       secretOrPublicKey: 12345
+      #       issuer: 'ocariot'
+      - authorization:
+          action:
       - proxy:
           - action:
               serviceEndpoint: httpbin

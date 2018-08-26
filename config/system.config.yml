@@ -26,9 +26,5 @@ authorizationCodes:
   timeToExpiry: 300000
 
 plugins:
-  example:
-    package: express-gateway-plugin-example
-  ocariot:
-    package: express-gateway-plugin-ocariot
-  express-gateway:
-    package: express-gateway
+  eg-plugin-ocariot:
+    package: eg-plugin-ocariot
