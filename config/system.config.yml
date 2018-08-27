@@ -27,4 +27,4 @@ authorizationCodes:
 
 plugins:
   eg-plugin-ocariot:
-    package: eg-plugin-ocariot
+    package: 'eg-plugin-ocariot/manifest.js'
