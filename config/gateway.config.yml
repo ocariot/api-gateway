@@ -7,8 +7,10 @@ apiEndpoints:
   api:
     host: localhost
     paths: '/ip'
-    # scopes:
-    #   - 'admin'
+    scopes: 
+      - 'admin'
+      - 'educator'
+      - 'family'
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
@@ -29,11 +31,10 @@ pipelines:
       - api
     policies:
       - ocariot-jwt-policy:
-          action:
-            secretOrPublicKey: 12345
-            issuer: 'ocariot'
-      # - ocariot-jwtScopes-policy:
-      #     action:
+          - action:
+              secretOrPublicKey: 12345
+              issuer: 'ocariot'
+      - ocariot-jwtScopes-policy:
       - proxy:
           - action:
               serviceEndpoint: httpbin

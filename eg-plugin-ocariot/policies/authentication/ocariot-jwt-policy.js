@@ -2,7 +2,7 @@ module.exports = {
   name: 'ocariot-jwt-policy',
   policy: require('./ocariot-jwt'),
   schema: {
-    name: 'authentication',
+    name: 'ocariot-jwt-policy',
     $id: 'http://express-gateway.io/schemas/policies/ocariot-jwt-policy.json',
     type: 'object',
     properties: {

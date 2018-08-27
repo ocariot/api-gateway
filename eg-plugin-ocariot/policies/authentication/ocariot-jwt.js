@@ -14,10 +14,11 @@ module.exports = function (actionParams) {
     }, (jwtPayload, cb) => {
 
         console.log(`JWT payload: ${JSON.stringify(jwtPayload)}`);
+
         //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
         var err = new Error('Authentication failed');
         err.status = 400;
-        return cb(null,{username: "alex"});
+        return cb(null,jwtPayload);
     }
     ));
 
