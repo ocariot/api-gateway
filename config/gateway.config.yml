@@ -2,32 +2,117 @@ http:
   port: 8080
 admin:
   port: 9876
-  hostname: localhost
-apiEndpoints:
-  api:
-    host: localhost
-    paths: '/ip'
+  hostname: apigateway
+
+####### API ENDPOINTS DEFINITION ########
+####### ACTIVITY ENDPOINT ########
+apiEndpoints:  
+  activityApi:
+    - host: '*'
+      paths: ['/users/*/activities', '/users/*/activities/*']
+      methods: ["GET"]
+      scopes: ['activities:read']
+
+    - host: '*'
+      paths: ['/users/*/activities']
+      methods: ["POST"]
+      scopes: ['activities:register']
+
+    - host: '*'
+      paths: ['/users/*/activities/*']
+      methods: ["DELETE"]
+      scopes: ['activities:remove']
+
+####### ACCOUNT ENDPOINT ########
+  accountPublicApi:
+    host: '*'
+    methods: ['POST']
+    paths: ['/users/auth']
+  
+  accountPrivateApi:
+    - host: '*'
+      paths: ['/users']
+      methods: ['GET']
+      scopes: ['users:readAll']
+
+    - host: '*'
+      paths: ['/users']
+      methods: ['POST']
+      scopes: ['users:register']
+
+    - host: '*'
+      paths: ['/users/*']
+      methods: ['GET']
+      scopes: ['users:read']
+
+    - host: '*'
+      paths: ['/users/*']
+      methods: ['PUT']
+      scopes: ['users:update']
+
+    - host: '*'
+      paths: ['/users/*']
+      methods: ['DELETE']
+      scopes: ['users:remove']  
+
+####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
-  httpbin:
-    url: 'https://httpbin.org'
+  accountService:
+    url: 'http://accountservice:5000/api/v1'
+  activityService:
+    url: 'http://trackingservice:3000/api/v1'
+
+####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
-  - basic-auth
-  - cors
-  - expression
-  - key-auth
   - log
-  - oauth2
   - proxy
   - rate-limit
-  - example
-pipelines:
-  default:
-    apiEndpoints:
-      - api
+  - ocariot-jwtScopes-policy
+  - ocariot-jwt-policy
+
+####### PIPELINES DEFINITION ########
+#### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
+pipelines: 
+  accountPublicPipeline:
+    apiEndpoints: ['accountPublicApi']
     policies:
-    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-    # - key-auth:
       - proxy:
           - action:
-              serviceEndpoint: httpbin
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
               changeOrigin: true
+              serviceEndpoint: accountService
+
+  accountPrivatePipeline:
+    apiEndpoints: ['accountPrivateApi']
+    policies:
+      - ocariot-jwt-policy:
+          - action:
+              secretOrPublicKey: MyS3cr3tK3Y
+              issuer: 'ocariot'
+      - ocariot-jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              serviceEndpoint: accountService
+
+  #### Pipeline no manage data coming at ACTIVITY API ####
+  activityPipeline:
+    apiEndpoints: ['activityApi']
+    policies:
+      - ocariot-jwt-policy:
+          - action:
+              secretOrPublicKey: MyS3cr3tK3Y
+              issuer: 'ocariot'
+      - ocariot-jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              serviceEndpoint: activityService
