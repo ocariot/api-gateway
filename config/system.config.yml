@@ -1,7 +1,7 @@
 # Core
 db:
   redis:
-    host: localhost
+    host: redis_db
     port: 6379
     namespace: EG
 

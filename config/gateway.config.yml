@@ -2,7 +2,7 @@ http:
   port: 8080
 admin:
   port: 9876
-  hostname: localhost
+  hostname: apigateway
 
 ####### API ENDPOINTS DEFINITION ########
 ####### ACTIVITY ENDPOINT ########
@@ -58,9 +58,9 @@ apiEndpoints:
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
   accountService:
-    url: 'http://192.168.50.120:5000/api/v1'
+    url: 'http://accountservice:5000/api/v1'
   activityService:
-    url: 'http://192.168.0.107:3000/api/v1'
+    url: 'http://trackingservice:3000/api/v1'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
