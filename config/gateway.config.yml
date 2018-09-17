@@ -2,7 +2,7 @@ http:
   port: 8080
 admin:
   port: 9876
-  hostname: apigateway
+  hostname: localhost
 
 ####### API ENDPOINTS DEFINITION ########
 ####### ACTIVITY ENDPOINT ########
