@@ -1,9 +1,8 @@
 # Core
 db:
   redis:
-    # host: redis_db
-    # port: 6379
-    emulate: true
+    host: redis_db
+    port: 6379
     namespace: EG
 
 #plugins:
