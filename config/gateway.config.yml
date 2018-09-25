@@ -59,12 +59,16 @@ apiEndpoints:
 
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
+  # accountService:
+  #   url: 'http://accountservice:5000/api/v1'
+  # activityService:
+  #   url: 'http://trackingservice:3000/api/v1'
   accountService:
-    url: 'http://accountservice:5000/api/v1'
+    url: 'http://localhost:5000/api/v1'
   activityService:
-    url: 'http://trackingservice:3000/api/v1'
+    url: 'http://localhost:3000/api/v1'
   gatewayService:
-    url: 'http://localhost:8081/api/v1'
+    url: 'http://localhost:8080/api/v1'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
