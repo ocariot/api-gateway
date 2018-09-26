@@ -21,4 +21,21 @@ s.createUser = function (userData) {
 
 }
 
+s.deleteUser = function (user_id) {
+
+    return axios.request ({
+        method:'DELETE',
+        url: 'http://localhost:5000/api/v1/users/' + user_id
+    }).then(function (response) {
+        console.log('User removed from Account Service.');
+        return usersSrv.remove(user_id).then(result => {
+            console.log('User removed from API Gateway: ' + result);
+        });
+    }).catch (function (error) {
+        console.log('Error removing user on Account Service: ' + error.message);
+        return 'Error removing user on Account Service: ' + error.message;
+    });
+
+}
+
 module.exports = s;
