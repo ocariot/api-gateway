@@ -6,7 +6,7 @@ s.createUser = function (userData) {
 
    return axios.request ({
         method: 'POST',
-        url: 'http://localhost:5000/api/v1/users',
+        url: 'http://accountservice:5000/api/v1/users',
         data: userData
     }).then (function (response) {
         var apiGatewayUser = {username: response.data._id, isActive: 'true'};
