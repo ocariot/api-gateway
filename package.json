@@ -6,6 +6,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
+    "axios": "^0.18.0",
     "eg-plugin-ocariot": "file:eg-plugin-ocariot",
     "express-gateway": "^1.10.2"
   }

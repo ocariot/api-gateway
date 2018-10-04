@@ -2,11 +2,23 @@ http:
   port: 8080
 admin:
   port: 9876
-  hostname: apigateway
+  hostname: 0.0.0.0
 
 ####### API ENDPOINTS DEFINITION ########
+
 ####### ACTIVITY ENDPOINT ########
 apiEndpoints:  
+  gatewayCustomApi:
+    - host: '*'
+      paths: ['/users']
+      methods: ['POST']
+      scopes: ['users:register'] 
+
+    - host: '*'
+      paths: ['/users/*']
+      methods: ['DELETE']
+      scopes: ['users:remove']
+
   activityApi:
     - host: '*'
       paths: ['/users/*/activities', '/users/*/activities/*']
@@ -23,7 +35,7 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['activities:remove']
 
-####### ACCOUNT ENDPOINT ########
+####### ACCOUNT ENDPOINT ########  
   accountPublicApi:
     host: '*'
     methods: ['POST']
@@ -36,11 +48,6 @@ apiEndpoints:
       scopes: ['users:readAll']
 
     - host: '*'
-      paths: ['/users']
-      methods: ['POST']
-      scopes: ['users:register']
-
-    - host: '*'
       paths: ['/users/*']
       methods: ['GET']
       scopes: ['users:read']
@@ -48,12 +55,7 @@ apiEndpoints:
     - host: '*'
       paths: ['/users/*']
       methods: ['PUT']
-      scopes: ['users:update']
-
-    - host: '*'
-      paths: ['/users/*']
-      methods: ['DELETE']
-      scopes: ['users:remove']  
+      scopes: ['users:update']  
 
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
@@ -61,6 +63,8 @@ serviceEndpoints:
     url: 'http://accountservice:5000/api/v1'
   activityService:
     url: 'http://trackingservice:3000/api/v1'
+  gatewayService:
+    url: 'http://localhost:8080/api/v1'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -116,3 +120,19 @@ pipelines:
               stripPath:    false
               changeOrigin: true
               serviceEndpoint: activityService
+
+  gatewayPipeline:
+    apiEndpoints: ['gatewayCustomApi']
+    policies:
+      - ocariot-jwt-policy:
+          - action:
+              secretOrPublicKey: MyS3cr3tK3Y
+              issuer: 'ocariot'
+      - ocariot-jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              serviceEndpoint: gatewayService
