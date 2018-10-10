@@ -64,7 +64,7 @@ serviceEndpoints:
   activityService:
     url: 'http://trackingservice:3000/api/v1'
   gatewayService:
-    url: 'http://accountservice:5000/api/v1/users'
+    url: 'http://localhost:8080/api/v1'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
