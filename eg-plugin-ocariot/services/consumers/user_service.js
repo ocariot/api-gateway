@@ -35,7 +35,7 @@ s.deleteUser = function (user_id) {
 
     return axios.request({
         method: 'DELETE',
-        url: 'http://accountservice:5000/api/v1/users' + user_id
+        url: 'http://accountservice:5000/api/v1/users/' + user_id
     }).then (response => {
         console.log('User removed from Account Service.');
         return usersSrv.findByUsernameOrId(user_id).then(userSaved => {
