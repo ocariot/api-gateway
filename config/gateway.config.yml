@@ -1,24 +1,20 @@
 http:
-  port: 8080
+  port: ${PORT_API}
 admin:
   port: 9876
   hostname: 0.0.0.0
 
 ####### API ENDPOINTS DEFINITION ########
 
-####### ACTIVITY ENDPOINT ########
+####### GATEWAY CUSTOM ENDPOINT ########
 apiEndpoints:  
   gatewayCustomApi:
-    - host: '*'
-      paths: ['/users']
-      methods: ['POST']
-      scopes: ['users:register'] 
-
     - host: '*'
       paths: ['/users/*']
       methods: ['DELETE']
       scopes: ['users:remove']
 
+####### ACTIVITY ENDPOINT ########
   activityApi:
     - host: '*'
       paths: ['/users/*/activities', '/users/*/activities/*']
@@ -37,11 +33,15 @@ apiEndpoints:
 
 ####### ACCOUNT ENDPOINT ########  
   accountPublicApi:
-    host: '*'
-    methods: ['POST']
-    paths: ['/users/auth']
+    - host: '*'
+      paths: ['/users']
+      methods: ['POST']
+
+    - host: '*'
+      paths: ['/users/auth']
+      methods: ['POST']
   
-  accountPrivateApi:
+  accountPrivateApi:     
     - host: '*'
       paths: ['/users']
       methods: ['GET']
@@ -60,11 +60,11 @@ apiEndpoints:
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
   accountService:
-    url: 'http://accountservice:5000/api/v1'
+    url: '${ACCOUNT_SERVICE}'
   activityService:
-    url: 'http://trackingservice:3000/api/v1'
+    url: '${ACTIVITY_SERVICE}'
   gatewayService:
-    url: 'http://localhost:8080/api/v1'
+    url: '${API_GATEWAY_SERVICE}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -73,6 +73,8 @@ policies:
   - rate-limit
   - ocariot-jwtScopes-policy
   - ocariot-jwt-policy
+  - ocariot-auth-policy
+  - ocariot-body-parser-policy
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -80,6 +82,15 @@ pipelines:
   accountPublicPipeline:
     apiEndpoints: ['accountPublicApi']
     policies:
+      - ocariot-auth-policy:
+        - 
+          condition:
+            name: 'is-auth'
+            authpath: '/users/auth'
+          action:
+            urlauthservice: ${ACCOUNT_SERVICE}/users/auth
+            secretOrPublicKey: ${SECRET_JWT}
+            issuer: ${ISSUER}
       - proxy:
           - action:
               prependPath:  true
@@ -93,8 +104,8 @@ pipelines:
     policies:
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: MyS3cr3tK3Y
-              issuer: 'ocariot'
+              secretOrPublicKey: ${SECRET_JWT}
+              issuer: ${ISSUER}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
@@ -110,8 +121,8 @@ pipelines:
     policies:
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: MyS3cr3tK3Y
-              issuer: 'ocariot'
+              secretOrPublicKey: ${SECRET_JWT}
+              issuer: ${ISSUER}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
@@ -126,8 +137,8 @@ pipelines:
     policies:
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: MyS3cr3tK3Y
-              issuer: 'ocariot'
+              secretOrPublicKey: ${SECRET_JWT}
+              issuer: ${ISSUER}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:

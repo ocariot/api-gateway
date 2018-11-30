@@ -1,13 +1,18 @@
 /**
- * Policy to validate JWT
+ * Login Policy
+ * 
  */
 module.exports = {
-  name: 'ocariot-jwt-policy',
-  policy: require('./ocariot-jwt'),
+  name: 'ocariot-auth-policy',
+  policy: require('./ocariot-auth'),
   schema: {
-    $id: 'http://express-gateway.io/schemas/policies/ocariot-jwt-policy.json',
+    name: 'ocariot-jwt-policy',
+    $id: 'http://express-gateway.io/schemas/policies/ocariot-auth-policy.json',
     type: 'object',
     properties: {
+      urlauthservice: {
+        type: 'string'
+      },
       secretOrPublicKey: {
         type: 'string'
       },
@@ -18,7 +23,7 @@ module.exports = {
         type: 'string'
       }
     },
-    required: ['issuer'],
+    required: ['urlauthservice','issuer'],
     oneOf: [{ required: ['secretOrPublicKey'] }, { required: ['secretOrPublicKeyFile'] }]
   }
 };

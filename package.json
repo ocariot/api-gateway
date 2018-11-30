@@ -5,8 +5,19 @@
   "license": "UNLICENSED",
   "version": "1.0.0",
   "main": "server.js",
+  "scripts": {
+    "init": "npm i && npm audit fix && npm start",
+    "test:unit": "SET NODE_ENV=test && mocha --opts test/eg-plugin-haniot/unit/mocha.opts test/**/unit/**/*-spec.js"
+  },
   "dependencies": {
     "eg-plugin-ocariot": "file:eg-plugin-ocariot",
     "express-gateway": "^1.10.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "dotenv": "^6.1.0",
+    "mocha": "^5.2.0",
+    "sinon": "^6.1.4",
+    "supertest": "^3.3.0"
   }
 }
