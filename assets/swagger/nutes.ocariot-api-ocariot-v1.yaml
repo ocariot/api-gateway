@@ -12,7 +12,7 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/nutes.ocariot/api-ocariot/v1
   - description: Localhost
-    url: http://127.0.0.1:8080    
+    url: http://localhost:8080    
     
 tags:
 - name: users

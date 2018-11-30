@@ -22,7 +22,7 @@ module.exports = function (actionParams,authServiceTest,servicesTest) {
                     jwt.verify(response.data['access_token'], secretOrKey, function (err, jwtPayload) {
                         if (err) {
                             // console.error('| ocariot-auth | Error in verify jwt token: ',err);                            
-                            return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred. C"});
+                            return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred."});
                         }
                         //User and issuer validation. We expect to receive the username in the jwt 'sub' field and issuer in 'issuer' field
                         if (!jwtPayload.sub || jwtPayload.iss !== actionParams.issuer) {                            
@@ -41,12 +41,12 @@ module.exports = function (actionParams,authServiceTest,servicesTest) {
                                         return res.status(200).send(response.data);
                                     }).catch(err => { 
                                         console.error(new Date() + '| ocariot-auth | Error inserting user gateway: '+err.message);                                       
-                                        return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred A."});
+                                        return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred."});
                                     });
                             })
                             .catch( err => {
                                 console.error(new Date() + '| ocariot-auth | Error fetching user gateway: '+err.message);                                
-                                return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred B."});
+                                return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred."});
                             });
                     });
                 } else {                 
@@ -55,7 +55,7 @@ module.exports = function (actionParams,authServiceTest,servicesTest) {
             })
             .catch(err => {   
                 console.error(new Date() + '| ocariot-auth | Error in authService: '+err);          
-                return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred. D"});
+                return res.status(500).send({"code": 500,"message": "INTERNAL SERVER ERROR","description": "An internal server error has occurred."});
             });
 
     }

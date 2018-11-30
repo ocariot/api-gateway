@@ -10,30 +10,13 @@ admin:
 apiEndpoints:  
   gatewayCustomApi:
     - host: '*'
-      paths: ['/users/*']
+      paths: ['/users/:user_id']
       methods: ['DELETE']
       scopes: ['users:remove']
 
-####### ACTIVITY ENDPOINT ########
-  activityApi:
-    - host: '*'
-      paths: ['/users/*/activities', '/users/*/activities/*']
-      methods: ["GET"]
-      scopes: ['activities:read']
-
-    - host: '*'
-      paths: ['/users/*/activities']
-      methods: ["POST"]
-      scopes: ['activities:register']
-
-    - host: '*'
-      paths: ['/users/*/activities/*']
-      methods: ["DELETE"]
-      scopes: ['activities:remove']
-
 ####### ACCOUNT ENDPOINT ########  
   accountPublicApi:
-    - host: '*'
+    - host: 'localhost'
       paths: ['/users']
       methods: ['POST']
 
@@ -48,14 +31,81 @@ apiEndpoints:
       scopes: ['users:readAll']
 
     - host: '*'
-      paths: ['/users/*']
+      paths: ['/users/:user_id']
       methods: ['GET']
       scopes: ['users:read']
 
     - host: '*'
-      paths: ['/users/*']
-      methods: ['PUT']
-      scopes: ['users:update']  
+      paths: ['/users/:user_id']
+      methods: ['PATCH']
+      scopes: ['users:update'] 
+
+####### ACTIVITY ENDPOINT ########
+  activityPrivateApi:
+    - host: '*'
+      paths: ['/activities']
+      methods: ["GET"]
+      scopes: ['activities:readAll']
+
+    - host: '*'
+      paths: ['/users/:user_id/activities', '/users/:user_id/activities/*']
+      methods: ["GET"]
+      scopes: ['activities:read']
+
+    - host: '*'
+      paths: ['/users/:user_id/activities']
+      methods: ["POST"]
+      scopes: ['activities:register']
+
+    - host: '*'
+      paths: ['/users/:user_id/activities/:activity_id']
+      methods: ["PATCH"]
+      scopes: ['activities:update']
+
+    - host: '*'
+      paths: ['/users/:user_id/activities/:activity_id']
+      methods: ["DELETE"]
+      scopes: ['activities:remove']
+
+    - host: '*'
+      paths: ['/sleep']
+      methods: ["GET"]
+      scopes: ['sleep:readAll']
+
+    - host: '*'
+      paths: ['/users/:user_id/sleep', '/users/:user_id/sleep/:sleep_id']
+      methods: ["GET"]
+      scopes: ['sleep:read']
+
+    - host: '*'
+      paths: ['/users/:user_id/sleep']
+      methods: ["POST"]
+      scopes: ['sleep:register']
+
+    - host: '*'
+      paths: ['/users/:user_id/activities/:sleep_id']
+      methods: ["PATCH"]
+      scopes: ['sleep:update']
+
+    - host: '*'
+      paths: ['/users/:user_id/activities/:sleep_id']
+      methods: ["DELETE"]
+      scopes: ['sleep:remove']
+
+#   ENVIRONMENTAL ACTIVITY
+  activityPublicApi:
+    - host: '*'
+      paths: ['/environments']
+      methods: ["GET"]
+
+    - host: '*'
+      paths: ['/environments']
+      methods: ["POST"]
+
+    - host: '*'
+      paths: ['/environments/:environment_id']
+      methods: ["DELETE"]
+ 
 
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
@@ -82,6 +132,7 @@ pipelines:
   accountPublicPipeline:
     apiEndpoints: ['accountPublicApi']
     policies:
+      - ocariot-body-parser-policy: 
       - ocariot-auth-policy:
         - 
           condition:
@@ -99,9 +150,11 @@ pipelines:
               changeOrigin: true
               serviceEndpoint: accountService
 
+
   accountPrivatePipeline:
     apiEndpoints: ['accountPrivateApi']
     policies:
+      - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKey: ${SECRET_JWT}
@@ -115,10 +168,12 @@ pipelines:
               changeOrigin: true
               serviceEndpoint: accountService
 
-  #### Pipeline no manage data coming at ACTIVITY API ####
-  activityPipeline:
-    apiEndpoints: ['activityApi']
+
+ #### Pipelines to manage data coming from ACTIVITY PRIVATE and PUBLIC APIs ####
+  activityPrivatePipeline:
+    apiEndpoints: ['activityPrivateApi']
     policies:
+      - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKey: ${SECRET_JWT}
@@ -132,9 +187,25 @@ pipelines:
               changeOrigin: true
               serviceEndpoint: activityService
 
+  
+  activityPublicPipeline:
+    apiEndpoints: ['activityPublicApi']
+    policies:
+      - ocariot-body-parser-policy: 
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              serviceEndpoint: activityService
+
+
+#### Pipelines to manage data coming from GATEWAY CUSTOM APIs ####
   gatewayPipeline:
     apiEndpoints: ['gatewayCustomApi']
     policies:
+      - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKey: ${SECRET_JWT}
