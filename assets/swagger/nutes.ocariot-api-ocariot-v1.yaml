@@ -33,6 +33,8 @@ tags:
 paths:
   /users:
     post:
+      security:
+        - JWTAuth: []
       tags:
         - users
       summary: Register a user on the platform.
@@ -61,7 +63,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: User does not have permission to register activities.
+          description: The user does not have permission to access the resource.
           content:
             application/json:
               schema:
@@ -137,6 +139,8 @@ paths:
         required: true
   
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users
       summary: Recover list of users. Useful for users with administrator permissions.
@@ -166,7 +170,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: User does not have permission to get activities.
+          description: The user does not have permission to access the resource.
           content:
             application/json:
               schema:
@@ -206,6 +210,8 @@ paths:
   
   /users/{user_id}:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users
       summary: Recover user data.
@@ -327,18 +333,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        '403':
-          description: >-
-            User password must be changed. It occours when the system requires that user change your password during the auth proccess.
-          
-          content:
-            application/json:
-              schema:
-                example:
-                  code: 403
-                  message: Change password is necessary. 
-                  description: "To ensure information security, the user must change the access password. Access /api/v1/users/{user_id}/password to update then."
-                  redirect_link: /api/v1/users/{user_id}/password
         '404':
           description: >-
             Specified resource does not exist. Usually when the URI is incorrect
@@ -391,6 +385,8 @@ paths:
                 
   /activities:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - activities
       summary: Recover activities from all users.
@@ -465,6 +461,8 @@ paths:
  
   /users/{user_id}/activities:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users.activities
       summary: Recover activities.
@@ -537,6 +535,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
+      security:
+        - JWTAuth: []
       tags:
       - users.activities
       summary: Register activity.
@@ -636,6 +636,8 @@ paths:
 
   /users/{user_id}/activities/{activity_id}:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users.activities
       summary: Recover activity data.
@@ -708,6 +710,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     patch:
+      security:
+        - JWTAuth: []
       tags:
       - users.activities
       summary: Update activity data.
@@ -802,6 +806,8 @@ paths:
         description: Data of the activity to be updated.
         required: true
     delete:
+      security:
+        - JWTAuth: []
       tags:
       - users.activities
       summary: Delete activity data.
@@ -872,6 +878,8 @@ paths:
  
   /sleep:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - sleep
       summary: Recover sleep record of all users.
@@ -946,6 +954,8 @@ paths:
   
   /users/{user_id}/sleep:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users.sleep
       summary: Recover sleep record of user.
@@ -1018,6 +1028,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
+      security:
+        - JWTAuth: []
       tags:
       - users.sleep
       summary: Register sleep.
@@ -1060,7 +1072,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: User does not have permission to register activities.
+          description: User does not have permission to register sleep.
           content:
             application/json:
               schema:
@@ -1117,6 +1129,8 @@ paths:
         
   /users/{user_id}/sleep/{sleep_id}:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users.sleep
       summary: Recover sleep data.
@@ -1189,6 +1203,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     patch:
+      security:
+        - JWTAuth: []
       tags:
       - users.sleep
       summary: Update sleep data.
@@ -1283,6 +1299,8 @@ paths:
         description: Data of the activity to be updated.
         required: true
     delete:
+      security:
+        - JWTAuth: []
       tags:
       - users.sleep
       summary: Delete sleep data.
@@ -1380,7 +1398,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: User does not have permission to get sleep.
+          description: The user does not have permission to access the resource.
           content:
             application/json:
               schema:
@@ -1570,6 +1588,8 @@ paths:
  
   /users/{user_id}/activities/logs/date/{date_start}/{date_end}:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users.activities.logs
       summary: Recover the logs.
@@ -1653,7 +1673,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: User does not have permission to get activities.
+          description: The user does not have permission to access the resource.
           content:
             application/json:
               schema:
@@ -1693,6 +1713,8 @@ paths:
                 
   /users/{user_id}/activities/logs/{resource}/date/{date_start}/{date_end}:
     get:
+      security:
+        - JWTAuth: []
       tags:
       - users.activities.logs
       summary: Recover the logs.
@@ -1760,7 +1782,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
-          description: User does not have permission to get activities.
+          description: The user does not have permission to access the resource.
           content:
             application/json:
               schema:
@@ -1908,7 +1930,12 @@ components:
         The attribute used for the query will be the registration_date.
       schema:
         type: string
-  # Reosurces 
+  # Reosurces
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       type: object
