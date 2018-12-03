@@ -9,9 +9,11 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
     
 servers:
+  - description: NUTES-UEPB OCARIoT domain
+    url: http://ocariot.nutes.uepb.edu.br:8080
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/nutes.ocariot/api-ocariot/v1
-  - description: Localhost
+  - description: localhost
     url: http://localhost:8080    
     
 tags:

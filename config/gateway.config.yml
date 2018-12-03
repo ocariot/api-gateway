@@ -83,12 +83,12 @@ apiEndpoints:
       scopes: ['sleep:register']
 
     - host: '*'
-      paths: ['/users/:user_id/activities/:sleep_id']
+      paths: ['/users/:user_id/sleep/:sleep_id']
       methods: ["PATCH"]
       scopes: ['sleep:update']
 
     - host: '*'
-      paths: ['/users/:user_id/activities/:sleep_id']
+      paths: ['/users/:user_id/sleep/:sleep_id']
       methods: ["DELETE"]
       scopes: ['sleep:remove']
 
