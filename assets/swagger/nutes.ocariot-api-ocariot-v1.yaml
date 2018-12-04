@@ -9,12 +9,10 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
     
 servers:
-  - description: NUTES-UEPB OCARIoT domain
-    url: http://ocariot.nutes.uepb.edu.br:8080
+  - description: NUTES OCARIoT Server
+    url: http://ocariot.nutes.uepb.edu.br:8080    
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/nutes.ocariot/api-ocariot/v1
-  - description: localhost
-    url: http://localhost:8080    
     
 tags:
 - name: users
@@ -335,14 +333,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        '404':
-          description: >-
-            Specified resource does not exist. Usually when the URI is incorrect
-            or the resource is not found, or even no longer exists.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         '406':
           description: >-
             The server is not implementing the media type requested by the client
@@ -632,9 +622,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Activity'
+              $ref: '#/components/schemas/Activity'
 
   /users/{user_id}/activities/{activity_id}:
     get:
@@ -1125,9 +1113,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Sleep'
+              $ref: '#/components/schemas/Sleep'
         
   /users/{user_id}/sleep/{sleep_id}:
     get:

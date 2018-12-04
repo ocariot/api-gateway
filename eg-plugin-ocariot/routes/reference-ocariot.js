@@ -8,7 +8,10 @@ module.exports = function (expressGatewayApp) {
     customfavIcon: 'http://nutes.uepb.edu.br/wp-content/uploads/2014/01/icon.fw_.png',
     customSiteTitle: `API Reference | OCARIoT`
   }  
+  expressGatewayApp.get('/', (req, res) => {
+    res.redirect('/v1/reference');
+  });
   expressGatewayApp.use('/v1/reference', swaggerUi.serve, (req, res) => {
     swaggerUi.setup(documentSwagger, options)(req, res);
-  });
+  });  
 };
