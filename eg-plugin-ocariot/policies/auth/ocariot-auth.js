@@ -26,7 +26,7 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
                         }
                         //User and issuer validation. We expect to receive the username in the jwt 'sub' field and issuer in 'issuer' field
                         if (!jwtPayload.sub) {
-                            return res.status(401).send({ "code": 401, "message": "UNAUTHORIZED", "description": "The token user is not properly registered as a consumer at the gateway.", "redirect_link": "/users/auth" });
+                            return res.status(401).send({ "code": 401, "message": "UNAUTHORIZED", "description": "The token user is not properly registered as a consumer at the gateway.", "redirect_link": "/auth" });
                         }
                         // Searching for user on express gateway
                         services.user.find(jwtPayload.sub)

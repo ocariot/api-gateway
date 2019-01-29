@@ -282,15 +282,43 @@ apiEndpoints:
 ### ENVIRONMENTS ###
     - host: '*'
       paths: ['/environments']
-      methods: ["GET"]
+      methods: ["POST"]
+      scopes: ['environment:create']
 
     - host: '*'
       paths: ['/environments']
-      methods: ["POST"]
+      methods: ["GET"]
+      scopes: ['environment:read']
 
     - host: '*'
       paths: ['/environments/:environment_id']
       methods: ["DELETE"]
+      scopes: ['environment:delete']
+
+## MISSION ENDPOINTS ## 
+  missionsPrivateAPI:
+### USERS.CHILDREN.MISSIONS ###
+    - host: '*'
+      paths: ['/users/children/:child_id/missions']
+      methods: ["POST"]
+      scopes: ['missions:create']
+
+    - host: '*'
+      paths: 
+        - '/users/children/:child_id/missions'
+        - '/users/children/:child_id/missions/:mission_id'
+      methods: ["GET"]
+      scopes: ['missions:read']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/missions/:mission_id']
+      methods: ["PATCH"]
+      scopes: ['missions:update']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/missions/:mission_id']
+      methods: ["DELETE"]
+      scopes: ['missions:delete']
  
 
 ####### SERVICE ENDPOINTS DEFINITIONS ########
@@ -299,6 +327,8 @@ serviceEndpoints:
     url: '${ACCOUNT_SERVICE}'
   activityService:
     url: '${ACTIVITY_SERVICE}'
+  missionService:
+    url: '${MISSION_SERVICE}'
   gatewayService:
     url: '${API_GATEWAY_SERVICE}'
 
@@ -373,6 +403,23 @@ pipelines:
               changeOrigin: true
               serviceEndpoint: activityService
 
+ #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
+  missionsPrivatePipeline:
+    apiEndpoints: ['missionsPrivateAPI']
+    policies:
+      - ocariot-body-parser-policy: 
+      - ocariot-jwt-policy:
+          - action:
+              secretOrPublicKey: ${SECRET_JWT}
+              issuer: ${ISSUER}
+      - ocariot-jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              serviceEndpoint: missionService
 
 #### Pipelines to manage data coming from GATEWAY CUSTOM APIs ####
   gatewayPipeline:
