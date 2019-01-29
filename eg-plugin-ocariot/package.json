@@ -14,7 +14,8 @@
     "express-jwt-authz": "^1.0.0",
     "jsonwebtoken": "^8.3.0",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "eslint": "^4.9.0",
