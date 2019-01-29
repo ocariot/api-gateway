@@ -319,6 +319,32 @@ apiEndpoints:
       paths: ['/users/children/:child_id/missions/:mission_id']
       methods: ["DELETE"]
       scopes: ['missions:delete']
+
+## QUESTINNAIRES ENDPOINTS ## 
+  questionnairesPrivateAPI:
+### USERS.CHILDREN.QUESTIONNAIRES ###
+    - host: '*'
+      paths: ['/users/children/:child_id/questionnaires/types/:questionnaire_type']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: 
+        - '/users/children/:child_id/questionnaires'
+        - '/users/children/:child_id/questionnaires/:questionnaire_id'
+        - '/users/children/:child_id/questionnaires/types/:questionnaire_type'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/questionnaires/:questionnaire_id']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/questionnaires/:questionnaire_id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
  
 
 ####### SERVICE ENDPOINTS DEFINITIONS ########
@@ -329,6 +355,8 @@ serviceEndpoints:
     url: '${ACTIVITY_SERVICE}'
   missionService:
     url: '${MISSION_SERVICE}'
+  questionnaireService:
+    url: '${QUESTIONNAIRE_SERVICE}'
   gatewayService:
     url: '${API_GATEWAY_SERVICE}'
 
@@ -420,6 +448,24 @@ pipelines:
               stripPath:    false
               changeOrigin: true
               serviceEndpoint: missionService
+
+ #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
+  questinnairesPrivatePipeline:
+    apiEndpoints: ['questionnairesPrivateAPI']
+    policies:
+      - ocariot-body-parser-policy: 
+      - ocariot-jwt-policy:
+          - action:
+              secretOrPublicKey: ${SECRET_JWT}
+              issuer: ${ISSUER}
+      - ocariot-jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              serviceEndpoint: questionnaireService
 
 #### Pipelines to manage data coming from GATEWAY CUSTOM APIs ####
   gatewayPipeline:
