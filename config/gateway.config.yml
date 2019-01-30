@@ -17,7 +17,13 @@ apiEndpoints:
 ## ACCOUNT ENDPOINTS ##  
   accountPublicApi:
     - host: 'localhost'
-      paths: ['/users/children', '/users/educators','/users/families', '/users/healthprofessionals', '/users/applications', '/institutions']
+      paths: 
+        - '/users/children'
+        - '/users/educators'
+        - '/users/families'
+        - '/users/healthprofessionals'
+        - '/users/applications'
+        - '/institutions'
       methods: ['POST','GET']
 
 ### USERS.CHILDREN ### 
@@ -106,7 +112,9 @@ apiEndpoints:
       scopes: ['families:update']
 
     - host: '*'
-      paths: ['/users/families/:family_id', '/users/families/:family_id/children/:child_id']
+      paths: 
+        - '/users/families/:family_id'
+        - '/users/families/:family_id/children/:child_id'
       methods: ['DELETE']
       scopes: ['families:delete']
     
@@ -379,6 +387,8 @@ serviceEndpoints:
     url: '${MISSION_SERVICE}'
   questionnaireService:
     url: '${QUESTIONNAIRE_SERVICE}'
+  gamificationService:
+    url: '${GAMIFICATION_SERVICE}'
   gatewayService:
     url: '${API_GATEWAY_SERVICE}'
 
@@ -488,6 +498,24 @@ pipelines:
               stripPath:    false
               changeOrigin: true
               serviceEndpoint: questionnaireService
+
+ #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
+  gamificationPrivatePipeline:
+    apiEndpoints: ['gamificationPrivateAPI']
+    policies:
+      - ocariot-body-parser-policy: 
+      - ocariot-jwt-policy:
+          - action:
+              secretOrPublicKey: ${SECRET_JWT}
+              issuer: ${ISSUER}
+      - ocariot-jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              serviceEndpoint: gamificationService
 
 #### Pipelines to manage data coming from GATEWAY CUSTOM APIs ####
   gatewayPipeline:
