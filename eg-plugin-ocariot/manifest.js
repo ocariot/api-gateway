@@ -5,7 +5,9 @@ module.exports = {
     pluginContext.registerPolicy(require('./policies/authorization/ocariot-jwtScopes-policy'));
     pluginContext.registerPolicy(require('./policies/auth/ocariot-auth-policy'));
     pluginContext.registerPolicy(require('./policies/body-parser/ocariot-body-parser-policy'));
+    pluginContext.registerPolicy(require('./policies/delete-user/ocariot-delete-user-policy'));
     pluginContext.registerCondition(require('./conditions/is-auth'));
+    pluginContext.registerCondition(require('./conditions/is-delete'));
     pluginContext.registerGatewayRoute(require('./routes/reference-ocariot'));
     pluginContext.registerAdminRoute(require('./routes/documentation-apigw-admin'));
     pluginContext.registerGatewayRoute(require('./routes/user.router-gateway'));

@@ -401,6 +401,7 @@ policies:
   - ocariot-jwt-policy
   - ocariot-auth-policy
   - ocariot-body-parser-policy
+  - ocariot-delete-user-policy
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -413,9 +414,9 @@ pipelines:
         - 
           condition:
             name: 'is-auth'
-            authpath: '/users/auth'
+            authpath: '/auth'
           action:
-            urlauthservice: ${ACCOUNT_SERVICE}/users/auth
+            urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:5000/api/v1}/auth
             secretOrPublicKey: ${SECRET_JWT:-ocariot123}
             issuer: ${ISSUER:-ocariot}
       - proxy:
