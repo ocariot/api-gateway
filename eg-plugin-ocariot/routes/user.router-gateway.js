@@ -6,9 +6,9 @@ module.exports = app => {
     bodyParser.json(),
   ];
 
-  app.use('/api/v1/users', middlewares);
+  app.use('/users', middlewares);
 
-  app.post('/api/v1/users', (req, res) => {
+  app.post('/users', (req, res) => {
     userSrv.createUser(req.body).then(user => {
       res.status(201).send(user);
     }).catch(err => {
@@ -18,7 +18,7 @@ module.exports = app => {
     });
   });
 
-  app.delete('/api/v1/users/:user_id', (req, res) => {
+  app.delete('/users/:user_id', (req, res) => {
     userSrv.deleteUser(req.params.user_id).then(result => {
       res.status(204).send(result);
     }).catch (err => {

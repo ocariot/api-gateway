@@ -1,5 +1,5 @@
 http:
-  port: ${PORT_API}
+  port: ${PORT_API:-8080}
 admin:
   port: 9876
   hostname: 0.0.0.0
@@ -380,17 +380,17 @@ apiEndpoints:
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
   accountService:
-    url: '${ACCOUNT_SERVICE}'
+    url: '${ACCOUNT_SERVICE:-http://localhost:5000/api/v1}'
   activityService:
-    url: '${ACTIVITY_SERVICE}'
+    url: '${ACTIVITY_SERVICE:-http://localhost:3000/api/v1}'
   missionService:
-    url: '${MISSION_SERVICE}'
+    url: '${MISSION_SERVICE:-http://localhost:4000/api/v1}'
   questionnaireService:
-    url: '${QUESTIONNAIRE_SERVICE}'
+    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6000/api/v1}'
   gamificationService:
-    url: '${GAMIFICATION_SERVICE}'
+    url: '${GAMIFICATION_SERVICE:-http://localhost:7000/api/v1}'
   gatewayService:
-    url: '${API_GATEWAY_SERVICE}'
+    url: '${API_GATEWAY_SERVICE:-http://localhost:8080}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -416,8 +416,8 @@ pipelines:
             authpath: '/users/auth'
           action:
             urlauthservice: ${ACCOUNT_SERVICE}/users/auth
-            secretOrPublicKey: ${SECRET_JWT}
-            issuer: ${ISSUER}
+            secretOrPublicKey: ${SECRET_JWT:-ocariot123}
+            issuer: ${ISSUER:-ocariot}
       - proxy:
           - action:
               prependPath:  true
@@ -433,8 +433,8 @@ pipelines:
       - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: ${SECRET_JWT}
-              issuer: ${ISSUER}
+              secretOrPublicKey: ${SECRET_JWT:-ocariot123}
+              issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
@@ -452,8 +452,8 @@ pipelines:
       - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: ${SECRET_JWT}
-              issuer: ${ISSUER}
+              secretOrPublicKey: ${SECRET_JWT:-ocariot123}
+              issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
@@ -470,8 +470,8 @@ pipelines:
       - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: ${SECRET_JWT}
-              issuer: ${ISSUER}
+              secretOrPublicKey: ${SECRET_JWT:-ocariot123}
+              issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
@@ -488,8 +488,8 @@ pipelines:
       - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: ${SECRET_JWT}
-              issuer: ${ISSUER}
+              secretOrPublicKey: ${SECRET_JWT:-ocariot123}
+              issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
@@ -506,8 +506,8 @@ pipelines:
       - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: ${SECRET_JWT}
-              issuer: ${ISSUER}
+              secretOrPublicKey: ${SECRET_JWT:-ocariot123}
+              issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
@@ -524,8 +524,8 @@ pipelines:
       - ocariot-body-parser-policy: 
       - ocariot-jwt-policy:
           - action:
-              secretOrPublicKey: ${SECRET_JWT}
-              issuer: ${ISSUER}
+              secretOrPublicKey: ${SECRET_JWT:-ocariot123}
+              issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
       - proxy:
           - action:
