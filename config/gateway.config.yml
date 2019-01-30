@@ -26,7 +26,7 @@ apiEndpoints:
         - '/institutions'
       methods: ['POST','GET']
 
-### USERS.CHILDREN ### 
+### AUTH ### 
     - host: '*'
       paths: ['/auth', '/auth/revoke']
       methods: ['POST']
@@ -39,9 +39,9 @@ apiEndpoints:
   accountPrivateApi:   
 ### USERS ###  
     - host: '*'
-      paths: ['/users']
-      methods: ['GET']
-      scopes: ['users:readAll']
+      paths: ['/users/:user_id']
+      methods: ['DELETE']
+      scopes: ['users:delete']
 
 ### USERS.CHILDREN ### 
     - host: '*'
@@ -437,6 +437,14 @@ pipelines:
               secretOrPublicKey: ${SECRET_JWT:-ocariot123}
               issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
+      - ocariot-delete-user-policy:
+        - 
+          condition:
+            name: 'is-delete'
+            #deletepath é uma expressão regular
+            deletepath: '/api/v1/users/\S*'
+          action:
+            urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:5000/api/v1}/users
       - proxy:
           - action:
               prependPath:  true

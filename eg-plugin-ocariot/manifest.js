@@ -10,7 +10,6 @@ module.exports = {
     pluginContext.registerCondition(require('./conditions/is-delete'));
     pluginContext.registerGatewayRoute(require('./routes/reference-ocariot'));
     pluginContext.registerAdminRoute(require('./routes/documentation-apigw-admin'));
-    pluginContext.registerGatewayRoute(require('./routes/user.router-gateway'));
 
   },
   policies:['ocariot-jwt-policy', 'ocariot-jwtScopes-policy', 'haniot-auth-policy','haniot-body-parser-policy'], // this is for CLI to automatically add to "policies" whitelist in gateway.config
