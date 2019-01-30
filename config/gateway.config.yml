@@ -345,7 +345,29 @@ apiEndpoints:
       paths: ['/users/children/:child_id/questionnaires/:questionnaire_id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
- 
+
+## GAMIFICATION ENDPOINTS ## 
+  gamificationPrivateAPI:
+### USERS.CHILDREN.GAMIFICATIONPROFILE ###
+    - host: '*'
+      paths: ['/users/children/:child_id//gamificationprofile']
+      methods: ["POST"]
+      scopes: ['gamificationprofile:create']
+
+    - host: '*'
+      paths: ['/users/children/:child_id//gamificationprofile']
+      methods: ["GET"]
+      scopes: ['gamificationprofile:read']
+
+    - host: '*'
+      paths: ['/users/children/:child_id//gamificationprofile']
+      methods: ["PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    - host: '*'
+      paths: ['/users/children/:child_id//gamificationprofile']
+      methods: ["DELETE"]
+      scopes: ['gamificationprofile:delete']
 
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
