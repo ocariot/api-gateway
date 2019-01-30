@@ -5,15 +5,37 @@
 
 Follow all the steps present in the [official documentation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce) starting from the **Install Docker CE** chapter
 
+## Login to Docker Hub
 
-## Building the project container image
+```sh
+ $ sudo docker login --username=myusername --password=mypassword
+ ```
 
+## Building the project docker image
 
-``docker build -t IMAGE_NAME:IMAGE_VERSION DOCKERFILE_PATH``
+Go to the folder where is located the Dockerfile and execute:
 
-Example:
+```sh
+ $ docker build -t $DOCKER_ACC/$DOCKER_REPO:$IMG_TAG .
+ ```
 
-``docker build -t haniot-api-gateway:v0.1 .``
+ DOCKER_ACC is the name of your account $DOCKER_REPO is your image name and $IMG_TAG is your tag. The ``.`` indicates that ``Dockerfile`` is at the current path. If the ``Dockerfile`` is in another path you can specify using: 
+
+```sh
+ $ docker build -t $DOCKER_ACC/$DOCKER_REPO:$IMG_TAG $DOCKERFILE_PATH
+ ```
+
+### Example
+
+```sh
+ $ docker build -t ocariot/api-gateway:v0.1 .
+ ```
+
+## Pushing image to Docker Hub
+Firstly you have to login to Docker Hub using your credentials and build the docker image, as described above. So execute the following command:
+```sh
+ $ sudo docker push $DOCKER_ACC/$DOCKER_REPO:$IMG_TAG
+ ```
 
 ## Set the environment variables
 
