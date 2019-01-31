@@ -3,7 +3,7 @@
  */
 //const jwtz = require('express-jwt-authz');
 function error(res) {
-    return res.status(403).send({"code": 403,"message": "FORBIDDEN","description": "Authorization failed due to insufficient permissions.","redirect_link": "/users/auth"});
+    return res.status(403).send({"code": 403,"message": "FORBIDDEN","description": "Authorization failed due to insufficient permissions.","redirect_link": "/auth"});
 }
 
 module.exports = function (actionParams) {

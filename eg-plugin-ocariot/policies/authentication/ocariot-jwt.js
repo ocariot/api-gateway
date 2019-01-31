@@ -52,11 +52,11 @@ module.exports = function (actionParams, testContext) {
     
     return (req, res, next) => {         
         passport.authenticate('jwt', { session: false },(err, user, info) =>{
-            if(info && info.message === 'No auth token') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed for lack of authentication credentials.","redirect_link": "/users/auth"});
-            if(info && info.message === 'Invalid or inactive user') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "The token user is not properly registered as a consumer at the gateway.","redirect_link": "/users/auth"});
-            if(info && info.message === 'jwt expired') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed because access token is expired.","redirect_link": "/users/auth"});
-            if(info && info.message === 'jwt issuer invalid. expected: haniot') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed because the access token contains invalid parameters.","redirect_link": "/users/auth"});
-            if(info && info.message) return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed due to access token issues.","redirect_link": "/users/auth"});
+            if(info && info.message === 'No auth token') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed for lack of authentication credentials.","redirect_link": "/auth"});
+            if(info && info.message === 'Invalid or inactive user') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "The token user is not properly registered as a consumer at the gateway.","redirect_link": "/auth"});
+            if(info && info.message === 'jwt expired') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed because access token is expired.","redirect_link": "/auth"});
+            if(info && info.message === 'jwt issuer invalid. expected: haniot') return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed because the access token contains invalid parameters.","redirect_link": "/auth"});
+            if(info && info.message) return res.status(401).send({"code": 401,"message": "UNAUTHORIZED","description": "Authentication failed due to access token issues.","redirect_link": "/auth"});
             req.user = user;
             next();
         })(req, res, next);

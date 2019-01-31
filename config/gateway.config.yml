@@ -61,8 +61,13 @@ apiEndpoints:
 
     - host: '*'
       paths: ['/users/children/:child_id']
+      methods: ['PATCH']
+      scopes: ['children:update']
+
+    - host: '*'
+      paths: ['/users/children/:child_id']
       methods: ['DELETE']
-      scopes: ['children:delete']
+      scopes: ['children:deelete']
 
 ### USERS.EDUCATORS ### 
     - host: '*'
@@ -380,15 +385,15 @@ apiEndpoints:
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
   accountService:
-    url: '${ACCOUNT_SERVICE:-http://localhost:5000/api/v1}'
+    url: '${ACCOUNT_SERVICE:-http://localhost:5000}'
   activityService:
-    url: '${ACTIVITY_SERVICE:-http://localhost:3000/api/v1}'
+    url: '${ACTIVITY_SERVICE:-http://localhost:3000}'
   missionService:
-    url: '${MISSION_SERVICE:-http://localhost:4000/api/v1}'
+    url: '${MISSION_SERVICE:-http://localhost:4000}'
   questionnaireService:
-    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6000/api/v1}'
+    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6000}'
   gamificationService:
-    url: '${GAMIFICATION_SERVICE:-http://localhost:7000/api/v1}'
+    url: '${GAMIFICATION_SERVICE:-http://localhost:7000}'
   gatewayService:
     url: '${API_GATEWAY_SERVICE:-http://localhost:8080}'
 
@@ -416,7 +421,7 @@ pipelines:
             name: 'is-auth'
             authpath: '/auth'
           action:
-            urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:5000/api/v1}/auth
+            urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/auth
             secretOrPublicKey: ${SECRET_JWT:-ocariot123}
             issuer: ${ISSUER:-ocariot}
       - proxy:
@@ -442,9 +447,9 @@ pipelines:
           condition:
             name: 'is-delete'
             #deletepath é uma expressão regular
-            deletepath: '/api/v1/users/\S*'
+            deletepath: '/users/\S*'
           action:
-            urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:5000/api/v1}/users
+            urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/users
       - proxy:
           - action:
               prependPath:  true
