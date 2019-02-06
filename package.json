@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "eg-plugin-ocariot": "file:eg-plugin-ocariot",
-    "express-gateway": "^1.10.2"
+    "express-gateway": "^1.10.2",
+    "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",

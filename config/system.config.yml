@@ -1,6 +1,6 @@
 db:
   redis:
-    emulate: ${EMULATE_REDIS:-false}
+    emulate: ${EMULATE_REDIS:-true}
     host: ${HOST_REDIS:-localhost}
     port: ${PORT_REDIS:-6379}
     namespace: ocariot_gateway
