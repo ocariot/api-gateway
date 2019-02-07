@@ -67,7 +67,7 @@ apiEndpoints:
     - host: '*'
       paths: ['/users/children/:child_id']
       methods: ['DELETE']
-      scopes: ['children:deelete']
+      scopes: ['children:delete']
 
 ### USERS.EDUCATORS ### 
     - host: '*'

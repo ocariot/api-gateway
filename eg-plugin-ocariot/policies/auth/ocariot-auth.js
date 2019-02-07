@@ -18,7 +18,6 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
         return authService.auth(actionParams.urlauthservice, req.body)
             .then(response => {
                 if (response.status === 200) {// Login realizado com sucesso, criar usuario no Gateway
-                    console.log('LOGIN REALIZADO. JWT_SECRET: ' + actionParams.secretOrPublicKey + '\r\nACCESS_TOKE: ' + response.data['access_token']);
                     const secretOrKey = actionParams.secretOrPublicKeyFile ? fs.readFileSync(actionParams.secretOrPublicKeyFile) : actionParams.secretOrPublicKey;
                     jwt.verify(response.data['access_token'], secretOrKey, { issuer: actionParams.issuer }, function (err, jwtPayload) {
                         if (err) {
