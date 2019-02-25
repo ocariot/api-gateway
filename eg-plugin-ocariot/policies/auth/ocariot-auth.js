@@ -16,10 +16,11 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
         // const credentials = req.headers.authorization ? req.headers.authorization : req.headers['authorization'];
         // const data =  new Buffer(credentials.split(" ")[1], 'base64').toString().split(':');
         return authService.auth(actionParams.urlauthservice, req.body)
-            .then(response => {
-                if (response.status === 200) {// Login realizado com sucesso, criar usuario no Gateway
+            .then(function (response) {
+                console.log(`Authentication status code: ${response.statusCode} \r\n Authentication Body ${response.body} \r\n`);
+                if (response.statusCode === 200) {// Login realizado com sucesso, criar usuario no Gateway
                     const secretOrKey = actionParams.secretOrPublicKeyFile ? fs.readFileSync(actionParams.secretOrPublicKeyFile) : actionParams.secretOrPublicKey;
-                    jwt.verify(response.data['access_token'], secretOrKey, { issuer: actionParams.issuer }, function (err, jwtPayload) {
+                    jwt.verify(response.body['access_token'], secretOrKey, { issuer: actionParams.issuer }, function (err, jwtPayload) {
                         if (err) {
                             // console.error('| ocariot-auth | Error in verify jwt token: ',err);                            
                             return res.status(500).send({ "code": 500, "message": "INTERNAL SERVER ERROR", "description": "An internal server error has occurred." });
@@ -32,13 +33,13 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
                         services.user.find(jwtPayload.sub)
                             .then(user => {
                                 if (user) {
-                                    return res.status(200).send(response.data);
+                                    return res.status(200).send(response.body);
                                 }
                                 let userGateway = { username: jwtPayload.sub };
                                 services.user.insert(userGateway)
                                     .then(user => {
                                         response.user = user;
-                                        return res.status(200).send(response.data);
+                                        return res.status(200).send(response.body);
                                     }).catch(err => {
                                         console.error(new Date() + '| ocariot-auth | Error inserting user gateway: ' + err.message);
                                         return res.status(500).send({ "code": 500, "message": "INTERNAL SERVER ERROR", "description": "An internal server error has occurred." });
@@ -50,11 +51,11 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
                             });
                     });
                 } else {
-                    return res.status(response.status).send(response.data);
+                    return res.status(response.statusCode).send(response.body);
                 }
             })
-            .catch(err => {
-                if (err.response && err.response.data.code) return res.status(err.response.data.code).send(err.response.data)
+            .catch(function (err) {
+                if (err.response && err.response.body.code) return res.status(err.response.body.code).send(err.response.body)
 
                 console.error(new Date() + '| ocariot-auth | Error in authService: ' + err);
                 return res.status(500).send({ "code": 500, "message": "INTERNAL SERVER ERROR", "description": "An internal server error has occurred." });

@@ -1,8 +1,6 @@
 http:
-  port: ${PORT_API:-8080}
-admin:
-  port: 9876
-  hostname: 0.0.0.0
+  port: ${PORT_HTTP:-8080}
+  hostname: '0.0.0.0'
 
 # API ENDPOINTS DEFINITION #
 
@@ -101,7 +99,7 @@ apiEndpoints:
       scopes: ['missions:read']
 
     - host: '*'
-      paths: ['/users/children/:child_id/missions/:mission_id']
+      paths: ['/users/children/:child_iscopesd/missions/:mission_id']
       methods: ["PATCH"]
       scopes: ['missions:update']
 
@@ -425,6 +423,8 @@ pipelines:
               ignorePath:   false
               stripPath:    false
               changeOrigin: true
+              timeout: 10000
+              secure: false
               serviceEndpoint: accountService
 
 
@@ -451,6 +451,8 @@ pipelines:
               ignorePath:   false
               stripPath:    false
               changeOrigin: true
+              secure: false
+              timeout: 10000
               serviceEndpoint: accountService
 
 
@@ -470,6 +472,8 @@ pipelines:
               ignorePath:   false
               stripPath:    false
               changeOrigin: true
+              secure: false
+              timeout: 10000
               serviceEndpoint: activityService
 
  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
@@ -488,6 +492,8 @@ pipelines:
               ignorePath:   false
               stripPath:    false
               changeOrigin: true
+              secure: false
+              timeout: 10000
               serviceEndpoint: missionService
 
  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
@@ -506,6 +512,8 @@ pipelines:
               ignorePath:   false
               stripPath:    false
               changeOrigin: true
+              secure: false
+              timeout: 10000
               serviceEndpoint: questionnaireService
 
  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
@@ -524,4 +532,6 @@ pipelines:
               ignorePath:   false
               stripPath:    false
               changeOrigin: true
+              secure: false
+              timeout: 10000
               serviceEndpoint: gamificationService

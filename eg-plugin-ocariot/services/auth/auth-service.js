@@ -2,17 +2,24 @@
  * Service created to request user authentication in the account service
  */
 
+const rp = require('request-promise');
+
 const s = {};
-const axios = require('axios');
 
 s.auth = function (urlservice, credentials) {
-    return axios.
-    request({
-        method: 'POST',
-        url: urlservice,
-        // "Authorization":"Basic QWRhbGNpbm86SnVuaW9y",
-        data: credentials
-    });
+        var options = {
+            method: 'POST',
+            uri: urlservice,
+            headers: {
+                'User-Agent': 'Request-Promise'
+            },
+            body: credentials, 
+            resolveWithFullResponse: true, // Get the full response instead of just the body 
+            rejectUnauthorized: false, // Accept HTTPS self-signed certificates
+            json: true // Automatically parses the JSON string in the response
+        };
+
+        return rp(options);
 }
 
 module.exports = s;
