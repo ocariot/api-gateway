@@ -2,8 +2,9 @@
  * Login Policy
  */
 const jwt = require('jsonwebtoken');
-let authService = require('../../services/auth/auth-service');
-let services = require('express-gateway/lib/services');
+const authService = require('../../services/auth/auth-service');
+const services = require('express-gateway/lib/services');
+const fs = require('fs');
 
 module.exports = function (actionParams, authServiceTest, servicesTest) {
     return (req, res, next) => {
@@ -17,7 +18,6 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
         // const data =  new Buffer(credentials.split(" ")[1], 'base64').toString().split(':');
         return authService.auth(actionParams.urlauthservice, req.body)
             .then(function (response) {
-                console.log(`Authentication status code: ${response.statusCode} \r\n Authentication Body ${response.body} \r\n`);
                 if (response.statusCode === 200) {// Login realizado com sucesso, criar usuario no Gateway
                     const secretOrKey = actionParams.secretOrPublicKeyFile ? fs.readFileSync(actionParams.secretOrPublicKeyFile) : actionParams.secretOrPublicKey;
                     jwt.verify(response.body['access_token'], secretOrKey, { issuer: actionParams.issuer }, function (err, jwtPayload) {
