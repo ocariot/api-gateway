@@ -130,7 +130,12 @@ module.exports = (app) => {
         if (req.secure) {
             next() // request was via https, so do no special handling
         } else {
-            res.redirect((process.env.API_GATEWAY_SERVICE || defaults.API_GATEWAY_SERVICE) + req.url) // request was via http, so redirect to https
+            // res.redirect((process.env.API_GATEWAY_SERVICE || defaults.API_GATEWAY_SERVICE) + req.url)
+            // request was via http, so redirect to https
+            const host = req.headers.host || ''
+            const newLocation = 'https://' + host.replace(/:\d+/, ':' + portHTTPS) + req.url
+            res.writeHead(301, { Location: newLocation })
+            res.end()
         }
     })
 }
