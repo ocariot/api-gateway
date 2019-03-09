@@ -11,7 +11,9 @@ apiEndpoints:
   activityPrivateApi:
 ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
     - host: '*'
-      paths: ['/users/children/:child_id/physicalactivities']
+      paths: 
+        - '/users/children/:child_id/physicalactivities'
+        - '/users/children/:child_id/physicalactivities/*'
       methods: ["POST"]
       scopes: ['physicalactivities:create']
 
@@ -319,7 +321,7 @@ apiEndpoints:
     - host: '*'
       paths: 
         - '/users/educators/:educator_id/children/groups/:group_id'
-        - /users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
+        - '/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
       methods: ['DELETE']
       scopes: ['childrengroups:delete']
 
@@ -442,7 +444,7 @@ pipelines:
           condition:
             name: 'is-delete'
             #deletepath é uma expressão regular
-            deletepath: '/users/\S*'
+            deletepath: '^(\/users\/)[a-fA-F0-9]{24}$'
           action:
             urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/users
       - proxy:

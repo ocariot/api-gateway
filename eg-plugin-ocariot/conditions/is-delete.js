@@ -4,7 +4,7 @@
 module.exports = {
   name: 'is-delete',
   handler: function (req, conditionConfig) {  
-    const regex = new RegExp(conditionConfig.deletepath);    
+    const regex = new RegExp(conditionConfig.deletepath);   
     return (regex.test(req.url) && req.method === 'DELETE');
   },
   schema: {
