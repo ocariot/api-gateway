@@ -10,6 +10,7 @@ module.exports = {
     pluginContext.registerCondition(require('./conditions/is-delete'));
     pluginContext.registerGatewayRoute(require('./routes/https'));
     pluginContext.registerGatewayRoute(require('./routes/reference-ocariot'));
+    pluginContext.registerGatewayRoute(require('./routes/ocariot-middlewares'));
   },
-  policies:['ocariot-jwt-policy', 'ocariot-jwtScopes-policy', 'haniot-auth-policy','haniot-body-parser-policy'], // this is for CLI to automatically add to "policies" whitelist in gateway.config
+  policies:['ocariot-jwt-policy', 'ocariot-jwtScopes-policy', 'ocariot-auth-policy','ocariot-body-parser-policy','ocariot-delete-user-policy'], // this is for CLI to automatically add to "policies" whitelist in gateway.config
 };

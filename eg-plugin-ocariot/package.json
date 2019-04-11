@@ -9,6 +9,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "cors": "^2.8.5",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "greenlock-express": "^2.6.7",
