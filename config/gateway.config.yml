@@ -1,17 +1,24 @@
 http:
   port: ${PORT_HTTP:-8080}
   hostname: '0.0.0.0'
+https:
+  port: ${PORT_HTTPS:-443}
+  hostname: '0.0.0.0'
+  tls:
+    "default":
+      key: ${SSL_KEY_PATH}
+      cert: ${SSL_CERT_PATH}
 
 # API ENDPOINTS DEFINITION #
 
 ## GATEWAY CUSTOM ENDPOINT ##
-apiEndpoints:  
+apiEndpoints:
 
-## ACTIVITY ENDPOINTS ##
+  ## ACTIVITY ENDPOINTS ##
   activityPrivateApi:
-### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
+    ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
     - host: '*'
-      paths: 
+      paths:
         - '/users/children/:child_id/physicalactivities'
         - '/users/children/:child_id/physicalactivities/*'
       methods: ["POST"]
@@ -23,7 +30,7 @@ apiEndpoints:
       scopes: ['physicalactivities:readAll']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/children/:child_id/physicalactivities'
         - '/users/children/:child_id/physicalactivities/*'
       methods: ["GET"]
@@ -39,7 +46,7 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['physicalactivities:delete']
 
-### USERS.CHILDREN.SLEEP ###
+    ### USERS.CHILDREN.SLEEP ###
     - host: '*'
       paths: ['/users/children/:child_id/sleep']
       methods: ["POST"]
@@ -51,7 +58,7 @@ apiEndpoints:
       scopes: ['sleep:readAll']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/children/:child_id/sleep'
         - '/users/children/:child_id/sleep/*'
       methods: ["GET"]
@@ -67,9 +74,9 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['sleep:delete']
 
-## ENVIRONMENT ENDPOINTS ## 
+  ## ENVIRONMENT ENDPOINTS ##
   environmentPrivateAPI:
-### ENVIRONMENTS ###
+    ### ENVIRONMENTS ###
     - host: '*'
       paths: ['/environments']
       methods: ["POST"]
@@ -85,16 +92,16 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['environment:delete']
 
-## MISSION ENDPOINTS ## 
+  ## MISSION ENDPOINTS ##
   missionsPrivateAPI:
-### USERS.CHILDREN.MISSIONS ###
+    ### USERS.CHILDREN.MISSIONS ###
     - host: '*'
       paths: ['/users/children/:child_id/missions']
       methods: ["POST"]
       scopes: ['missions:create']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/children/:child_id/missions'
         - '/users/children/:child_id/missions/:mission_id'
       methods: ["GET"]
@@ -110,16 +117,16 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['missions:delete']
 
-## QUESTINNAIRES ENDPOINTS ## 
+  ## QUESTINNAIRES ENDPOINTS ##
   questionnairesPrivateAPI:
-### USERS.CHILDREN.QUESTIONNAIRES ###
+    ### USERS.CHILDREN.QUESTIONNAIRES ###
     - host: '*'
       paths: ['/users/children/:child_id/questionnaires/types/:questionnaire_type']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/children/:child_id/questionnaires'
         - '/users/children/:child_id/questionnaires/:questionnaire_id'
         - '/users/children/:child_id/questionnaires/types/:questionnaire_type'
@@ -136,9 +143,9 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
-## GAMIFICATION ENDPOINTS ## 
+  ## GAMIFICATION ENDPOINTS ##
   gamificationPrivateAPI:
-### USERS.CHILDREN.GAMIFICATIONPROFILE ###
+    ### USERS.CHILDREN.GAMIFICATIONPROFILE ###
     - host: '*'
       paths: ['/users/children/:child_id//gamificationprofile']
       methods: ["POST"]
@@ -159,10 +166,10 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
-## ACCOUNT ENDPOINTS ##  
+  ## ACCOUNT ENDPOINTS ##
   accountPublicApi:
     - host: 'localhost'
-      paths: 
+      paths:
         - '/users/children'
         - '/users/educators'
         - '/users/families'
@@ -171,24 +178,24 @@ apiEndpoints:
         - '/institutions'
       methods: ['POST','GET']
 
-### AUTH ### 
+    ### AUTH ###
     - host: '*'
       paths: ['/auth', '/auth/revoke']
       methods: ['POST']
 
-### USERS ###
+    ### USERS ###
     - host: '*'
       paths: ['/users/:user_id/password']
       methods: ['PATCH']
-  
-  accountPrivateApi:   
-### USERS ###  
+
+  accountPrivateApi:
+    ### USERS ###
     - host: '*'
       paths: ['/users/:user_id']
       methods: ['DELETE']
       scopes: ['users:delete']
 
-### USERS.CHILDREN ### 
+    ### USERS.CHILDREN ###
     - host: '*'
       paths: ['/users/children']
       methods: ['POST']
@@ -214,7 +221,7 @@ apiEndpoints:
       methods: ['DELETE']
       scopes: ['children:delete']
 
-### USERS.EDUCATORS ### 
+    ### USERS.EDUCATORS ###
     - host: '*'
       paths: ['/users/educators']
       methods: ['POST']
@@ -240,7 +247,7 @@ apiEndpoints:
       methods: ['DELETE']
       scopes: ['educators:delete']
 
-### USERS.FAMILIES || USERS.FAMILIES.CHILDREN ###
+    ### USERS.FAMILIES || USERS.FAMILIES.CHILDREN ###
     - host: '*'
       paths: ['/users/families', '/users/families/:family_id/children/:child_id']
       methods: ['POST']
@@ -262,18 +269,18 @@ apiEndpoints:
       scopes: ['families:update']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/families/:family_id'
         - '/users/families/:family_id/children/:child_id'
       methods: ['DELETE']
       scopes: ['families:delete']
-    
-### USERS.HEALTHPROFESSIONALS ### 
+
+    ### USERS.HEALTHPROFESSIONALS ###
     - host: '*'
       paths: ['/users/healthprofessionals']
       methods: ['POST']
       scopes: ['healthprofessionals:create']
-    
+
     - host: '*'
       paths: ['/users/healthprofessionals']
       methods: ['GET']
@@ -294,16 +301,16 @@ apiEndpoints:
       methods: ['DELETE']
       scopes: ['healthprofessionals:delete']
 
-### USERS.EDUCATORS.CHILDREN.GROUPS || USERS.HEALTHPROFESSIONALS.CHILDREN.GROUPS ###
+    ### USERS.EDUCATORS.CHILDREN.GROUPS || USERS.HEALTHPROFESSIONALS.CHILDREN.GROUPS ###
     - host: '*'
-      paths: 
+      paths:
         - '/users/educators/:educator_id/children/groups'
         - '/users/healthprofessionals/:healthprofessional_id/children/groups'
       methods: ['POST']
       scopes: ['childrengroups:create']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/educators/:educator_id/children/groups'
         - '/users/educators/:educator_id/children/groups/:group_id'
         - '/users/healthprofessionals/:healthprofessional_id/children/groups'
@@ -312,20 +319,20 @@ apiEndpoints:
       scopes: ['childrengroups:read']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/educators/:educator_id/children/groups/:group_id'
         - '/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
       methods: ['PATCH']
       scopes: ['childrengroups:update']
 
     - host: '*'
-      paths: 
+      paths:
         - '/users/educators/:educator_id/children/groups/:group_id'
         - '/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
       methods: ['DELETE']
       scopes: ['childrengroups:delete']
 
-### USERS.APPLICATIONS ###
+    ### USERS.APPLICATIONS ###
     - host: '*'
       paths: ['/users/applications']
       methods: ['POST']
@@ -351,7 +358,7 @@ apiEndpoints:
       methods: ['DELETE']
       scopes: ['applications:delete']
 
-### INSTITUTIONS ###
+    ### INSTITUTIONS ###
     - host: '*'
       paths: ['/institutions']
       methods: ['POST']
@@ -379,18 +386,18 @@ apiEndpoints:
 
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
-  accountService:
-    url: '${ACCOUNT_SERVICE:-https://localhost:5001}'
-  activityService:
-    url: '${ACTIVITY_SERVICE:-https://localhost:3001}'
-  missionService:
-    url: '${MISSION_SERVICE:-http://localhost:4000}'
-  questionnaireService:
-    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6000}'
-  gamificationService:
-    url: '${GAMIFICATION_SERVICE:-http://localhost:7000}'
   gatewayService:
     url: '${API_GATEWAY_SERVICE:-http://localhost:8080}'
+  accountService:
+    url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
+  activityService:
+    url: '${ACTIVITY_SERVICE:-https://localhost:4001}'
+  missionService:
+    url: '${MISSION_SERVICE:-http://localhost:5001}'
+  questionnaireService:
+    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6001}'
+  gamificationService:
+    url: '${GAMIFICATION_SERVICE:-http://localhost:7001}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -402,23 +409,30 @@ policies:
   - ocariot-auth-policy
   - ocariot-body-parser-policy
   - ocariot-delete-user-policy
+#  - cors:
+#      - action:
+#          origin: '*'
+#          methods: ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+#          allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+#          credentials: true
+#          preflightContinue: false
+#          optionsSuccessStatus: 200
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
-pipelines: 
+pipelines:
   accountPublicPipeline:
     apiEndpoints: ['accountPublicApi']
     policies:
-      - ocariot-body-parser-policy: 
+      - ocariot-body-parser-policy:
       - ocariot-auth-policy:
-        - 
-          condition:
-            name: 'is-auth'
-            authpath: '/auth'
-          action:
-            urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/auth
-            secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-            issuer: ${ISSUER:-ocariot}
+          - condition:
+              name: 'is-auth'
+              authpath: '/auth'
+            action:
+              urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/auth
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
+              issuer: ${ISSUER:-ocariot}
       - proxy:
           - action:
               prependPath:  true
@@ -429,24 +443,22 @@ pipelines:
               secure: false
               serviceEndpoint: accountService
 
-
   accountPrivatePipeline:
     apiEndpoints: ['accountPrivateApi']
     policies:
-      - ocariot-body-parser-policy: 
+      - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - ocariot-jwtScopes-policy:
       - ocariot-delete-user-policy:
-        - 
-          condition:
-            name: 'is-delete'
-            #deletepath é uma expressão regular
-            deletepath: '^(\/users\/)[a-fA-F0-9]{24}$'
-          action:
-            urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/users
+          - condition:
+              name: 'is-delete'
+              #deletepath é uma expressão regular
+              deletepath: '^(\/users\/)[a-fA-F0-9]{24}$'
+            action:
+              urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/users
       - proxy:
           - action:
               prependPath:  true
@@ -457,12 +469,11 @@ pipelines:
               timeout: 10000
               serviceEndpoint: accountService
 
-
- #### Pipelines to manage data coming from ACTIVITY PRIVATE and PUBLIC APIs ####
+  #### Pipelines to manage data coming from ACTIVITY PRIVATE and PUBLIC APIs ####
   activityPrivatePipeline:
     apiEndpoints: ['activityPrivateApi', 'environmentPrivateAPI']
     policies:
-      - ocariot-body-parser-policy: 
+      - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
@@ -478,11 +489,11 @@ pipelines:
               timeout: 10000
               serviceEndpoint: activityService
 
- #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
+  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
   missionsPrivatePipeline:
     apiEndpoints: ['missionsPrivateAPI']
     policies:
-      - ocariot-body-parser-policy: 
+      - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
@@ -498,11 +509,11 @@ pipelines:
               timeout: 10000
               serviceEndpoint: missionService
 
- #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
+  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
   questinnairesPrivatePipeline:
     apiEndpoints: ['questionnairesPrivateAPI']
     policies:
-      - ocariot-body-parser-policy: 
+      - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
@@ -518,11 +529,11 @@ pipelines:
               timeout: 10000
               serviceEndpoint: questionnaireService
 
- #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
+  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
   gamificationPrivatePipeline:
     apiEndpoints: ['gamificationPrivateAPI']
     policies:
-      - ocariot-body-parser-policy: 
+      - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}

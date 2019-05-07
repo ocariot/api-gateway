@@ -2,9 +2,9 @@
  * Login Policy
  */
 const jwt = require('jsonwebtoken');
-const authService = require('../../services/auth/auth-service');
-const services = require('express-gateway/lib/services');
 const fs = require('fs');
+let authService = require('../../services/auth/auth-service');
+let services = require('express-gateway/lib/services');
 
 module.exports = function (actionParams, authServiceTest, servicesTest) {
     return (req, res, next) => {
