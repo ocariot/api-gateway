@@ -1,6 +1,6 @@
 {
   "name": "eg-plugin-ocariot",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Express gateway plugin for OCARIoT project",
   "main": "manifest.js",
   "scripts": {
@@ -10,15 +10,15 @@
   "license": "Apache-2.0",
   "dependencies": {
     "axios": "^0.18.0",
-    "body-parser": "^1.18.3",
-    "express-jwt-authz": "^1.0.0"
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "http-status": "^1.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "swagger-ui-express": "^4.0.2",
+    "request-promise": "^4.2.4"
   },
   "devDependencies": {
-    "eslint": "^4.9.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0"
   }
 }

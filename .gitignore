@@ -66,8 +66,22 @@ typings/
 # nuxt.js build output
 .nuxt
 
+# IDE
+.idea
+
 # vuepress build output
 .vuepress/dist
 
 # Serverless directories
 .serverless
+
+# package-lock.json
+package-lock.json
+
+# certificates and keys directories and filesaddons
+.certs
+certs
+*.pem
+*.crt
+*.key
+*.csr
