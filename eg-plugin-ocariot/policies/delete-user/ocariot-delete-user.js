@@ -10,7 +10,6 @@ module.exports = function (actionParams, userServiceGwTest, axiosTest) {
   /**Test Context
   * userServiceGwTest and axiosTest are mockados services
   */
-  console.log('DELETING USER')
   if (userServiceGwTest && axiosTest) {
     userServiceGateway = userServiceGwTest;
     //TODO: change axiosTes by rpTest

@@ -1,10 +1,10 @@
 /**
  * Policy to validate JWT
  */
-const passport = require('passport');
 const passportJWT = require("passport-jwt");
-const services = require('express-gateway/lib/services');
 const fs = require('fs');
+let passport = require('passport');
+let services = require('express-gateway/lib/services');
 
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;

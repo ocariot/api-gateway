@@ -2,9 +2,9 @@
  * Login Policy
  */
 const jwt = require('jsonwebtoken');
-const authService = require('../../services/auth/auth-service');
-const services = require('express-gateway/lib/services');
 const fs = require('fs');
+let authService = require('../../services/auth/auth-service');
+let services = require('express-gateway/lib/services');
 
 module.exports = function (actionParams, authServiceTest, servicesTest) {
     return (req, res, next) => {
@@ -55,7 +55,7 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
                 }
             })
             .catch(function (err) {
-                if (err.response && err.response.body.code) return res.status(err.response.body.code).send(err.response.body)
+                if (err.response && err.response.body && err.response.body.code) return res.status(err.response.body.code).send(err.response.body)
 
                 console.error(new Date() + '| ocariot-auth | Error in authService: ' + err);
                 return res.status(500).send({ "code": 500, "message": "INTERNAL SERVER ERROR", "description": "An internal server error has occurred." });
