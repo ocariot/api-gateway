@@ -1,13 +1,9 @@
-# Core
 db:
   redis:
-    host: redis_db
-    port: 6379
-    namespace: EG
-
-#plugins:
-  # express-gateway-plugin-example:
-  #   param1: 'param from system.config'
+    emulate: ${EMULATE_REDIS:-true}
+    host: ${HOST_REDIS:-localhost}
+    port: ${PORT_REDIS:-6379}
+    namespace: ocariot_gateway
 
 crypto:
   cipherKey: sensitiveKey
