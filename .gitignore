@@ -80,8 +80,8 @@ package-lock.json
 
 # certificates and keys directories and filesaddons
 .certs
+certs
 *.pem
 *.crt
 *.key
 *.csr
-certs

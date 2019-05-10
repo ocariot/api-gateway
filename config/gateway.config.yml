@@ -409,14 +409,7 @@ policies:
   - ocariot-auth-policy
   - ocariot-body-parser-policy
   - ocariot-delete-user-policy
-#  - cors:
-#      - action:
-#          origin: '*'
-#          methods: ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
-#          allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
-#          credentials: true
-#          preflightContinue: false
-#          optionsSuccessStatus: 200
+
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -430,7 +423,7 @@ pipelines:
               name: 'is-auth'
               authpath: '/auth'
             action:
-              urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/auth
+              urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:3000}/auth
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - proxy:
@@ -458,7 +451,7 @@ pipelines:
               #deletepath é uma expressão regular
               deletepath: '^(\/users\/)[a-fA-F0-9]{24}$'
             action:
-              urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:5000}/users
+              urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:3000}/users
       - proxy:
           - action:
               prependPath:  true

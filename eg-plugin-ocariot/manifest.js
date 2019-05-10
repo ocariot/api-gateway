@@ -8,7 +8,6 @@ module.exports = {
     pluginContext.registerPolicy(require('./policies/delete-user/ocariot-delete-user-policy'))
     pluginContext.registerCondition(require('./conditions/is-auth'))
     pluginContext.registerCondition(require('./conditions/is-delete'))
-    // pluginContext.registerGatewayRoute(require('./routes/https'))
     pluginContext.registerGatewayRoute(require('./routes/cors'))
     pluginContext.registerGatewayRoute(require('./routes/static-directory'))
     pluginContext.registerGatewayRoute(require('./routes/redirect-http'))

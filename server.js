@@ -18,7 +18,7 @@ if (!fs.existsSync(SSL_KEY_PATH)) {
 }
 
 if (!fs.existsSync(SSL_CERT_PATH)) {
-    console.error(`SSL certificate required!\nPlease provide the ssl certificate in the .env file in SSL_KEY_PATH.`)
+    console.error(`SSL certificate required!\nPlease provide the ssl certificate in the .env file in SSL_CERT_PATH.`)
     process.exit()
 }
 
@@ -40,7 +40,19 @@ function initialize(filePath) {
         gateway()
             .load(path.join(__dirname, 'config'))
             .run()
+
     } else {
         console.log('Waiting JWT public key...')
+    }
+}
+
+
+function is_dir(path) {
+    try {
+        var stat = fs.lstatSync(path);
+        return stat.isDirectory();
+    } catch (e) {
+        // lstatSync throws an error if path doesn't exist
+        return false;
     }
 }

@@ -55,7 +55,7 @@ module.exports = function (actionParams, authServiceTest, servicesTest) {
                 }
             })
             .catch(function (err) {
-                if (err.response && err.response.body.code) return res.status(err.response.body.code).send(err.response.body)
+                if (err.response && err.response.body && err.response.body.code) return res.status(err.response.body.code).send(err.response.body)
 
                 console.error(new Date() + '| ocariot-auth | Error in authService: ' + err);
                 return res.status(500).send({ "code": 500, "message": "INTERNAL SERVER ERROR", "description": "An internal server error has occurred." });
