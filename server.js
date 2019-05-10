@@ -6,7 +6,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 const defaults = require('./default')
 
-dotenv.load()
+dotenv.config()
 
 const SSL_KEY_PATH = process.env.SSL_KEY_PATH || defaults.SSL_KEY_PATH
 const SSL_CERT_PATH = process.env.SSL_CERT_PATH || defaults.SSL_CERT_PATH
