@@ -53,7 +53,7 @@ You can set directly on ``Dockerfile`` or in ``Docker-Compose`` file
 
 Example:
 
-``docker run -p 9876:9876 -it haniot-api-gateway:v0.1``
+``docker run -p 9876:9876 -it ocariot-api-gateway:v0.1``
 
 ## Access API
 
