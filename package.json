@@ -1,13 +1,14 @@
 {
   "name": "ocariot-api-gateway",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Express Gateway Instance Bootstraped from Command Line",
   "repository": {},
   "license": "UNLICENSED",
   "main": "server.js",
   "scripts": {
     "init": "npm i && npm audit fix && npm start",
-    "test:unit": "SET NODE_ENV=test && mocha --opts test/eg-plugin-haniot/unit/mocha.opts test/**/unit/**/*-spec.js"
+    "test": "npm run test:unit",
+    "test:unit": "mocha --opts test/eg-plugin-ocariot/unit/mocha.opts test/**/unit/**/*-spec.js"
   },
   "dependencies": {
     "dotenv": "^8.0.0",

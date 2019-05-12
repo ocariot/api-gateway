@@ -401,6 +401,7 @@ serviceEndpoints:
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
+  - cors
   - log
   - proxy
   - rate-limit
@@ -410,20 +411,27 @@ policies:
   - ocariot-body-parser-policy
   - ocariot-delete-user-policy
 
-
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
 pipelines:
   accountPublicPipeline:
     apiEndpoints: ['accountPublicApi']
     policies:
+      - cors:
+          - action:
+              origin: '*'
+              methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEADER']
+              allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+              credentials: true
+              preflightContinue: false
+              optionsSuccessStatus: 200
       - ocariot-body-parser-policy:
       - ocariot-auth-policy:
           - condition:
               name: 'is-auth'
               authpath: '/auth'
             action:
-              urlauthservice: ${ACCOUNT_SERVICE:-http://localhost:3000}/auth
+              urlauthservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/auth
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - proxy:
@@ -439,6 +447,14 @@ pipelines:
   accountPrivatePipeline:
     apiEndpoints: ['accountPrivateApi']
     policies:
+      - cors:
+          - action:
+              origin: '*'
+              methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEADER']
+              allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+              credentials: true
+              preflightContinue: false
+              optionsSuccessStatus: 200
       - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
@@ -448,10 +464,9 @@ pipelines:
       - ocariot-delete-user-policy:
           - condition:
               name: 'is-delete'
-              #deletepath é uma expressão regular
-              deletepath: '^(\/users\/)[a-fA-F0-9]{24}$'
+              deletepath: '^(\/users\/)[a-fA-F0-9]{24}\/{0,1}$'
             action:
-              urldeleteservice: ${ACCOUNT_SERVICE:-http://localhost:3000}/users
+              urldeleteservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/users
       - proxy:
           - action:
               prependPath:  true
@@ -466,6 +481,14 @@ pipelines:
   activityPrivatePipeline:
     apiEndpoints: ['activityPrivateApi', 'environmentPrivateAPI']
     policies:
+      - cors:
+          - action:
+              origin: '*'
+              methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEADER']
+              allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+              credentials: true
+              preflightContinue: false
+              optionsSuccessStatus: 200
       - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
@@ -486,6 +509,14 @@ pipelines:
   missionsPrivatePipeline:
     apiEndpoints: ['missionsPrivateAPI']
     policies:
+      - cors:
+          - action:
+              origin: '*'
+              methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEADER']
+              allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+              credentials: true
+              preflightContinue: false
+              optionsSuccessStatus: 200
       - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
@@ -506,6 +537,14 @@ pipelines:
   questinnairesPrivatePipeline:
     apiEndpoints: ['questionnairesPrivateAPI']
     policies:
+      - cors:
+          - action:
+              origin: '*'
+              methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEADER']
+              allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+              credentials: true
+              preflightContinue: false
+              optionsSuccessStatus: 200
       - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
@@ -526,6 +565,14 @@ pipelines:
   gamificationPrivatePipeline:
     apiEndpoints: ['gamificationPrivateAPI']
     policies:
+      - cors:
+          - action:
+              origin: '*'
+              methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEADER']
+              allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+              credentials: true
+              preflightContinue: false
+              optionsSuccessStatus: 200
       - ocariot-body-parser-policy:
       - ocariot-jwt-policy:
           - action:
