@@ -755,7 +755,7 @@ apiEndpoints:
         - '/gamificationprofiles/:id'
         - '/gamificationprofiles/count'
       methods: ['GET']
-      scopes: ['gamificationprofiles:read']
+      scopes: ['gamificationprofile:read']
 
     - host: '*'
       paths: ['/gamificationprofiles/:id']
@@ -768,7 +768,7 @@ apiEndpoints:
       scopes: ['gamificationprofile:delete']
 
     - host: '*'
-      paths: ['/customizationitems']
+      paths: ['/gamificationprofiles']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
