@@ -13,159 +13,6 @@ https:
 
 ## GATEWAY CUSTOM ENDPOINT ##
 apiEndpoints:
-
-  ## ACTIVITY ENDPOINTS ##
-  activityPrivateApi:
-    ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
-    - host: '*'
-      paths:
-        - '/users/children/:child_id/physicalactivities'
-        - '/users/children/:child_id/physicalactivities/*'
-      methods: ["POST"]
-      scopes: ['physicalactivities:create']
-
-    - host: '*'
-      paths: ['/users/children/physicalactivities']
-      methods: ["GET"]
-      scopes: ['physicalactivities:readAll']
-
-    - host: '*'
-      paths:
-        - '/users/children/:child_id/physicalactivities'
-        - '/users/children/:child_id/physicalactivities/*'
-      methods: ["GET"]
-      scopes: ['physicalactivities:read']
-
-    - host: '*'
-      paths: ['/users/children/:child_id/physicalactivities/:physicalactivity_id']
-      methods: ["PATCH"]
-      scopes: ['physicalactivities:update']
-
-    - host: '*'
-      paths: ['/users/children/:child_id/physicalactivities/:physicalactivity_id']
-      methods: ["DELETE"]
-      scopes: ['physicalactivities:delete']
-
-    ### USERS.CHILDREN.SLEEP ###
-    - host: '*'
-      paths: ['/users/children/:child_id/sleep']
-      methods: ["POST"]
-      scopes: ['sleep:create']
-
-    - host: '*'
-      paths: ['/users/children/sleep']
-      methods: ["GET"]
-      scopes: ['sleep:readAll']
-
-    - host: '*'
-      paths:
-        - '/users/children/:child_id/sleep'
-        - '/users/children/:child_id/sleep/*'
-      methods: ["GET"]
-      scopes: ['sleep:read']
-
-    - host: '*'
-      paths: ['/users/children/:child_id/sleep/:sleep_id']
-      methods: ["PATCH"]
-      scopes: ['sleep:update']
-
-    - host: '*'
-      paths: ['/users/children/:child_id/sleep/:sleep_id']
-      methods: ["DELETE"]
-      scopes: ['sleep:delete']
-
-  ## ENVIRONMENT ENDPOINTS ##
-  environmentPrivateAPI:
-    ### ENVIRONMENTS ###
-    - host: '*'
-      paths: ['/environments']
-      methods: ["POST"]
-      scopes: ['environment:create']
-
-    - host: '*'
-      paths: ['/environments']
-      methods: ["GET"]
-      scopes: ['environment:read']
-
-    - host: '*'
-      paths: ['/environments/:environment_id']
-      methods: ["DELETE"]
-      scopes: ['environment:delete']
-
-  ## MISSION ENDPOINTS ##
-  missionsPrivateAPI:
-    ### USERS.CHILDREN.MISSIONS ###
-    - host: '*'
-      paths: ['/users/children/:child_id/missions']
-      methods: ["POST"]
-      scopes: ['missions:create']
-
-    - host: '*'
-      paths:
-        - '/users/children/:child_id/missions'
-        - '/users/children/:child_id/missions/:mission_id'
-      methods: ["GET"]
-      scopes: ['missions:read']
-
-    - host: '*'
-      paths: ['/users/children/:child_iscopesd/missions/:mission_id']
-      methods: ["PATCH"]
-      scopes: ['missions:update']
-
-    - host: '*'
-      paths: ['/users/children/:child_id/missions/:mission_id']
-      methods: ["DELETE"]
-      scopes: ['missions:delete']
-
-  ## QUESTINNAIRES ENDPOINTS ##
-  questionnairesPrivateAPI:
-    ### USERS.CHILDREN.QUESTIONNAIRES ###
-    - host: '*'
-      paths: ['/users/children/:child_id/questionnaires/types/:questionnaire_type']
-      methods: ["POST"]
-      scopes: ['questionnaires:create']
-
-    - host: '*'
-      paths:
-        - '/users/children/:child_id/questionnaires'
-        - '/users/children/:child_id/questionnaires/:questionnaire_id'
-        - '/users/children/:child_id/questionnaires/types/:questionnaire_type'
-      methods: ["GET"]
-      scopes: ['questionnaires:read']
-
-    - host: '*'
-      paths: ['/users/children/:child_id/questionnaires/:questionnaire_id']
-      methods: ["PATCH"]
-      scopes: ['questionnaires:update']
-
-    - host: '*'
-      paths: ['/users/children/:child_id/questionnaires/:questionnaire_id']
-      methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
-
-  ## GAMIFICATION ENDPOINTS ##
-  gamificationPrivateAPI:
-    ### USERS.CHILDREN.GAMIFICATIONPROFILE ###
-    - host: '*'
-      paths: ['/users/children/:child_id//gamificationprofile']
-      methods: ["POST"]
-      scopes: ['gamificationprofile:create']
-
-    - host: '*'
-      paths: ['/users/children/:child_id//gamificationprofile']
-      methods: ["GET"]
-      scopes: ['gamificationprofile:read']
-
-    - host: '*'
-      paths: ['/users/children/:child_id//gamificationprofile']
-      methods: ["PATCH"]
-      scopes: ['gamificationprofile:update']
-
-    - host: '*'
-      paths: ['/users/children/:child_id//gamificationprofile']
-      methods: ["DELETE"]
-      scopes: ['gamificationprofile:delete']
-
   ## ACCOUNT ENDPOINTS ##
   accountPublicApi:
     - host: 'localhost'
@@ -384,6 +231,583 @@ apiEndpoints:
       methods: ['DELETE']
       scopes: ['institutions:delete']
 
+  ## ACTIVITY TRACKING ENDPOINTS ##
+  activityPrivateApi:
+    ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
+    - host: '*'
+      paths:
+        - '/users/children/:child_id/physicalactivities'
+        - '/users/children/:child_id/physicalactivities/*'
+      methods: ["POST"]
+      scopes: ['physicalactivities:create']
+
+    - host: '*'
+      paths: ['/users/children/physicalactivities']
+      methods: ["GET"]
+      scopes: ['physicalactivities:readAll']
+
+    - host: '*'
+      paths:
+        - '/users/children/:child_id/physicalactivities'
+        - '/users/children/:child_id/physicalactivities/*'
+      methods: ["GET"]
+      scopes: ['physicalactivities:read']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/physicalactivities/:physicalactivity_id']
+      methods: ["PATCH"]
+      scopes: ['physicalactivities:update']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/physicalactivities/:physicalactivity_id']
+      methods: ["DELETE"]
+      scopes: ['physicalactivities:delete']
+
+    ### USERS.CHILDREN.SLEEP ###
+    - host: '*'
+      paths: ['/users/children/:child_id/sleep']
+      methods: ["POST"]
+      scopes: ['sleep:create']
+
+    - host: '*'
+      paths: ['/users/children/sleep']
+      methods: ["GET"]
+      scopes: ['sleep:readAll']
+
+    - host: '*'
+      paths:
+        - '/users/children/:child_id/sleep'
+        - '/users/children/:child_id/sleep/*'
+      methods: ["GET"]
+      scopes: ['sleep:read']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/sleep/:sleep_id']
+      methods: ["PATCH"]
+      scopes: ['sleep:update']
+
+    - host: '*'
+      paths: ['/users/children/:child_id/sleep/:sleep_id']
+      methods: ["DELETE"]
+      scopes: ['sleep:delete']
+
+  ## ENVIRONMENT ENDPOINTS ##
+  environmentPrivateAPI:
+    ### ENVIRONMENTS ###
+    - host: '*'
+      paths: ['/environments']
+      methods: ["POST"]
+      scopes: ['environment:create']
+
+    - host: '*'
+      paths: ['/environments']
+      methods: ["GET"]
+      scopes: ['environment:read']
+
+    - host: '*'
+      paths: ['/environments/:environment_id']
+      methods: ["DELETE"]
+      scopes: ['environment:delete']
+
+  ## QUESTIONNAIRE ENDPOINTS ##
+  questionnairesPrivateAPI:
+    ### Q1SOCIODEMOGRAPHIC ###
+    - host: '*'
+      paths:
+        - '/q1sociodemographics'
+        - '/q1sociodemographics/:id'
+        - '/q1sociodemographics/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q1sociodemographics/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q1sociodemographics/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q1sociodemographics']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q1sociodemographics']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q21CHILDSHEALTHCONDITIONS ###
+    - host: '*'
+      paths:
+        - '/q21childshealthconditions'
+        - '/q21childshealthconditions/:id'
+        - '/q21childshealthconditions/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q21childshealthconditions/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q21childshealthconditions/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q21childshealthconditions']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q21childshealthconditions']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q22PARENTSHEALTHCONDITIONS ###
+    - host: '*'
+      paths:
+        - '/q22parentshealthconditions'
+        - '/q22parentshealthconditions/:id'
+        - '/q22parentshealthconditions/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q22parentshealthconditions/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q22parentshealthconditions/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q22parentshealthconditions']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q22parentshealthconditions']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q3PHYSICALANTHROPOMETRICMEASURES ###
+    - host: '*'
+      paths:
+        - '/q3physicalandanthropometricmeasures'
+        - '/q3physicalandanthropometricmeasures/:id'
+        - '/q3physicalandanthropometricmeasures/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q3physicalandanthropometricmeasures/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q3physicalandanthropometricmeasures/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q3physicalandanthropometricmeasures']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q3physicalandanthropometricmeasures']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q401FOODFREQUENCY ###
+    - host: '*'
+      paths:
+        - '/q401ffq'
+        - '/q401ffq/:id'
+        - '/q401ffq/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q401ffq/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q401ffq/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q401ffq']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q401ffq']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q402FOODHABITSANDFEEDINGBEHAVIOURS ###
+    - host: '*'
+      paths:
+        - '/q402foodhabitsandfeedingbehaviors'
+        - '/q402foodhabitsandfeedingbehaviors/:id'
+        - '/q402foodhabitsandfeedingbehaviors/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q402foodhabitsandfeedingbehaviors/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q402foodhabitsandfeedingbehaviors/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q402foodhabitsandfeedingbehaviors']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q402foodhabitsandfeedingbehaviors']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q501PHYSICALACTIVITYFORCHILDREN ###
+    - host: '*'
+      paths:
+        - '/q501physicalactivityforchildren'
+        - '/q501physicalactivityforchildren/:id'
+        - '/q501physicalactivityforchildren/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q501physicalactivityforchildren/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q501physicalactivityforchildren/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q501physicalactivityforchildren']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q501physicalactivityforchildren']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q502PHYSICALACTIVITYANDSEDENTARYHABITS ###
+    - host: '*'
+      paths:
+        - '/q502physicalactivityandsedentaryhabits'
+        - '/q502physicalactivityandsedentaryhabits/:id'
+        - '/q502physicalactivityandsedentaryhabits/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q502physicalactivityandsedentaryhabits/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q502physicalactivityandsedentaryhabits/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q502physicalactivityandsedentaryhabits']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q502physicalactivityandsedentaryhabits']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q503SLEEPINGHABITS ###
+    - host: '*'
+      paths:
+        - '/q503sleepinghabits'
+        - '/q503sleepinghabits/:id'
+        - '/q503sleepinghabits/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q503sleepinghabits/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q503sleepinghabits/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q503sleepinghabits']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q503sleepinghabits']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q601CHILDEATINGBEHAVIOUR ###
+    - host: '*'
+      paths:
+        - '/q601childeatingbehaviour'
+        - '/q601childeatingbehaviour/:id'
+        - '/q601childeatingbehaviour/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q601childeatingbehaviour/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q601childeatingbehaviour/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q601childeatingbehaviour']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q601childeatingbehaviour']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### Q602AUTOPERCEPTION ###
+    - host: '*'
+      paths:
+        - '/q602autoperception'
+        - '/q602autoperception/:id'
+        - '/q602autoperception/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q602autoperception/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q602autoperception/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q602autoperception']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q602autoperception']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+    ### QUESTION ###
+    - host: '*'
+      paths:
+        - '/questions'
+        - '/questions/:id'
+        - '/questions/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/questions/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/questions/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/questions']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/questions']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
+  ## GAMIFICATION ENDPOINTS ##
+  gamificationPrivateAPI:
+    ### AGENT_REPORT ###
+    - host: '*'
+      paths:
+        - '/agentreports'
+        - '/agentreports/:id'
+        - '/agentreports/count'
+      methods: ['GET']
+      scopes: ['gamificationprofile:read']
+
+    - host: '*'
+      paths: ['/agentreports/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    - host: '*'
+      paths: ['/agentreports/:id']
+      methods: ["DELETE"]
+      scopes: ['gamificationprofile:delete']
+
+    - host: '*'
+      paths: ['/agentreports']
+      methods: ["POST"]
+      scopes: ['gamificationprofile:create']
+
+    - host: '*'
+      paths: ['/agentreports']
+      methods: ["PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    ### BADGE ###
+    - host: '*'
+      paths:
+        - '/badges'
+        - '/badges/:id'
+        - '/badges/count'
+      methods: ['GET']
+      scopes: ['gamificationprofile:read']
+
+    - host: '*'
+      paths: ['/badges/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    - host: '*'
+      paths: ['/badges/:id']
+      methods: ["DELETE"]
+      scopes: ['gamificationprofile:delete']
+
+    - host: '*'
+      paths: ['/badges']
+      methods: ["POST"]
+      scopes: ['gamificationprofile:create']
+
+    - host: '*'
+      paths: ['/badges']
+      methods: ["PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    ### CUSTOMIZATION ITEM ###
+    - host: '*'
+      paths:
+        - '/customizationitems'
+        - '/customizationitems/:id'
+        - '/customizationitems/count'
+      methods: ['GET']
+      scopes: ['gamificationprofile:read']
+
+    - host: '*'
+      paths: ['/customizationitems/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    - host: '*'
+      paths: ['/customizationitems/:id']
+      methods: ["DELETE"]
+      scopes: ['gamificationprofile:delete']
+
+    - host: '*'
+      paths: ['/customizationitems']
+      methods: ["POST"]
+      scopes: ['gamificationprofile:create']
+
+    - host: '*'
+      paths: ['/customizationitems']
+      methods: ["PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    ### GAMIFICATION PROFILE ###
+    - host: '*'
+      paths:
+        - '/gamificationprofiles'
+        - '/gamificationprofiles/:id'
+        - '/gamificationprofiles/count'
+      methods: ['GET']
+      scopes: ['gamificationprofile:read']
+
+    - host: '*'
+      paths: ['/gamificationprofiles/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    - host: '*'
+      paths: ['/gamificationprofiles/:id']
+      methods: ["DELETE"]
+      scopes: ['gamificationprofile:delete']
+
+    - host: '*'
+      paths: ['/gamificationprofiles']
+      methods: ["POST"]
+      scopes: ['gamificationprofile:create']
+
+    - host: '*'
+      paths: ['/gamificationprofiles']
+      methods: ["PATCH"]
+      scopes: ['gamificationprofile:update']
+
+  ## MISSIONS ENDPOINTS ##
+  missionsPrivateAPI:
+    ### MISSION ###
+    - host: '*'
+      paths:
+        - '/missions'
+        - '/missions/:id'
+        - '/missions/count'
+      methods: ['GET']
+      scopes: ['missions:read']
+
+    - host: '*'
+      paths: ['/missions/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['missions:update']
+
+    - host: '*'
+      paths: ['/missions/:id']
+      methods: ["DELETE"]
+      scopes: ['missions:delete']
+
+    - host: '*'
+      paths: ['/missions']
+      methods: ["POST"]
+      scopes: ['missions:create']
+
+    - host: '*'
+      paths: ['/missions']
+      methods: ["PATCH"]
+      scopes: ['missions:update']
+
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
   gatewayService:
@@ -392,12 +816,12 @@ serviceEndpoints:
     url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
   activityService:
     url: '${ACTIVITY_SERVICE:-https://localhost:4001}'
-  missionService:
-    url: '${MISSION_SERVICE:-http://localhost:5001}'
   questionnaireService:
-    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6001}'
+    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:5001}'
   gamificationService:
-    url: '${GAMIFICATION_SERVICE:-http://localhost:7001}'
+    url: '${GAMIFICATION_SERVICE:-http://localhost:6001}'
+  missionService:
+    url: '${MISSION_SERVICE:-http://localhost:7001}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -480,28 +904,8 @@ pipelines:
               timeout: 10000
               serviceEndpoint: activityService
 
-  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
-  missionsPrivatePipeline:
-    apiEndpoints: ['missionsPrivateAPI']
-    policies:
-      - ocariot-body-parser-policy:
-      - ocariot-jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
-      - ocariot-jwtScopes-policy:
-      - proxy:
-          - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
-              serviceEndpoint: missionService
-
-  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
-  questinnairesPrivatePipeline:
+  #### Pipelines to manage data coming from QUESTIONNAIRES PRIVATE and PUBLIC APIs ####
+  questionnairesPrivatePipeline:
     apiEndpoints: ['questionnairesPrivateAPI']
     policies:
       - ocariot-body-parser-policy:
@@ -520,7 +924,7 @@ pipelines:
               timeout: 10000
               serviceEndpoint: questionnaireService
 
-  #### Pipelines to manage data coming from MISIONS PRIVATE and PUBLIC APIs ####
+  #### Pipelines to manage data coming from GAMIFICATION PRIVATE and PUBLIC APIs ####
   gamificationPrivatePipeline:
     apiEndpoints: ['gamificationPrivateAPI']
     policies:
@@ -539,3 +943,23 @@ pipelines:
               secure: false
               timeout: 10000
               serviceEndpoint: gamificationService
+
+  #### Pipelines to manage data coming from MISSIONS PRIVATE and PUBLIC APIs ####
+  missionsPrivatePipeline:
+    apiEndpoints: ['missionsPrivateAPI']
+    policies:
+      - ocariot-body-parser-policy:
+      - ocariot-jwt-policy:
+          - action:
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
+              issuer: ${ISSUER:-ocariot}
+      - ocariot-jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              secure: false
+              timeout: 10000
+              serviceEndpoint: missionService
