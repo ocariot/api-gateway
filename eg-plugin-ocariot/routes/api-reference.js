@@ -2,7 +2,7 @@ const swaggerUi = require('swagger-ui-express')
 
 module.exports = function (app) {
     const options = {
-        swaggerUrl: 'https://api.swaggerhub.com/apis/nutes.ocariot/OCARIoT/1.0.0/swagger.json',
+        swaggerUrl: 'https://api.swaggerhub.com/apis/nutes.ocariot/OCARIoT/v1/swagger.json',
         customCss: `.swagger-ui .topbar { 
                     background-color: #0097a7;  
                     padding: 14px 0; 

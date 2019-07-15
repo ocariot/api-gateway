@@ -17,217 +17,217 @@ apiEndpoints:
   accountPublicApi:
     - host: 'localhost'
       paths:
-        - '/users/children'
-        - '/users/educators'
-        - '/users/families'
-        - '/users/healthprofessionals'
-        - '/users/applications'
-        - '/institutions'
+        - '/v1/users/children'
+        - '/v1/users/educators'
+        - '/v1/users/families'
+        - '/v1/users/healthprofessionals'
+        - '/v1/users/applications'
+        - '/v1/institutions'
       methods: ['POST','GET']
 
     ### AUTH ###
     - host: '*'
-      paths: ['/auth', '/auth/revoke']
+      paths: ['/v1/auth']
       methods: ['POST']
 
     ### USERS ###
     - host: '*'
-      paths: ['/users/:user_id/password']
+      paths: ['/v1/users/:user_id/password']
       methods: ['PATCH']
 
   accountPrivateApi:
     ### USERS ###
     - host: '*'
-      paths: ['/users/:user_id']
+      paths: ['/v1/users/:user_id']
       methods: ['DELETE']
       scopes: ['users:delete']
 
     ### USERS.CHILDREN ###
     - host: '*'
-      paths: ['/users/children']
+      paths: ['/v1/users/children']
       methods: ['POST']
       scopes: ['children:create']
 
     - host: '*'
-      paths: ['/users/children']
+      paths: ['/v1/users/children']
       methods: ['GET']
       scopes: ['children:readAll']
 
     - host: '*'
-      paths: ['/users/children/:child_id']
+      paths: ['/v1/users/children/:child_id']
       methods: ['GET']
       scopes: ['children:read']
 
     - host: '*'
-      paths: ['/users/children/:child_id']
+      paths: ['/v1/users/children/:child_id']
       methods: ['PATCH']
       scopes: ['children:update']
 
     - host: '*'
-      paths: ['/users/children/:child_id']
+      paths: ['/v1/users/children/:child_id']
       methods: ['DELETE']
       scopes: ['children:delete']
 
     ### USERS.EDUCATORS ###
     - host: '*'
-      paths: ['/users/educators']
+      paths: ['/v1/users/educators']
       methods: ['POST']
       scopes: ['educators:create']
 
     - host: '*'
-      paths: ['/users/educators']
+      paths: ['/v1/users/educators']
       methods: ['GET']
       scopes: ['educators:readAll']
 
     - host: '*'
-      paths: ['/users/educators/:educator_id']
+      paths: ['/v1/users/educators/:educator_id']
       methods: ['GET']
       scopes: ['educators:read']
 
     - host: '*'
-      paths: ['/users/educators/:educator_id']
+      paths: ['/v1/users/educators/:educator_id']
       methods: ['PATCH']
       scopes: ['educators:update']
 
     - host: '*'
-      paths: ['/users/educators/:educator_id']
+      paths: ['/v1/users/educators/:educator_id']
       methods: ['DELETE']
       scopes: ['educators:delete']
 
     ### USERS.FAMILIES || USERS.FAMILIES.CHILDREN ###
     - host: '*'
-      paths: ['/users/families', '/users/families/:family_id/children/:child_id']
+      paths: ['/v1/users/families', '/v1/users/families/:family_id/children/:child_id']
       methods: ['POST']
       scopes: ['families:create']
 
     - host: '*'
-      paths: ['/users/families']
+      paths: ['/v1/users/families']
       methods: ['GET']
       scopes: ['families:readAll']
 
     - host: '*'
-      paths: ['/users/families/:family_id', '/users/families/:family_id/children']
+      paths: ['/v1/users/families/:family_id', '/v1/users/families/:family_id/children']
       methods: ['GET']
       scopes: ['families:read']
 
     - host: '*'
-      paths: ['/users/families/:family_id']
+      paths: ['/v1/users/families/:family_id']
       methods: ['PATCH']
       scopes: ['families:update']
 
     - host: '*'
       paths:
-        - '/users/families/:family_id'
-        - '/users/families/:family_id/children/:child_id'
+        - '/v1/users/families/:family_id'
+        - '/v1/users/families/:family_id/children/:child_id'
       methods: ['DELETE']
       scopes: ['families:delete']
 
     ### USERS.HEALTHPROFESSIONALS ###
     - host: '*'
-      paths: ['/users/healthprofessionals']
+      paths: ['/v1/users/healthprofessionals']
       methods: ['POST']
       scopes: ['healthprofessionals:create']
 
     - host: '*'
-      paths: ['/users/healthprofessionals']
+      paths: ['/v1/users/healthprofessionals']
       methods: ['GET']
       scopes: ['healthprofessionals:readAll']
 
     - host: '*'
-      paths: ['/users/healthprofessionals/:healthprofessional_id']
+      paths: ['/v1/users/healthprofessionals/:healthprofessional_id']
       methods: ['GET']
       scopes: ['healthprofessionals:read']
 
     - host: '*'
-      paths: ['/users/healthprofessionals/:healthprofessional_id']
+      paths: ['/v1/users/healthprofessionals/:healthprofessional_id']
       methods: ['PATCH']
       scopes: ['healthprofessionals:update']
 
     - host: '*'
-      paths: ['/users/healthprofessionals/:healthprofessional_id']
+      paths: ['/v1/users/healthprofessionals/:healthprofessional_id']
       methods: ['DELETE']
       scopes: ['healthprofessionals:delete']
 
     ### USERS.EDUCATORS.CHILDREN.GROUPS || USERS.HEALTHPROFESSIONALS.CHILDREN.GROUPS ###
     - host: '*'
       paths:
-        - '/users/educators/:educator_id/children/groups'
-        - '/users/healthprofessionals/:healthprofessional_id/children/groups'
+        - '/v1/users/educators/:educator_id/children/groups'
+        - '/v1/users/healthprofessionals/:healthprofessional_id/children/groups'
       methods: ['POST']
       scopes: ['childrengroups:create']
 
     - host: '*'
       paths:
-        - '/users/educators/:educator_id/children/groups'
-        - '/users/educators/:educator_id/children/groups/:group_id'
-        - '/users/healthprofessionals/:healthprofessional_id/children/groups'
-        - '/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
+        - '/v1/users/educators/:educator_id/children/groups'
+        - '/v1/users/educators/:educator_id/children/groups/:group_id'
+        - '/v1/users/healthprofessionals/:healthprofessional_id/children/groups'
+        - '/v1/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
       methods: ['GET']
       scopes: ['childrengroups:read']
 
     - host: '*'
       paths:
-        - '/users/educators/:educator_id/children/groups/:group_id'
-        - '/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
+        - '/v1/users/educators/:educator_id/children/groups/:group_id'
+        - '/v1/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
       methods: ['PATCH']
       scopes: ['childrengroups:update']
 
     - host: '*'
       paths:
-        - '/users/educators/:educator_id/children/groups/:group_id'
-        - '/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
+        - '/v1/users/educators/:educator_id/children/groups/:group_id'
+        - '/v1/users/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
       methods: ['DELETE']
       scopes: ['childrengroups:delete']
 
     ### USERS.APPLICATIONS ###
     - host: '*'
-      paths: ['/users/applications']
+      paths: ['/v1/users/applications']
       methods: ['POST']
       scopes: ['applications:create']
 
     - host: '*'
-      paths: ['/users/applications']
+      paths: ['/v1/users/applications']
       methods: ['GET']
       scopes: ['applications:readAll']
 
     - host: '*'
-      paths: ['/users/applications/:application_id']
+      paths: ['/v1/users/applications/:application_id']
       methods: ['GET']
       scopes: ['applications:read']
 
     - host: '*'
-      paths: ['/users/applications/:application_id']
+      paths: ['/v1/users/applications/:application_id']
       methods: ['PATCH']
       scopes: ['applications:update']
 
     - host: '*'
-      paths: ['/users/applications/:application_id']
+      paths: ['/v1/users/applications/:application_id']
       methods: ['DELETE']
       scopes: ['applications:delete']
 
     ### INSTITUTIONS ###
     - host: '*'
-      paths: ['/institutions']
+      paths: ['/v1/institutions']
       methods: ['POST']
       scopes: ['institutions:create']
 
     - host: '*'
-      paths: ['/institutions']
+      paths: ['/v1/institutions']
       methods: ['GET']
       scopes: ['institutions:readAll']
 
     - host: '*'
-      paths: ['/institutions/:institution_id']
+      paths: ['/v1/institutions/:institution_id']
       methods: ['GET']
       scopes: ['institutions:read']
 
     - host: '*'
-      paths: ['/institutions/:institution_id']
+      paths: ['/v1/institutions/:institution_id']
       methods: ['PATCH']
       scopes: ['institutions:update']
 
     - host: '*'
-      paths: ['/institutions/:institution_id']
+      paths: ['/v1/institutions/:institution_id']
       methods: ['DELETE']
       scopes: ['institutions:delete']
 
@@ -236,76 +236,105 @@ apiEndpoints:
     ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
     - host: '*'
       paths:
-        - '/users/children/:child_id/physicalactivities'
-        - '/users/children/:child_id/physicalactivities/*'
+        - '/v1/users/children/:child_id/physicalactivities'
+        - '/v1/users/children/:child_id/physicalactivities/*'
       methods: ["POST"]
       scopes: ['physicalactivities:create']
 
     - host: '*'
-      paths: ['/users/children/physicalactivities']
+      paths: ['/v1/users/children/physicalactivities']
       methods: ["GET"]
       scopes: ['physicalactivities:readAll']
 
     - host: '*'
       paths:
-        - '/users/children/:child_id/physicalactivities'
-        - '/users/children/:child_id/physicalactivities/*'
+        - '/v1/users/children/:child_id/physicalactivities'
+        - '/v1/users/children/:child_id/physicalactivities/*'
       methods: ["GET"]
       scopes: ['physicalactivities:read']
 
     - host: '*'
-      paths: ['/users/children/:child_id/physicalactivities/:physicalactivity_id']
+      paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
       methods: ["PATCH"]
       scopes: ['physicalactivities:update']
 
     - host: '*'
-      paths: ['/users/children/:child_id/physicalactivities/:physicalactivity_id']
+      paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
       methods: ["DELETE"]
       scopes: ['physicalactivities:delete']
 
     ### USERS.CHILDREN.SLEEP ###
     - host: '*'
-      paths: ['/users/children/:child_id/sleep']
+      paths: ['/v1/users/children/:child_id/sleep']
       methods: ["POST"]
       scopes: ['sleep:create']
 
     - host: '*'
-      paths: ['/users/children/sleep']
+      paths: ['/v1/users/children/sleep']
       methods: ["GET"]
       scopes: ['sleep:readAll']
 
     - host: '*'
       paths:
-        - '/users/children/:child_id/sleep'
-        - '/users/children/:child_id/sleep/*'
+        - '/v1/users/children/:child_id/sleep'
+        - '/v1/users/children/:child_id/sleep/*'
       methods: ["GET"]
       scopes: ['sleep:read']
 
     - host: '*'
-      paths: ['/users/children/:child_id/sleep/:sleep_id']
+      paths: ['/v1/users/children/:child_id/sleep/:sleep_id']
       methods: ["PATCH"]
       scopes: ['sleep:update']
 
     - host: '*'
-      paths: ['/users/children/:child_id/sleep/:sleep_id']
+      paths: ['/v1/users/children/:child_id/sleep/:sleep_id']
       methods: ["DELETE"]
       scopes: ['sleep:delete']
+
+    ### USERS.CHILDREN.WEIGHT / USERS.CHILDREN.BODYFAT ###
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight'
+        - '/v1/users/children/:child_id/bodyfat'
+      methods: ["POST"]
+      scopes: ['measurements:create']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight'
+        - '/v1/users/children/:child_id/bodyfat'
+      methods: ["GET"]
+      scopes: ['measurements:read']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight/:weight_id'
+        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
+      methods: ["GET"]
+      scopes: ['measurements:read']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight/:weight_id'
+        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
+      methods: ["DELETE"]
+      scopes: ['measurements:delete']
 
   ## ENVIRONMENT ENDPOINTS ##
   environmentPrivateAPI:
     ### ENVIRONMENTS ###
     - host: '*'
-      paths: ['/environments']
+      paths: ['/v1/environments']
       methods: ["POST"]
       scopes: ['environment:create']
 
     - host: '*'
-      paths: ['/environments']
+      paths: ['/v1/environments']
       methods: ["GET"]
       scopes: ['environment:read']
 
     - host: '*'
-      paths: ['/environments/:environment_id']
+      paths: ['/v1/environments/:environment_id']
       methods: ["DELETE"]
       scopes: ['environment:delete']
 
