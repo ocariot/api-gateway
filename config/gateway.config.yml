@@ -15,16 +15,6 @@ https:
 apiEndpoints:
   ## ACCOUNT ENDPOINTS ##
   accountPublicApi:
-    - host: 'localhost'
-      paths:
-        - '/v1/users/children'
-        - '/v1/users/educators'
-        - '/v1/users/families'
-        - '/v1/users/healthprofessionals'
-        - '/v1/users/applications'
-        - '/v1/institutions'
-      methods: ['POST','GET']
-
     ### AUTH ###
     - host: '*'
       paths: ['/v1/auth']
@@ -34,6 +24,113 @@ apiEndpoints:
     - host: '*'
       paths: ['/v1/users/:user_id/password']
       methods: ['PATCH']
+
+  ## ACTIVITY TRACKING ENDPOINTS ##
+  activityPrivateApi:
+    ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/physicalactivities'
+        - '/v1/users/children/:child_id/physicalactivities/*'
+      methods: ["POST"]
+      scopes: ['physicalactivities:create']
+
+    - host: '*'
+      paths: ['/v1/users/children/physicalactivities']
+      methods: ["GET"]
+      scopes: ['physicalactivities:readAll']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/physicalactivities'
+        - '/v1/users/children/:child_id/physicalactivities/*'
+      methods: ["GET"]
+      scopes: ['physicalactivities:read']
+
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
+      methods: ["PATCH"]
+      scopes: ['physicalactivities:update']
+
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
+      methods: ["DELETE"]
+      scopes: ['physicalactivities:delete']
+
+    ### USERS.CHILDREN.SLEEP ###
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/sleep']
+      methods: ["POST"]
+      scopes: ['sleep:create']
+
+    - host: '*'
+      paths: ['/v1/users/children/sleep']
+      methods: ["GET"]
+      scopes: ['sleep:readAll']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/sleep'
+        - '/v1/users/children/:child_id/sleep/*'
+      methods: ["GET"]
+      scopes: ['sleep:read']
+
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/sleep/:sleep_id']
+      methods: ["PATCH"]
+      scopes: ['sleep:update']
+
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/sleep/:sleep_id']
+      methods: ["DELETE"]
+      scopes: ['sleep:delete']
+
+    ### USERS.CHILDREN.WEIGHT / USERS.CHILDREN.BODYFAT ###
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight'
+        - '/v1/users/children/:child_id/bodyfat'
+      methods: ["POST"]
+      scopes: ['measurements:create']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight'
+        - '/v1/users/children/:child_id/bodyfat'
+      methods: ["GET"]
+      scopes: ['measurements:read']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight/:weight_id'
+        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
+      methods: ["GET"]
+      scopes: ['measurements:read']
+
+    - host: '*'
+      paths:
+        - '/v1/users/children/:child_id/weight/:weight_id'
+        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
+      methods: ["DELETE"]
+      scopes: ['measurements:delete']
+
+  ## ENVIRONMENT ENDPOINTS ##
+  environmentPrivateAPI:
+    ### ENVIRONMENTS ###
+    - host: '*'
+      paths: ['/v1/environments']
+      methods: ["POST"]
+      scopes: ['environment:create']
+
+    - host: '*'
+      paths: ['/v1/environments']
+      methods: ["GET"]
+      scopes: ['environment:read']
+
+    - host: '*'
+      paths: ['/v1/environments/:environment_id']
+      methods: ["DELETE"]
+      scopes: ['environment:delete']
 
   accountPrivateApi:
     ### USERS ###
@@ -230,113 +327,6 @@ apiEndpoints:
       paths: ['/v1/institutions/:institution_id']
       methods: ['DELETE']
       scopes: ['institutions:delete']
-
-  ## ACTIVITY TRACKING ENDPOINTS ##
-  activityPrivateApi:
-    ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
-    - host: '*'
-      paths:
-        - '/v1/users/children/:child_id/physicalactivities'
-        - '/v1/users/children/:child_id/physicalactivities/*'
-      methods: ["POST"]
-      scopes: ['physicalactivities:create']
-
-    - host: '*'
-      paths: ['/v1/users/children/physicalactivities']
-      methods: ["GET"]
-      scopes: ['physicalactivities:readAll']
-
-    - host: '*'
-      paths:
-        - '/v1/users/children/:child_id/physicalactivities'
-        - '/v1/users/children/:child_id/physicalactivities/*'
-      methods: ["GET"]
-      scopes: ['physicalactivities:read']
-
-    - host: '*'
-      paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
-      methods: ["PATCH"]
-      scopes: ['physicalactivities:update']
-
-    - host: '*'
-      paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
-      methods: ["DELETE"]
-      scopes: ['physicalactivities:delete']
-
-    ### USERS.CHILDREN.SLEEP ###
-    - host: '*'
-      paths: ['/v1/users/children/:child_id/sleep']
-      methods: ["POST"]
-      scopes: ['sleep:create']
-
-    - host: '*'
-      paths: ['/v1/users/children/sleep']
-      methods: ["GET"]
-      scopes: ['sleep:readAll']
-
-    - host: '*'
-      paths:
-        - '/v1/users/children/:child_id/sleep'
-        - '/v1/users/children/:child_id/sleep/*'
-      methods: ["GET"]
-      scopes: ['sleep:read']
-
-    - host: '*'
-      paths: ['/v1/users/children/:child_id/sleep/:sleep_id']
-      methods: ["PATCH"]
-      scopes: ['sleep:update']
-
-    - host: '*'
-      paths: ['/v1/users/children/:child_id/sleep/:sleep_id']
-      methods: ["DELETE"]
-      scopes: ['sleep:delete']
-
-    ### USERS.CHILDREN.WEIGHT / USERS.CHILDREN.BODYFAT ###
-    - host: '*'
-      paths:
-        - '/v1/users/children/:child_id/weight'
-        - '/v1/users/children/:child_id/bodyfat'
-      methods: ["POST"]
-      scopes: ['measurements:create']
-
-    - host: '*'
-      paths:
-        - '/v1/users/children/:child_id/weight'
-        - '/v1/users/children/:child_id/bodyfat'
-      methods: ["GET"]
-      scopes: ['measurements:read']
-
-    - host: '*'
-      paths:
-        - '/v1/users/children/:child_id/weight/:weight_id'
-        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
-      methods: ["GET"]
-      scopes: ['measurements:read']
-
-    - host: '*'
-      paths:
-        - '/v1/users/children/:child_id/weight/:weight_id'
-        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
-      methods: ["DELETE"]
-      scopes: ['measurements:delete']
-
-  ## ENVIRONMENT ENDPOINTS ##
-  environmentPrivateAPI:
-    ### ENVIRONMENTS ###
-    - host: '*'
-      paths: ['/v1/environments']
-      methods: ["POST"]
-      scopes: ['environment:create']
-
-    - host: '*'
-      paths: ['/v1/environments']
-      methods: ["GET"]
-      scopes: ['environment:read']
-
-    - host: '*'
-      paths: ['/v1/environments/:environment_id']
-      methods: ["DELETE"]
-      scopes: ['environment:delete']
 
   ## QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
@@ -873,9 +863,9 @@ pipelines:
       - ocariot-auth-policy:
           - condition:
               name: 'is-auth'
-              authpath: '/auth'
+              authpath: '/v1/auth'
             action:
-              urlauthservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/auth
+              urlauthservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/auth
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - proxy:
@@ -900,9 +890,9 @@ pipelines:
       - ocariot-delete-user-policy:
           - condition:
               name: 'is-delete'
-              deletepath: '^(\/users\/)[a-fA-F0-9]{24}\/{0,1}$'
+              deletepath: '^(\/v1\/users\/)[a-fA-F0-9]{24}\/{0,1}$'
             action:
-              urldeleteservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/users
+              urldeleteservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/users
       - proxy:
           - action:
               prependPath:  true
