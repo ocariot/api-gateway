@@ -13,7 +13,8 @@
   "dependencies": {
     "dotenv": "^8.0.0",
     "express-apigw-base-plugin": "git+https://github.com/nutes-uepb/express-apigw-base-plugin.git",
-    "express-gateway": "^1.16.3"
+    "express-gateway": "^1.16.3",
+    "swagger-ui-express": "^4.0.7"
   },
   "devDependencies": {
     "chai": "^3.5.0",
