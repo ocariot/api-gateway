@@ -6,8 +6,8 @@ https:
   hostname: '0.0.0.0'
   tls:
     "default":
-      key: ${SSL_KEY_PATH}
-      cert: ${SSL_CERT_PATH}
+      key: ${SSL_KEY_PATH:-./.certs/server.key}
+      cert: ${SSL_CERT_PATH:-./.certs/server.crt}
 
 # API ENDPOINTS DEFINITION #
 
@@ -847,11 +847,11 @@ policies:
   - log
   - proxy
   - rate-limit
-  - ocariot-jwtScopes-policy
-  - ocariot-jwt-policy
-  - ocariot-auth-policy
-  - ocariot-body-parser-policy
-  - ocariot-delete-user-policy
+  - jwtScopes-policy
+  - jwt-policy
+  - auth-policy
+  - body-parser-policy
+  - delete-user-policy
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -859,13 +859,15 @@ pipelines:
   accountPublicPipeline:
     apiEndpoints: ['accountPublicApi']
     policies:
-      - ocariot-body-parser-policy:
-      - ocariot-auth-policy:
+      - body-parser-policy:
+      - auth-policy:
           - condition:
-              name: 'is-auth'
-              authpath: '/v1/auth'
+              name: 'regex-path-method'
+              #regexPath é uma expressão regular
+              regexPath: '^(\/v1\/auth\/{0,1})$'
+              method: 'POST'
             action:
-              urlauthservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/auth
+              urlAuthService: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/auth
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - proxy:
@@ -881,18 +883,20 @@ pipelines:
   accountPrivatePipeline:
     apiEndpoints: ['accountPrivateApi']
     policies:
-      - ocariot-body-parser-policy:
-      - ocariot-jwt-policy:
+      - body-parser-policy:
+      - jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
-      - ocariot-jwtScopes-policy:
-      - ocariot-delete-user-policy:
+      - jwtScopes-policy:
+      - delete-user-policy:
           - condition:
-              name: 'is-delete'
-              deletepath: '^(\/v1\/users\/)[a-fA-F0-9]{24}\/{0,1}$'
+              name: 'regex-path-method'
+              #regexPath é uma expressão regular
+              regexPath: '^(\/v1\/users\/)[a-fA-F0-9]{24}\/{0,1}$'
+              method: 'DELETE'
             action:
-              urldeleteservice: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/users
+              urlDeleteService: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/users
       - proxy:
           - action:
               prependPath:  true
@@ -907,12 +911,12 @@ pipelines:
   activityPrivatePipeline:
     apiEndpoints: ['activityPrivateApi', 'environmentPrivateAPI']
     policies:
-      - ocariot-body-parser-policy:
-      - ocariot-jwt-policy:
+      - body-parser-policy:
+      - jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
-      - ocariot-jwtScopes-policy:
+      - jwtScopes-policy:
       - proxy:
           - action:
               prependPath:  true
@@ -927,12 +931,12 @@ pipelines:
   questionnairesPrivatePipeline:
     apiEndpoints: ['questionnairesPrivateAPI']
     policies:
-      - ocariot-body-parser-policy:
-      - ocariot-jwt-policy:
+      - body-parser-policy:
+      - jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
-      - ocariot-jwtScopes-policy:
+      - jwtScopes-policy:
       - proxy:
           - action:
               prependPath:  true
@@ -947,12 +951,12 @@ pipelines:
   gamificationPrivatePipeline:
     apiEndpoints: ['gamificationPrivateAPI']
     policies:
-      - ocariot-body-parser-policy:
-      - ocariot-jwt-policy:
+      - body-parser-policy:
+      - jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
-      - ocariot-jwtScopes-policy:
+      - jwtScopes-policy:
       - proxy:
           - action:
               prependPath:  true
@@ -967,12 +971,12 @@ pipelines:
   missionsPrivatePipeline:
     apiEndpoints: ['missionsPrivateAPI']
     policies:
-      - ocariot-body-parser-policy:
-      - ocariot-jwt-policy:
+      - body-parser-policy:
+      - jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
-      - ocariot-jwtScopes-policy:
+      - jwtScopes-policy:
       - proxy:
           - action:
               prependPath:  true

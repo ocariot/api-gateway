@@ -23,5 +23,5 @@ authorizationCodes:
   timeToExpiry: 300000
 
 plugins:
-  eg-plugin-ocariot:
-    package: 'eg-plugin-ocariot/manifest.js'
+  express-apigw-base-plugin:
+    package: express-apigw-base-plugin

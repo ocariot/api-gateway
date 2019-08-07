@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "dotenv": "^8.0.0",
-    "eg-plugin-ocariot": "file:eg-plugin-ocariot",
+    "express-apigw-base-plugin": "git+https://github.com/nutes-uepb/express-apigw-base-plugin.git",
     "express-gateway": "^1.16.3"
   },
   "devDependencies": {
