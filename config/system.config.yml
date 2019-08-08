@@ -5,23 +5,6 @@ db:
     port: ${PORT_REDIS:-6379}
     namespace: ocariot_gateway
 
-crypto:
-  cipherKey: sensitiveKey
-  algorithm: aes256
-  saltRounds: 10
-
-# OAuth2 Settings
-session:
-  secret: keyboard cat
-  resave: false
-  saveUninitialized: false
-accessTokens:
-  timeToExpiry: 7200000
-refreshTokens:
-  timeToExpiry: 7200000
-authorizationCodes:
-  timeToExpiry: 300000
-
 plugins:
   express-apigw-base-plugin:
     package: express-apigw-base-plugin
