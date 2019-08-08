@@ -27,11 +27,10 @@ apiEndpoints:
 
   ## ACTIVITY TRACKING ENDPOINTS ##
   activityPrivateApi:
-    ### USERS.CHILDREN.PHYSICALACTIVITIES || USERS.CHILDREN.PHYSICALACTIVITIES.LOGS###
+    ### USERS.CHILDREN.PHYSICALACTIVITIES ###
     - host: '*'
       paths:
         - '/v1/users/children/:child_id/physicalactivities'
-        - '/v1/users/children/:child_id/physicalactivities/*'
       methods: ["POST"]
       scopes: ['physicalactivities:create']
 
@@ -43,7 +42,11 @@ apiEndpoints:
     - host: '*'
       paths:
         - '/v1/users/children/:child_id/physicalactivities'
-        - '/v1/users/children/:child_id/physicalactivities/*'
+      methods: ["GET"]
+      scopes: ['physicalactivities:read']
+
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
       methods: ["GET"]
       scopes: ['physicalactivities:read']
 
@@ -56,6 +59,22 @@ apiEndpoints:
       paths: ['/v1/users/children/:child_id/physicalactivities/:physicalactivity_id']
       methods: ["DELETE"]
       scopes: ['physicalactivities:delete']
+
+    ### USERS.CHILDREN.LOGS ###
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/logs/date/:date_start/:date_end']
+      methods: ["GET"]
+      scopes: ['physicalactivities:read']
+
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/logs/:resource/date/:date_start/:date_end']
+      methods: ["GET"]
+      scopes: ['physicalactivities:read']
+
+    - host: '*'
+      paths: ['/v1/users/children/:child_id/logs/:resource']
+      methods: ["POST"]
+      scopes: ['physicalactivities:create']
 
     ### USERS.CHILDREN.SLEEP ###
     - host: '*'
