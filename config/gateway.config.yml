@@ -88,29 +88,29 @@ apiEndpoints:
     ### USERS.CHILDREN.WEIGHT / USERS.CHILDREN.BODYFAT ###
     - host: '*'
       paths:
-        - '/v1/users/children/:child_id/weight'
-        - '/v1/users/children/:child_id/bodyfat'
+        - '/v1/users/children/:child_id/weights'
+        - '/v1/users/children/:child_id/bodyfats'
       methods: ["POST"]
       scopes: ['measurements:create']
 
     - host: '*'
       paths:
-        - '/v1/users/children/:child_id/weight'
-        - '/v1/users/children/:child_id/bodyfat'
+        - '/v1/users/children/:child_id/weights'
+        - '/v1/users/children/:child_id/bodyfats'
       methods: ["GET"]
       scopes: ['measurements:read']
 
     - host: '*'
       paths:
-        - '/v1/users/children/:child_id/weight/:weight_id'
-        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
+        - '/v1/users/children/:child_id/weights/:weight_id'
+        - '/v1/users/children/:child_id/bodyfats/:bodyfat_id'
       methods: ["GET"]
       scopes: ['measurements:read']
 
     - host: '*'
       paths:
-        - '/v1/users/children/:child_id/weight/:weight_id'
-        - '/v1/users/children/:child_id/bodyfat/:bodyfat_id'
+        - '/v1/users/children/:child_id/weights/:weight_id'
+        - '/v1/users/children/:child_id/bodyfats/:bodyfat_id'
       methods: ["DELETE"]
       scopes: ['measurements:delete']
 

@@ -11,6 +11,9 @@ const SSL_KEY_PATH = process.env.SSL_KEY_PATH || './.certs/tls.key'
 const SSL_CERT_PATH = process.env.SSL_CERT_PATH || './.certs/tls.pem'
 const JWT_KEY_PATH = process.env.JWT_PUBLIC_KEY_PATH || './.certs/jwt.key.pub'
 
+// API_REFERENCE: express-apigw-base-plugin
+process.env.API_REFERENCE_PATH_FILE = path.join(__dirname, 'api-reference.js')
+
 if (!fs.existsSync(SSL_KEY_PATH)) {
     console.error(`SSL key required!\nPlease provide the ssl key in the .env file in SSL_KEY_PATH.`)
     process.exit()
