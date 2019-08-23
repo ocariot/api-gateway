@@ -368,6 +368,11 @@ apiEndpoints:
       paths: ['/v1/users/:user_id/fitbit/sync']
       methods: ['POST']
 
+  ### USERS.FITBIT.CALLBACK ###
+    - host: '*'
+      paths: ['/v1/fitbit/callback']
+      methods: ['GET']
+
   ## QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
     ### Q1SOCIODEMOGRAPHIC ###
