@@ -354,24 +354,33 @@ apiEndpoints:
 
   ## DATA ACQUISITION AGENT ENDPOINTS ##
   daAgentPrivateApi:
-  ### USERS.FITBIT.AUTH ###
+    ### FITBIT ###
+    - host: '*'
+      paths: ['/v1/fitbit']
+      methods: ['GET']
+      scopes: ['external:sync']
+
+    ### FITBIT.SUBSCRIBER ###
+    - host: '*'
+      paths: ['/v1/fitbit/subscriber']
+      methods: ['GET', 'POST']
+
+    ### USERS.FITBIT.AUTH ###
     - host: '*'
       paths: ['/v1/users/:user_id/fitbit/auth']
-      methods: ['POST', 'GET']
+      methods: ['POST']
+      scopes: ['external:sync']
 
     - host: '*'
       paths: ['/v1/users/:user_id/fitbit/auth/revoke']
       methods: ['POST']
+      scopes: ['external:sync']
 
-  ### USERS.FITBIT.SYNC ###
+    ### USERS.FITBIT.SYNC ###
     - host: '*'
       paths: ['/v1/users/:user_id/fitbit/sync']
       methods: ['POST']
-
-  ### USERS.FITBIT.CALLBACK ###
-    - host: '*'
-      paths: ['/v1/fitbit/callback']
-      methods: ['GET']
+      scopes: ['external:sync']
 
   ## QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
