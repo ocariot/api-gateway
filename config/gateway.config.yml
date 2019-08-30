@@ -352,8 +352,8 @@ apiEndpoints:
       methods: ['DELETE']
       scopes: ['institutions:delete']
 
-  ## DATA ACQUISITION AGENT ENDPOINTS ##
-  daAgentPrivateApi:
+  ## DATA SYNC AGENT ENDPOINTS ##
+  dsAgentPrivateApi:
     ### FITBIT ###
     - host: '*'
       paths: ['/v1/fitbit']
@@ -889,8 +889,8 @@ serviceEndpoints:
     url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
   activityService:
     url: '${ACTIVITY_SERVICE:-https://localhost:4001}'
-  daAgentService:
-    url: '${DA_AGENT_SERVICE:-https://localhost:5001}'
+  dsAgentService:
+    url: '${DS_AGENT_SERVICE:-https://localhost:5001}'
   questionnaireService:
     url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6001}'
   gamificationService:
@@ -983,9 +983,9 @@ pipelines:
               timeout: 10000
               serviceEndpoint: activityService
 
-  #### Pipelines to manage data coming from DATA ACQUISITION AGENT PRIVATE and PUBLIC APIs ####
-  daAgentPrivatePipeline:
-    apiEndpoints: ['daAgentPrivateApi']
+  #### Pipelines to manage data coming from DATA SYNC AGENT PRIVATE and PUBLIC APIs ####
+  dsAgentPrivatePipeline:
+    apiEndpoints: ['dsAgentPrivateApi']
     policies:
       - body-parser-policy:
       - jwt-policy:
@@ -1001,7 +1001,7 @@ pipelines:
               changeOrigin: true
               secure: false
               timeout: 10000
-              serviceEndpoint: daAgentService
+              serviceEndpoint: dsAgentService
 
   #### Pipelines to manage data coming from QUESTIONNAIRES PRIVATE and PUBLIC APIs ####
   questionnairesPrivatePipeline:
