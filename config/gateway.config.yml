@@ -471,6 +471,35 @@ apiEndpoints:
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
+    ### Q23IPAQ ###
+    - host: '*'
+      paths:
+        - '/q23ipaq'
+        - '/q23ipaq/:id'
+        - '/q23ipaq/count'
+      methods: ["GET"]
+      scopes: ['questionnaires:read']
+
+    - host: '*'
+      paths: ['/q23ipaq/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['questionnaires:update']
+
+    - host: '*'
+      paths: ['/q23ipaq/:id']
+      methods: ["DELETE"]
+      scopes: ['questionnaires:delete']
+
+    - host: '*'
+      paths: ['/q23ipaq']
+      methods: ["POST"]
+      scopes: ['questionnaires:create']
+
+    - host: '*'
+      paths: ['/q23ipaq']
+      methods: ["PATCH"]
+      scopes: ['questionnaires:update']
+
     ### Q3PHYSICALANTHROPOMETRICMEASURES ###
     - host: '*'
       paths:
