@@ -1,4 +1,4 @@
-FROM node:10.15.3
+FROM node:10.16.3
 
 # create and set app directory
 RUN mkdir -p /usr/src/ag
