@@ -2,16 +2,32 @@
   "name": "ocariot-api-gateway",
   "version": "2.0.0",
   "description": "Express Gateway Instance Bootstraped from Command Line",
-  "repository": {},
-  "license": "UNLICENSED",
   "main": "server.js",
   "scripts": {
     "init": "npm i && npm audit fix && npm start",
     "test": "npm run test:unit",
     "test:unit": "mocha --opts test/eg-plugin-ocariot/unit/mocha.opts test/**/unit/**/*-spec.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocariot/api-gateway/.git"
+  },
+  "keywords": [
+    "api",
+    "gateway",
+    "proxy",
+    "express",
+    "integration",
+    "microservice"
+  ],
+  "author": "NUTES/UEPB",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ocariot/api-gateway/issues"
+  },
+  "homepage": "https://github.com/ocariot/api-gateway#readme",
   "dependencies": {
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.1.0",
     "express-apigw-base-plugin": "git+https://github.com/nutes-uepb/express-apigw-base-plugin.git",
     "express-gateway": "^1.16.8",
     "swagger-ui-express": "^4.0.7"

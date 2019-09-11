@@ -913,7 +913,7 @@ apiEndpoints:
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
   gatewayService:
-    url: '${API_GATEWAY_SERVICE:-http://localhost:8080}'
+    url: '${API_GATEWAY_SERVICE:-https://localhost:8081}'
   accountService:
     url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
   activityService:
@@ -948,7 +948,6 @@ pipelines:
       - auth-policy:
           - condition:
               name: 'regex-path-method'
-              #regexPath é uma expressão regular
               regexPath: '^(\/v1\/auth\/{0,1})$'
               method: 'POST'
             action:
@@ -977,7 +976,6 @@ pipelines:
       - delete-user-policy:
           - condition:
               name: 'regex-path-method'
-              #regexPath é uma expressão regular
               regexPath: '^(\/v1\/users\/)[a-fA-F0-9]{24}\/{0,1}$'
               method: 'DELETE'
             action:
