@@ -387,377 +387,377 @@ apiEndpoints:
     ### Q1SOCIODEMOGRAPHIC ###
     - host: '*'
       paths:
-        - '/q1sociodemographics'
-        - '/q1sociodemographics/:id'
-        - '/q1sociodemographics/count'
+        - '/v1/q1sociodemographics'
+        - '/v1/q1sociodemographics/:id'
+        - '/v1/q1sociodemographics/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q1sociodemographics/:id']
+      paths: ['/v1/q1sociodemographics/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q1sociodemographics/:id']
+      paths: ['/v1/q1sociodemographics/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q1sociodemographics']
+      paths: ['/v1/q1sociodemographics']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q1sociodemographics']
+      paths: ['/v1/q1sociodemographics']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q21CHILDSHEALTHCONDITIONS ###
     - host: '*'
       paths:
-        - '/q21childshealthconditions'
-        - '/q21childshealthconditions/:id'
-        - '/q21childshealthconditions/count'
+        - '/v1/q21childshealthconditions'
+        - '/v1/q21childshealthconditions/:id'
+        - '/v1/q21childshealthconditions/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q21childshealthconditions/:id']
+      paths: ['/v1/q21childshealthconditions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q21childshealthconditions/:id']
+      paths: ['/v1/q21childshealthconditions/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q21childshealthconditions']
+      paths: ['/v1/q21childshealthconditions']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q21childshealthconditions']
+      paths: ['/v1/q21childshealthconditions']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q22PARENTSHEALTHCONDITIONS ###
     - host: '*'
       paths:
-        - '/q22parentshealthconditions'
-        - '/q22parentshealthconditions/:id'
-        - '/q22parentshealthconditions/count'
+        - '/v1/q22parentshealthconditions'
+        - '/v1/q22parentshealthconditions/:id'
+        - '/v1/q22parentshealthconditions/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q22parentshealthconditions/:id']
+      paths: ['/v1/q22parentshealthconditions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q22parentshealthconditions/:id']
+      paths: ['/v1/q22parentshealthconditions/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q22parentshealthconditions']
+      paths: ['/v1/q22parentshealthconditions']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q22parentshealthconditions']
+      paths: ['/v1/q22parentshealthconditions']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q23IPAQ ###
     - host: '*'
       paths:
-        - '/q23ipaq'
-        - '/q23ipaq/:id'
-        - '/q23ipaq/count'
+        - '/v1/q23ipaq'
+        - '/v1/q23ipaq/:id'
+        - '/v1/q23ipaq/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q23ipaq/:id']
+      paths: ['/v1/q23ipaq/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q23ipaq/:id']
+      paths: ['/v1/q23ipaq/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q23ipaq']
+      paths: ['/v1/q23ipaq']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q23ipaq']
+      paths: ['/v1/q23ipaq']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q3PHYSICALANTHROPOMETRICMEASURES ###
     - host: '*'
       paths:
-        - '/q3physicalandanthropometricmeasures'
-        - '/q3physicalandanthropometricmeasures/:id'
-        - '/q3physicalandanthropometricmeasures/count'
+        - '/v1/q3physicalandanthropometricmeasures'
+        - '/v1/q3physicalandanthropometricmeasures/:id'
+        - '/v1/q3physicalandanthropometricmeasures/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q3physicalandanthropometricmeasures/:id']
+      paths: ['/v1/q3physicalandanthropometricmeasures/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q3physicalandanthropometricmeasures/:id']
+      paths: ['/v1/q3physicalandanthropometricmeasures/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q3physicalandanthropometricmeasures']
+      paths: ['/v1/q3physicalandanthropometricmeasures']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q3physicalandanthropometricmeasures']
+      paths: ['/v1/q3physicalandanthropometricmeasures']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q401FOODFREQUENCY ###
     - host: '*'
       paths:
-        - '/q401ffq'
-        - '/q401ffq/:id'
-        - '/q401ffq/count'
+        - '/v1/q401ffq'
+        - '/v1/q401ffq/:id'
+        - '/v1/q401ffq/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q401ffq/:id']
+      paths: ['/v1/q401ffq/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q401ffq/:id']
+      paths: ['/v1/q401ffq/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q401ffq']
+      paths: ['/v1/q401ffq']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q401ffq']
+      paths: ['/v1/q401ffq']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q402FOODHABITSANDFEEDINGBEHAVIOURS ###
     - host: '*'
       paths:
-        - '/q402foodhabitsandfeedingbehaviors'
-        - '/q402foodhabitsandfeedingbehaviors/:id'
-        - '/q402foodhabitsandfeedingbehaviors/count'
+        - '/v1/q402foodhabitsandfeedingbehaviors'
+        - '/v1/q402foodhabitsandfeedingbehaviors/:id'
+        - '/v1/q402foodhabitsandfeedingbehaviors/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q402foodhabitsandfeedingbehaviors/:id']
+      paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q402foodhabitsandfeedingbehaviors/:id']
+      paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q402foodhabitsandfeedingbehaviors']
+      paths: ['/v1/q402foodhabitsandfeedingbehaviors']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q402foodhabitsandfeedingbehaviors']
+      paths: ['/v1/q402foodhabitsandfeedingbehaviors']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q501PHYSICALACTIVITYFORCHILDREN ###
     - host: '*'
       paths:
-        - '/q501physicalactivityforchildren'
-        - '/q501physicalactivityforchildren/:id'
-        - '/q501physicalactivityforchildren/count'
+        - '/v1/q501physicalactivityforchildren'
+        - '/v1/q501physicalactivityforchildren/:id'
+        - '/v1/q501physicalactivityforchildren/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q501physicalactivityforchildren/:id']
+      paths: ['/v1/q501physicalactivityforchildren/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q501physicalactivityforchildren/:id']
+      paths: ['/v1/q501physicalactivityforchildren/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q501physicalactivityforchildren']
+      paths: ['/v1/q501physicalactivityforchildren']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q501physicalactivityforchildren']
+      paths: ['/v1/q501physicalactivityforchildren']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q502PHYSICALACTIVITYANDSEDENTARYHABITS ###
     - host: '*'
       paths:
-        - '/q502physicalactivityandsedentaryhabits'
-        - '/q502physicalactivityandsedentaryhabits/:id'
-        - '/q502physicalactivityandsedentaryhabits/count'
+        - '/v1/q502physicalactivityandsedentaryhabits'
+        - '/v1/q502physicalactivityandsedentaryhabits/:id'
+        - '/v1/q502physicalactivityandsedentaryhabits/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q502physicalactivityandsedentaryhabits/:id']
+      paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q502physicalactivityandsedentaryhabits/:id']
+      paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q502physicalactivityandsedentaryhabits']
+      paths: ['/v1/q502physicalactivityandsedentaryhabits']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q502physicalactivityandsedentaryhabits']
+      paths: ['/v1/q502physicalactivityandsedentaryhabits']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q503SLEEPINGHABITS ###
     - host: '*'
       paths:
-        - '/q503sleepinghabits'
-        - '/q503sleepinghabits/:id'
-        - '/q503sleepinghabits/count'
+        - '/v1/q503sleepinghabits'
+        - '/v1/q503sleepinghabits/:id'
+        - '/v1/q503sleepinghabits/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q503sleepinghabits/:id']
+      paths: ['/v1/q503sleepinghabits/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q503sleepinghabits/:id']
+      paths: ['/v1/q503sleepinghabits/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q503sleepinghabits']
+      paths: ['/v1/q503sleepinghabits']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q503sleepinghabits']
+      paths: ['/v1/q503sleepinghabits']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q601CHILDEATINGBEHAVIOUR ###
     - host: '*'
       paths:
-        - '/q601childeatingbehaviour'
-        - '/q601childeatingbehaviour/:id'
-        - '/q601childeatingbehaviour/count'
+        - '/v1/q601childeatingbehaviour'
+        - '/v1/q601childeatingbehaviour/:id'
+        - '/v1/q601childeatingbehaviour/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q601childeatingbehaviour/:id']
+      paths: ['/v1/q601childeatingbehaviour/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q601childeatingbehaviour/:id']
+      paths: ['/v1/q601childeatingbehaviour/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q601childeatingbehaviour']
+      paths: ['/v1/q601childeatingbehaviour']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q601childeatingbehaviour']
+      paths: ['/v1/q601childeatingbehaviour']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### Q602AUTOPERCEPTION ###
     - host: '*'
       paths:
-        - '/q602autoperception'
-        - '/q602autoperception/:id'
-        - '/q602autoperception/count'
+        - '/v1/q602autoperception'
+        - '/v1/q602autoperception/:id'
+        - '/v1/q602autoperception/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/q602autoperception/:id']
+      paths: ['/v1/q602autoperception/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/q602autoperception/:id']
+      paths: ['/v1/q602autoperception/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/q602autoperception']
+      paths: ['/v1/q602autoperception']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/q602autoperception']
+      paths: ['/v1/q602autoperception']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
     ### QUESTION ###
     - host: '*'
       paths:
-        - '/questions'
-        - '/questions/:id'
-        - '/questions/count'
+        - '/v1/questions'
+        - '/v1/questions/:id'
+        - '/v1/questions/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/questions/:id']
+      paths: ['/v1/questions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/questions/:id']
+      paths: ['/v1/questions/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/questions']
+      paths: ['/v1/questions']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/questions']
+      paths: ['/v1/questions']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
@@ -766,116 +766,116 @@ apiEndpoints:
     ### AGENT_REPORT ###
     - host: '*'
       paths:
-        - '/agentreports'
-        - '/agentreports/:id'
-        - '/agentreports/count'
+        - '/v1/agentreports'
+        - '/v1/agentreports/:id'
+        - '/v1/agentreports/count'
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
     - host: '*'
-      paths: ['/agentreports/:id']
+      paths: ['/v1/agentreports/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
     - host: '*'
-      paths: ['/agentreports/:id']
+      paths: ['/v1/agentreports/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
     - host: '*'
-      paths: ['/agentreports']
+      paths: ['/v1/agentreports']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
     - host: '*'
-      paths: ['/agentreports']
+      paths: ['/v1/agentreports']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### BADGE ###
     - host: '*'
       paths:
-        - '/badges'
-        - '/badges/:id'
-        - '/badges/count'
+        - '/v1/badges'
+        - '/v1/badges/:id'
+        - '/v1/badges/count'
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
     - host: '*'
-      paths: ['/badges/:id']
+      paths: ['/v1/badges/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
     - host: '*'
-      paths: ['/badges/:id']
+      paths: ['/v1/badges/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
     - host: '*'
-      paths: ['/badges']
+      paths: ['/v1/badges']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
     - host: '*'
-      paths: ['/badges']
+      paths: ['/v1/badges']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### CUSTOMIZATION ITEM ###
     - host: '*'
       paths:
-        - '/customizationitems'
-        - '/customizationitems/:id'
-        - '/customizationitems/count'
+        - '/v1/customizationitems'
+        - '/v1/customizationitems/:id'
+        - '/v1/customizationitems/count'
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
     - host: '*'
-      paths: ['/customizationitems/:id']
+      paths: ['/v1/customizationitems/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
     - host: '*'
-      paths: ['/customizationitems/:id']
+      paths: ['/v1/customizationitems/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
     - host: '*'
-      paths: ['/customizationitems']
+      paths: ['/v1/customizationitems']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
     - host: '*'
-      paths: ['/customizationitems']
+      paths: ['/v1/customizationitems']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### GAMIFICATION PROFILE ###
     - host: '*'
       paths:
-        - '/gamificationprofiles'
-        - '/gamificationprofiles/:id'
-        - '/gamificationprofiles/count'
+        - '/v1/gamificationprofiles'
+        - '/v1/gamificationprofiles/:id'
+        - '/v1/gamificationprofiles/count'
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
     - host: '*'
-      paths: ['/gamificationprofiles/:id']
+      paths: ['/v1/gamificationprofiles/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
     - host: '*'
-      paths: ['/gamificationprofiles/:id']
+      paths: ['/v1/gamificationprofiles/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
     - host: '*'
-      paths: ['/gamificationprofiles']
+      paths: ['/v1/gamificationprofiles']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
     - host: '*'
-      paths: ['/gamificationprofiles']
+      paths: ['/v1/gamificationprofiles']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
@@ -884,29 +884,29 @@ apiEndpoints:
     ### MISSION ###
     - host: '*'
       paths:
-        - '/missions'
-        - '/missions/:id'
-        - '/missions/count'
+        - '/v1/missions'
+        - '/v1/missions/:id'
+        - '/v1/missions/count'
       methods: ['GET']
       scopes: ['missions:read']
 
     - host: '*'
-      paths: ['/missions/:id']
+      paths: ['/v1/missions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['missions:update']
 
     - host: '*'
-      paths: ['/missions/:id']
+      paths: ['/v1/missions/:id']
       methods: ["DELETE"]
       scopes: ['missions:delete']
 
     - host: '*'
-      paths: ['/missions']
+      paths: ['/v1/missions']
       methods: ["POST"]
       scopes: ['missions:create']
 
     - host: '*'
-      paths: ['/missions']
+      paths: ['/v1/missions']
       methods: ["PATCH"]
       scopes: ['missions:update']
 
