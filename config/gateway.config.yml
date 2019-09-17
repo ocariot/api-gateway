@@ -369,7 +369,7 @@ apiEndpoints:
     ### USERS.FITBIT.AUTH ###
     - host: '*'
       paths: ['/v1/users/:user_id/fitbit/auth']
-      methods: ['POST']
+      methods: ['POST', 'GET']
       scopes: ['external:sync']
 
     - host: '*'
