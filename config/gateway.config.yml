@@ -383,7 +383,7 @@ apiEndpoints:
       methods: ['POST']
       scopes: ['external:sync']
 
-  ## QUESTIONNAIRE ENDPOINTS ##
+  ## FOOD TRACKING AND QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
     ### Q1SOCIODEMOGRAPHIC ###
     - host: '*'
@@ -733,32 +733,32 @@ apiEndpoints:
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
-    ### QUESTION ###
+    ### QFOODTRACKING ###
     - host: '*'
       paths:
-        - '/v1/questions'
-        - '/v1/questions/:id'
-        - '/v1/questions/count'
+        - '/v1/qfoodtrackings'
+        - '/v1/qfoodtrackings/:id'
+        - '/v1/qfoodtrackings/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/v1/questions/:id']
+      paths: ['/v1/qfoodtrackings/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/v1/questions/:id']
+      paths: ['/v1/qfoodtrackings/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/v1/questions']
+      paths: ['/v1/qfoodtrackings']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/v1/questions']
+      paths: ['/v1/qfoodtrackings']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
@@ -880,6 +880,35 @@ apiEndpoints:
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
+    ### QUESTION ###
+    - host: '*'
+      paths:
+        - '/v1/questions'
+        - '/v1/questions/:id'
+        - '/v1/questions/count'
+      methods: ["GET"]
+      scopes: ['gamificationprofile:read']
+
+    - host: '*'
+      paths: ['/v1/questions/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    - host: '*'
+      paths: ['/v1/questions/:id']
+      methods: ["DELETE"]
+      scopes: ['gamificationprofile:delete']
+
+    - host: '*'
+      paths: ['/v1/questions']
+      methods: ["POST"]
+      scopes: ['gamificationprofile:create']
+
+    - host: '*'
+      paths: ['/v1/questions']
+      methods: ["PATCH"]
+      scopes: ['gamificationprofile:update']
+
   ## MISSIONS ENDPOINTS ##
   missionsPrivateAPI:
     ### MISSION ###
@@ -924,9 +953,9 @@ serviceEndpoints:
   questionnaireService:
     url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6001}'
   gamificationService:
-    url: '${GAMIFICATION_SERVICE:-http://localhost:6001}'
+    url: '${GAMIFICATION_SERVICE:-http://localhost:7001}'
   missionService:
-    url: '${MISSION_SERVICE:-http://localhost:6001}'
+    url: '${MISSION_SERVICE:-http://localhost:7001}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
