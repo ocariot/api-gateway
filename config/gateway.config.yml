@@ -383,7 +383,7 @@ apiEndpoints:
       methods: ['POST']
       scopes: ['external:sync']
 
-  ## QUESTIONNAIRE ENDPOINTS ##
+  ## FOOD TRACKING AND QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
     ### Q1SOCIODEMOGRAPHIC ###
     - host: '*'
@@ -733,32 +733,32 @@ apiEndpoints:
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
-    ### QUESTION ###
+    ### QFOODTRACKING ###
     - host: '*'
       paths:
-        - '/v1/questions'
-        - '/v1/questions/:id'
-        - '/v1/questions/count'
+        - '/v1/qfoodtrackings'
+        - '/v1/qfoodtrackings/:id'
+        - '/v1/qfoodtrackings/count'
       methods: ["GET"]
       scopes: ['questionnaires:read']
 
     - host: '*'
-      paths: ['/v1/questions/:id']
+      paths: ['/v1/qfoodtrackings/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['questionnaires:update']
 
     - host: '*'
-      paths: ['/v1/questions/:id']
+      paths: ['/v1/qfoodtrackings/:id']
       methods: ["DELETE"]
       scopes: ['questionnaires:delete']
 
     - host: '*'
-      paths: ['/v1/questions']
+      paths: ['/v1/qfoodtrackings']
       methods: ["POST"]
       scopes: ['questionnaires:create']
 
     - host: '*'
-      paths: ['/v1/questions']
+      paths: ['/v1/qfoodtrackings']
       methods: ["PATCH"]
       scopes: ['questionnaires:update']
 
@@ -880,6 +880,65 @@ apiEndpoints:
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
+    ### QUESTION ###
+    - host: '*'
+      paths:
+        - '/v1/questions'
+        - '/v1/questions/:id'
+        - '/v1/questions/count'
+      methods: ["GET"]
+      scopes: ['gamificationprofile:read']
+
+    - host: '*'
+      paths: ['/v1/questions/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['gamificationprofile:update']
+
+    - host: '*'
+      paths: ['/v1/questions/:id']
+      methods: ["DELETE"]
+      scopes: ['gamificationprofile:delete']
+
+    - host: '*'
+      paths: ['/v1/questions']
+      methods: ["POST"]
+      scopes: ['gamificationprofile:create']
+
+    - host: '*'
+      paths: ['/v1/questions']
+      methods: ["PATCH"]
+      scopes: ['gamificationprofile:update']
+
+  foodPrivateApi:
+    ### FOOD HABITS ###
+    - host: '*'
+      paths:
+        - '/v1/foodqs'
+        - '/v1/foodqs/:id'
+        - '/v1/foodqs/count'
+      methods: ["GET"]
+      scopes: ['foodrecord:read']
+
+    - host: '*'
+      paths: ['/v1/foodqs/:id']
+      methods: ["PUT", "PATCH"]
+      scopes: ['foodrecord:update']
+
+    - host: '*'
+      paths: ['/v1/foodqs/:id']
+      methods: ["DELETE"]
+      scopes: ['foodrecord:delete']
+
+    - host: '*'
+      paths: ['/v1/foodqs']
+      methods: ["POST"]
+      scopes: ['foodrecord:create']
+
+    - host: '*'
+      paths: ['/v1/foodqs']
+      methods: ["PATCH"]
+      scopes: ['foodrecord:update']
+
   ## MISSIONS ENDPOINTS ##
   missionsPrivateAPI:
     ### MISSION ###
@@ -922,11 +981,13 @@ serviceEndpoints:
   dsAgentService:
     url: '${DS_AGENT_SERVICE:-https://localhost:5001}'
   questionnaireService:
-    url: '${QUESTIONNAIRE_SERVICE:-http://localhost:6001}'
+    url: '${QUESTIONNAIRE_SERVICE:-https://localhost:6001}'
   gamificationService:
-    url: '${GAMIFICATION_SERVICE:-http://localhost:6001}'
+    url: '${GAMIFICATION_SERVICE:-https://localhost:7001}'
   missionService:
-    url: '${MISSION_SERVICE:-http://localhost:6001}'
+    url: '${MISSION_SERVICE:-https://localhost:7001}'
+  foodService:
+    url: '${FOOD_SERVICE:-https://localhost:8001}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -1103,3 +1164,23 @@ pipelines:
               secure: false
               timeout: 10000
               serviceEndpoint: missionService
+
+  #### Pipelines to manage data coming from FOOD HABITS PRIVATE and PUBLIC APIs ####
+  foodPrivatePipeline:
+    apiEndpoints: ['foodPrivateApi']
+    policies:
+      - body-parser-policy:
+      - jwt-policy:
+          - action:
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
+              issuer: ${ISSUER:-ocariot}
+      - jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              secure: false
+              timeout: 10000
+              serviceEndpoint: foodService
