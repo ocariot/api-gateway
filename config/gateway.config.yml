@@ -999,6 +999,7 @@ policies:
   - auth-policy
   - body-parser-policy
   - delete-user-policy
+  - request-transformer
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -1042,6 +1043,13 @@ pipelines:
               method: 'DELETE'
             action:
               urlDeleteService: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/users
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
@@ -1062,6 +1070,13 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
@@ -1095,6 +1110,13 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
@@ -1115,6 +1137,13 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
@@ -1135,6 +1164,13 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
@@ -1155,6 +1191,13 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
@@ -1175,6 +1218,13 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
