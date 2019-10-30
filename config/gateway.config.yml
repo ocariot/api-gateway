@@ -184,11 +184,6 @@ apiEndpoints:
       methods: ['PATCH']
       scopes: ['children:update']
 
-    - host: '*'
-      paths: ['/v1/children/:child_id']
-      methods: ['DELETE']
-      scopes: ['children:delete']
-
     ### USERS.EDUCATORS ###
     - host: '*'
       paths: ['/v1/educators']
@@ -209,11 +204,6 @@ apiEndpoints:
       paths: ['/v1/educators/:educator_id']
       methods: ['PATCH']
       scopes: ['educators:update']
-
-    - host: '*'
-      paths: ['/v1/educators/:educator_id']
-      methods: ['DELETE']
-      scopes: ['educators:delete']
 
     ### USERS.FAMILIES || USERS.FAMILIES.CHILDREN ###
     - host: '*'
@@ -238,7 +228,6 @@ apiEndpoints:
 
     - host: '*'
       paths:
-        - '/v1/families/:family_id'
         - '/v1/families/:family_id/children/:child_id'
       methods: ['DELETE']
       scopes: ['families:delete']
@@ -263,11 +252,6 @@ apiEndpoints:
       paths: ['/v1/healthprofessionals/:healthprofessional_id']
       methods: ['PATCH']
       scopes: ['healthprofessionals:update']
-
-    - host: '*'
-      paths: ['/v1/healthprofessionals/:healthprofessional_id']
-      methods: ['DELETE']
-      scopes: ['healthprofessionals:delete']
 
     ### USERS.EDUCATORS.CHILDREN.GROUPS || USERS.HEALTHPROFESSIONALS.CHILDREN.GROUPS ###
     - host: '*'
@@ -320,11 +304,6 @@ apiEndpoints:
       paths: ['/v1/applications/:application_id']
       methods: ['PATCH']
       scopes: ['applications:update']
-
-    - host: '*'
-      paths: ['/v1/applications/:application_id']
-      methods: ['DELETE']
-      scopes: ['applications:delete']
 
     ### INSTITUTIONS ###
     - host: '*'
