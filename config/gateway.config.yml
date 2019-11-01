@@ -979,6 +979,8 @@ policies:
   - body-parser-policy
   - delete-user-policy
   - request-transformer
+  - account-authorization
+  - log
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -986,6 +988,9 @@ pipelines:
   accountPublicPipeline:
     apiEndpoints: ['accountPublicApi']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - auth-policy:
           - condition:
@@ -1009,12 +1014,18 @@ pipelines:
   accountPrivatePipeline:
     apiEndpoints: ['accountPrivateApi']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - account-authorization:
+            action:
+              accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
       - delete-user-policy:
           - condition:
               name: 'regex-path-method'
@@ -1043,6 +1054,9 @@ pipelines:
   activityPrivatePipeline:
     apiEndpoints: ['activityPrivateApi', 'environmentPrivateAPI']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
@@ -1070,6 +1084,9 @@ pipelines:
   dsAgentPublicPipeline:
     apiEndpoints: ['dsAgentPublicApi']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - proxy:
           - action:
               prependPath:  true
@@ -1083,6 +1100,9 @@ pipelines:
   dsAgentPrivatePipeline:
     apiEndpoints: ['dsAgentPrivateApi']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
@@ -1110,6 +1130,9 @@ pipelines:
   questionnairesPrivatePipeline:
     apiEndpoints: ['questionnairesPrivateAPI']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
@@ -1137,6 +1160,9 @@ pipelines:
   gamificationPrivatePipeline:
     apiEndpoints: ['gamificationPrivateAPI']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
@@ -1164,6 +1190,9 @@ pipelines:
   missionsPrivatePipeline:
     apiEndpoints: ['missionsPrivateAPI']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
@@ -1191,6 +1220,9 @@ pipelines:
   foodPrivatePipeline:
     apiEndpoints: ['foodPrivateApi']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
