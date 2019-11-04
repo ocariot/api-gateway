@@ -30,18 +30,9 @@ apiEndpoints:
       scopes: ['physicalactivities:create']
 
     - host: '*'
-      paths: ['/v1/children/physicalactivities']
-      methods: ["GET"]
-      scopes: ['physicalactivities:readAll']
-
-    - host: '*'
       paths:
         - '/v1/children/:child_id/physicalactivities'
-      methods: ["GET"]
-      scopes: ['physicalactivities:read']
-
-    - host: '*'
-      paths: ['/v1/children/:child_id/physicalactivities/:physicalactivity_id']
+        - '/v1/children/:child_id/physicalactivities/:physicalactivity_id'
       methods: ["GET"]
       scopes: ['physicalactivities:read']
 
@@ -78,14 +69,9 @@ apiEndpoints:
       scopes: ['sleep:create']
 
     - host: '*'
-      paths: ['/v1/children/sleep']
-      methods: ["GET"]
-      scopes: ['sleep:readAll']
-
-    - host: '*'
       paths:
         - '/v1/children/:child_id/sleep'
-        - '/v1/children/:child_id/sleep/*'
+        - '/v1/children/:child_id/sleep/:sleep_id'
       methods: ["GET"]
       scopes: ['sleep:read']
 
