@@ -167,7 +167,6 @@ function userUpdatePassRules(req, res, next) {
  *  2. Child and Family users can only list information from the institution to which they belong.
  */
 function getInstitutionByIdRules(urlBase, req, res, next) {
-    console.log('getInstitutionByIdRules', req.user.sub_type, req.user.sub, req.params.institution_id)
     if (req.user.sub_type !== UserType.CHILD &&
         req.user.sub_type !== UserType.FAMILY) {
         next()
@@ -198,7 +197,6 @@ function getInstitutionByIdRules(urlBase, req, res, next) {
  *  2. Educator and Health Professional users can only update information from the institution to which they belong.
  */
 function patchInstitutionByIdRules(urlBase, req, res, next) {
-    console.log('patchInstitutionByIdRules', req.user.sub_type, req.user.sub, req.params.institution_id)
     if (req.user.sub_type === UserType.ADMIN) {
         next()
         return
@@ -230,7 +228,6 @@ function patchInstitutionByIdRules(urlBase, req, res, next) {
  *  3. Family users can only list information from their own children.
  */
 function getChildByIdRules(urlBase, req, res, next) {
-    console.log('getChildByIdRules', req.user.sub_type, req.user.sub, req.params.child_id)
     if (req.user.sub_type !== UserType.CHILD &&
         req.user.sub_type !== UserType.FAMILY) {
         next()
@@ -276,7 +273,6 @@ function getChildByIdRules(urlBase, req, res, next) {
  *  2. Family users can only list their own information.
  */
 function getFamilyByIdRules(req, res, next) {
-    console.log('getFamilyByIdRules', req.user.sub_type, req.user.sub, req.params.family_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -289,7 +285,6 @@ function getFamilyByIdRules(req, res, next) {
  *  2. Family users can only update their own information.
  */
 function patchFamilyByIdRules(req, res, next) {
-    console.log('patchFamilyByIdRules', req.user.sub_type, req.user.sub, req.params.family_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -302,7 +297,6 @@ function patchFamilyByIdRules(req, res, next) {
  *  2. Family users can only list their own children information.
  */
 function getFamilyChildrenByIdRules(req, res, next) {
-    console.log('getFamilyChildrenByIdRules', req.user.sub_type, req.user.sub, req.params.family_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -316,7 +310,6 @@ function getFamilyChildrenByIdRules(req, res, next) {
  *  2. Educator users can only list their own information.
  */
 function getEducatorByIdRules(req, res, next) {
-    console.log('getEducatorByIdRules', req.user.sub_type, req.user.sub, req.params.educator_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -329,7 +322,6 @@ function getEducatorByIdRules(req, res, next) {
  *  2. Educator users can only update their own information.
  */
 function patchEducatorByIdRules(req, res, next) {
-    console.log('patchEducatorByIdRules', req.user.sub_type, req.user.sub, req.params.educator_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -341,8 +333,7 @@ function patchEducatorByIdRules(req, res, next) {
  *  1. Only Educator users can create a ChildrenGroup and for himself.
  */
 function postGroupByEducatorIdRules(req, res, next) {
-    console.log('postGroupByEducatorIdRules', req.user.sub_type, req.user.sub, req.params.educator_id)
-    if (requestGroupByEduIdRules(req)) next()
+    if (!(req.user.sub_type !== UserType.EDUCATOR || !equalUsers(req))) next()
     else errorHandler(403, res)
 }
 
@@ -353,8 +344,7 @@ function postGroupByEducatorIdRules(req, res, next) {
  *  1. Only Educator users can list their own ChildrenGroup data.
  */
 function getGroupsByEducatorIdRules(req, res, next) {
-    console.log('getGroupsByEducatorIdRules', req.user.sub_type, req.user.sub, req.params.educator_id)
-    if (requestGroupByEduIdRules(req)) next()
+    if (!(req.user.sub_type !== UserType.EDUCATOR || !equalUsers(req))) next()
     else errorHandler(403, res)
 }
 
@@ -365,8 +355,8 @@ function getGroupsByEducatorIdRules(req, res, next) {
  *  1. Only Educator users can list a ChildrenGroup data that is their own.
  */
 async function getGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
-    console.log('getGroupByIdAndEducatorIdRules', req.user.sub_type, req.user.sub, req.params.educator_id, req.params.group_id)
-    if (await requestGroupByIdAndEduIdRules(urlBase, req)) next()
+    url = urlBase.concat(`/v1/educators/${req.user.sub}`)
+    if (await requestGroupByIdAndUserIdRules(url, UserType.EDUCATOR, req)) next()
     else errorHandler(403, res)
 }
 
@@ -377,8 +367,8 @@ async function getGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
  *  1. Only Educator users can update a ChildrenGroup data that is their own.
  */
 async function patchGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
-    console.log('patchGroupByIdAndEducatorIdRules', req.user.sub_type, req.user.sub, req.params.educator_id, req.params.group_id)
-    if (await requestGroupByIdAndEduIdRules(urlBase, req)) next()
+    url = urlBase.concat(`/v1/educators/${req.user.sub}`)
+    if (await requestGroupByIdAndUserIdRules(url, UserType.EDUCATOR, req)) next()
     else errorHandler(403, res)
 }
 
@@ -389,8 +379,8 @@ async function patchGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
  *  1. Only Educator users can delete a ChildrenGroup data that is their own.
  */
 async function deleteGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
-    console.log('deleteGroupByIdAndEducatorIdRules', req.user.sub_type, req.user.sub, req.params.educator_id, req.params.group_id)
-    if (await requestGroupByIdAndEduIdRules(urlBase, req)) next()
+    url = urlBase.concat(`/v1/educators/${req.user.sub}`)
+    if (await requestGroupByIdAndUserIdRules(url, UserType.EDUCATOR, req)) next()
     else errorHandler(403, res)
 }
 
@@ -403,7 +393,6 @@ async function deleteGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
  *  2. Health Professional users can only list their own information.
  */
 function getHealthProfByIdRules(req, res, next) {
-    console.log('getHealthProfByIdRules', req.user.sub_type, req.user.sub, req.params.healthprofessional_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -416,7 +405,6 @@ function getHealthProfByIdRules(req, res, next) {
  *  2. Health Professional users can only update their own information.
  */
 function patchHealthProfByIdRules(req, res, next) {
-    console.log('patchHealthProfByIdRules', req.user.sub_type, req.user.sub, req.params.healthprofessional_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -428,8 +416,7 @@ function patchHealthProfByIdRules(req, res, next) {
  *  1. Only HealthProfessional users can create a ChildrenGroup and for himself.
  */
 function postGroupByHealthProfIdRules(req, res, next) {
-    console.log('postGroupByHealthProfIdRules', req.user.sub_type, req.user.sub, req.params.healthprofessional_id)
-    if (requestGroupByHealthProfIdRules(req)) next()
+    if (!(req.user.sub_type !== UserType.HEALTH_PROFESSIONAL || !equalUsers(req))) next()
     else errorHandler(403, res)
 }
 
@@ -440,8 +427,7 @@ function postGroupByHealthProfIdRules(req, res, next) {
  *  1. Only HealthProfessional users can list their own ChildrenGroup data.
  */
 function getGroupsByHealthProfIdRules(req, res, next) {
-    console.log('getGroupsByHealthProfIdRules', req.user.sub_type, req.user.sub, req.params.healthprofessional_id)
-    if (requestGroupByHealthProfIdRules(req)) next()
+    if (!(req.user.sub_type !== UserType.HEALTH_PROFESSIONAL || !equalUsers(req))) next()
     else errorHandler(403, res)
 }
 
@@ -452,8 +438,8 @@ function getGroupsByHealthProfIdRules(req, res, next) {
  *  1. Only HealthProfessional users can list a ChildrenGroup data that is their own.
  */
 async function getGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
-    console.log('getGroupByIdAndHealthProfIdRules', req.user.sub_type, req.user.sub, req.params.healthprofessional_id, req.params.group_id)
-    if (await requestGroupByIdAndHealthProfIdRules(urlBase, req)) next()
+    url = urlBase.concat(`/v1/healthprofessionals/${req.user.sub}`)
+    if (await requestGroupByIdAndUserIdRules(url, UserType.HEALTH_PROFESSIONAL, req)) next()
     else errorHandler(403, res)
 }
 
@@ -464,8 +450,8 @@ async function getGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
  *  1. Only HealthProfessional users can update a ChildrenGroup data that is their own.
  */
 async function patchGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
-    console.log('patchGroupByIdAndHealthProfIdRules', req.user.sub_type, req.user.sub, req.params.healthprofessional_id, req.params.group_id)
-    if (await requestGroupByIdAndHealthProfIdRules(urlBase, req)) next()
+    url = urlBase.concat(`/v1/healthprofessionals/${req.user.sub}`)
+    if (await requestGroupByIdAndUserIdRules(url, UserType.HEALTH_PROFESSIONAL, req)) next()
     else errorHandler(403, res)
 }
 
@@ -476,8 +462,8 @@ async function patchGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
  *  1. Only HealthProfessional users can delete a ChildrenGroup data that is their own.
  */
 async function deleteGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
-    console.log('deleteGroupByIdAndHealthProfIdRules', req.user.sub_type, req.user.sub, req.params.healthprofessional_id, req.params.group_id)
-    if (await requestGroupByIdAndHealthProfIdRules(urlBase, req)) next()
+    url = urlBase.concat(`/v1/healthprofessionals/${req.user.sub}`)
+    if (await requestGroupByIdAndUserIdRules(url, UserType.HEALTH_PROFESSIONAL, req)) next()
     else errorHandler(403, res)
 }
 
@@ -490,7 +476,6 @@ async function deleteGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
  *  2. Application users can only list their own information.
  */
 function getApplicationByIdRules(req, res, next) {
-    console.log('getApplicationByIdRules', req.user.sub_type, req.user.sub, req.params.application_id)
     if (requestByIdRules(req)) next()
     else errorHandler(403, res)
 }
@@ -509,76 +494,25 @@ function equalUsers(req) {
 }
 
 function requestByIdRules(req) {
-    if (req.user.sub_type === UserType.ADMIN) {
-        return true
-    }
-
-    else if (!equalUsers(req)) {
-        return false
-    }
-
-    return true
+    return req.user.sub_type === UserType.ADMIN ? true : equalUsers(req)
 }
 
-function requestGroupByEduIdRules(req) {
-    if (req.user.sub_type !== UserType.EDUCATOR) return false
-
-    else if (!equalUsers(req)) return false
-
-    return true
-}
-
-function requestGroupByIdAndEduIdRules(urlBase, req) {
+function requestGroupByIdAndUserIdRules(url, userType, req) {
     return new Promise((resolve, reject) => {
-        if (req.user.sub_type !== UserType.EDUCATOR) return resolve(false)
+        if (req.user.sub_type !== userType || !equalUsers(req)) return resolve(false)
 
-        else if (!equalUsers(req)) return resolve(false)
-
-        // GET Educator ChildrenGroups to compare your IDs with ID of ChildrenGroup searched
+        // GET User ChildrenGroups to compare your IDs with ID of ChildrenGroup searched
         service
-            .get(urlBase.concat(`/v1/educators/${req.user.sub}`))
+            .get(url)
             .then(result => result.data)
             .then(result => {
-                let hasChildrenGroup = false
                 result.children_groups.forEach(childrenGroup => {
-                    if (childrenGroup.id === req.params.group_id) hasChildrenGroup = true
+                    if (childrenGroup.id === req.params.group_id) return resolve(true)
                 })
-                return resolve(hasChildrenGroup)
-            })
-            .catch(e => {
-                console.log(e.response.data)
                 return resolve(false)
             })
-    })
-}
-
-function requestGroupByHealthProfIdRules(req) {
-    if (req.user.sub_type !== UserType.HEALTH_PROFESSIONAL) return false
-
-    else if (!equalUsers(req)) return false
-
-    return true
-}
-
-function requestGroupByIdAndHealthProfIdRules(urlBase, req) {
-    return new Promise((resolve, reject) =>  {
-        if (req.user.sub_type !== UserType.HEALTH_PROFESSIONAL) return resolve(false)
-
-        else if (!equalUsers(req)) return resolve(false)
-
-        // GET HealthProfessional ChildrenGroups to compare your IDs with ID of ChildrenGroup searched
-        service
-            .get(urlBase.concat(`/v1/healthprofessionals/${req.user.sub}`))
-            .then(result => result.data)
-            .then(result => {
-                let hasChildrenGroup = false
-                result.children_groups.forEach(childrenGroup => {
-                    if (childrenGroup.id === req.params.group_id) hasChildrenGroup = true
-                })
-                return resolve(hasChildrenGroup)
-            })
             .catch(e => {
-                console.log(e.response.data)
+                console.log(url, e.response.data)
                 return resolve(false)
             })
     })
