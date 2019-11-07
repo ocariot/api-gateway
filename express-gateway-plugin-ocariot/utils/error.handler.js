@@ -1,7 +1,14 @@
-module.exports = (code, res) => {
+module.exports = (code, res, req) => {
     let message = {}
     switch (code) {
         case 400:
+            message = {
+                code: 400,
+                message: `There is no registered Child with the ID ${req.params.child_id} on the platform!`,
+                description: 'Please register the Child and try again...'
+            }
+            break
+        case 401:
             message = {
                 code: 401,
                 message: 'UNAUTHORIZED',
