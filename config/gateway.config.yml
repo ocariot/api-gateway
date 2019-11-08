@@ -966,6 +966,7 @@ policies:
   - delete-user-policy
   - request-transformer
   - account-authorization
+  - iot-tracking-authorization
   - log
 
 ####### PIPELINES DEFINITION ########
@@ -1049,6 +1050,10 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - iot-tracking-authorization:
+            action:
+              accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
+              iotTrackingServiceUrlBase: ${ACTIVITY_SERVICE:-https://localhost:4001}
       - request-transformer:
           - action:
               headers:
