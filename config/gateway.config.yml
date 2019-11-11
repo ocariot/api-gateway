@@ -942,7 +942,7 @@ serviceEndpoints:
   accountService:
     url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
   activityService:
-    url: '${ACTIVITY_SERVICE:-https://localhost:4001}'
+    url: '${IOT_TRACKING_SERVICE:-https://localhost:4001}'
   dsAgentService:
     url: '${DS_AGENT_SERVICE:-https://localhost:5001}'
   questionnaireService:
@@ -1053,7 +1053,7 @@ pipelines:
       - iot-tracking-authorization:
             action:
               accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
-              iotTrackingServiceUrlBase: ${ACTIVITY_SERVICE:-https://localhost:4001}
+              iotTrackingServiceUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
       - request-transformer:
           - action:
               headers:
