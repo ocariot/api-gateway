@@ -1,10 +1,9 @@
 {
   "name": "ocariot-api-gateway",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Responsible for providing access to the resources provided by the microservices that make up the OCARIoT platform.",
   "main": "server.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ocariot/api-gateway/.git"
@@ -27,12 +26,8 @@
     "dotenv": "^8.2.0",
     "express-apigw-base-plugin": "git+https://github.com/nutes-uepb/express-apigw-base-plugin.git",
     "express-gateway": "^1.16.9",
+    "express-gateway-plugin-ocariot": "file:express-gateway-plugin-ocariot",
     "swagger-ui-express": "^4.1.2"
   },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^6.2.2",
-    "sinon": "^7.5.0",
-    "supertest": "^4.0.2"
-  }
+  "devDependencies": {}
 }
