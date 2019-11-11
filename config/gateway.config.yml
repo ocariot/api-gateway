@@ -1016,7 +1016,7 @@ pipelines:
       - delete-user-policy:
           - condition:
               name: 'regex-path-method'
-              regexPath: '^(\/v1\/users\/)[a-fA-F0-9]{24}\/{0,1}$'
+              regexPath: '^((\/v1\/users\/)[^\W_]{24}\/{0,1})$'
               method: 'DELETE'
             action:
               urlDeleteService: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/users

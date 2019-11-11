@@ -8,11 +8,11 @@ module.exports = function (actionParams) {
          * ####### USERS #######
          */
         // DELETE /v1/users/{user_id} [users:delete]
-        if (/^(\/v1\/users\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'DELETE') {
+        if (/^(\/v1\/users\/)[^\W_]{1,}\/{0,1}$/.test(req.originalUrl) && req.method === 'DELETE') {
             userDeleteRules(req, res, next)
         }
         // PUT /v1/users/{user_id}/password ['applications:update', 'children:update', 'educators:update', 'families:update', 'healthprofessionals:update']
-        else if (/^(\/v1\/users\/)[a-fA-F0-9]{24}\/password\/{0,1}$/.test(req.originalUrl) && req.method === 'PUT') {
+        else if (/^((\/v1\/users\/)[^\W_]{1,}\/password\/{0,1})$/.test(req.originalUrl) && req.method === 'PUT') {
             userUpdatePassRules(req, res, next)
         }
 
@@ -20,11 +20,11 @@ module.exports = function (actionParams) {
          * ####### INSTITUTIONS #######
          */
         // GET /v1/institutions/{institution_id} ['institutions:read']
-        else if (/^(\/v1\/institutions\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/institutions\/)[^\W_]{24,}\/{0,1})$/.test(req.originalUrl) && req.method === 'GET') {
             getInstitutionByIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
         // PATCH /v1/institutions/{institution_id} ['institutions:update']
-        else if (/^(\/v1\/institutions\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'PATCH') {
+        else if (/^((\/v1\/institutions\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'PATCH') {
             patchInstitutionByIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -32,7 +32,7 @@ module.exports = function (actionParams) {
          * ####### CHILDREN #######
          */
         // GET /v1/children/{child_id} ['children:read']
-        else if (/^(\/v1\/children\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'GET') {
             getChildByIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -40,15 +40,15 @@ module.exports = function (actionParams) {
          * ####### FAMILIES #######
          */
         // GET /v1/families/{family_id} ['families:read']
-        else if (/^(\/v1\/families\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/families\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'GET') {
             getFamilyByIdRules(req, res, next)
         }
         // PATCH /v1/families/{family_id} ['families:update']
-        else if (/^(\/v1\/families\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'PATCH') {
+        else if (/^((\/v1\/families\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'PATCH') {
             patchFamilyByIdRules(req, res, next)
         }
         // GET /v1/families/{family_id}/children ['families:read']
-        else if (/^(\/v1\/families\/)[a-fA-F0-9]{24}\/children/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/families\/)[^\W_]{1,}\/children)/.test(req.originalUrl) && req.method === 'GET') {
             getFamilyChildrenByIdRules(req, res, next)
         }
 
@@ -56,19 +56,19 @@ module.exports = function (actionParams) {
          * ####### EDUCATORS #######
          */
         // GET /v1/educators/{educator_id} ['educators:read']
-        else if (/^(\/v1\/educators\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/educators\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'GET') {
             getEducatorByIdRules(req, res, next)
         }
         // PATCH /v1/educators/{educator_id} ['educators:read']
-        else if (/^(\/v1\/educators\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'PATCH') {
+        else if (/^((\/v1\/educators\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'PATCH') {
             patchEducatorByIdRules(req, res, next)
         }
         // POST /v1/educators/{educator_id}/children/groups ['childrengroups:create']
-        else if (/^(\/v1\/educators\/)[a-fA-F0-9]{24}\/children\/groups\/{0,1}$/.test(req.originalUrl) && req.method === 'POST') {
+        else if (/^((\/v1\/educators\/)[^\W_]{1,}\/children\/groups\/{0,1})$/.test(req.originalUrl) && req.method === 'POST') {
             postGroupByEducatorIdRules(req, res, next)
         }
         // GET /v1/educators/{educator_id}/children/groups/{group_id}
-        else if (/^(\/v1\/educators\/)[a-fA-F0-9]{24}\/children\/groups\/[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl)) {
+        else if (/^((\/v1\/educators\/)[^\W_]{1,}\/children\/groups\/[^\W_]{1,}\/{0,1})$/.test(req.originalUrl)) {
             // ['childrengroups:read']
             if (req.method === 'GET') getGroupByIdAndEducatorIdRules(actionParams.accountServiceUrlBase, req, res, next)
             // ['childrengroups:update']
@@ -77,7 +77,7 @@ module.exports = function (actionParams) {
             else if (req.method === 'DELETE') deleteGroupByIdAndEducatorIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
         // GET /v1/educators/{educator_id}/children/groups ['childrengroups:read']
-        else if (/^(\/v1\/educators\/)[a-fA-F0-9]{24}\/children\/groups/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/educators\/)[^\W_]{1,}\/children\/groups)/.test(req.originalUrl) && req.method === 'GET') {
             getGroupsByEducatorIdRules(req, res, next)
         }
 
@@ -85,19 +85,19 @@ module.exports = function (actionParams) {
          * ####### HEALTHPROFESSIONALS #######
          */
         // GET /v1/healthprofessionals/{healthprofessional_id} ['healthprofessionals:read']
-        else if (/^(\/v1\/healthprofessionals\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/healthprofessionals\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'GET') {
             getHealthProfByIdRules(req, res, next)
         }
         // PATCH /v1/healthprofessionals/{healthprofessional_id} ['healthprofessionals:read']
-        else if (/^(\/v1\/healthprofessionals\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'PATCH') {
+        else if (/^((\/v1\/healthprofessionals\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'PATCH') {
             patchHealthProfByIdRules(req, res, next)
         }
         // POST /v1/healthprofessionals/{healthprofessional_id}/children/groups ['childrengroups:create']
-        else if (/^(\/v1\/healthprofessionals\/)[a-fA-F0-9]{24}\/children\/groups\/{0,1}$/.test(req.originalUrl) && req.method === 'POST') {
+        else if (/^((\/v1\/healthprofessionals\/)[^\W_]{1,}\/children\/groups\/{0,1})$/.test(req.originalUrl) && req.method === 'POST') {
             postGroupByHealthProfIdRules(req, res, next)
         }
         // GET /v1/healthprofessionals/{healthprofessional_id}/children/groups/{group_id}
-        else if (/^(\/v1\/healthprofessionals\/)[a-fA-F0-9]{24}\/children\/groups\/[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl)) {
+        else if (/^((\/v1\/healthprofessionals\/)[^\W_]{1,}\/children\/groups\/[^\W_]{1,}\/{0,1})$/.test(req.originalUrl)) {
             // ['childrengroups:read']
             if (req.method === 'GET') getGroupByIdAndHealthProfIdRules(actionParams.accountServiceUrlBase, req, res, next)
             // ['childrengroups:update']
@@ -106,7 +106,7 @@ module.exports = function (actionParams) {
             else if (req.method === 'DELETE') deleteGroupByIdAndHealthProfIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
         // GET /v1/healthprofessionals/{healthprofessional_id}/children/groups ['childrengroups:read']
-        else if (/^(\/v1\/healthprofessionals\/)[a-fA-F0-9]{24}\/children\/groups/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/healthprofessionals\/)[^\W_]{1,}\/children\/groups)/.test(req.originalUrl) && req.method === 'GET') {
             getGroupsByHealthProfIdRules(req, res, next)
         }
 
@@ -114,12 +114,9 @@ module.exports = function (actionParams) {
          * ####### APPLICATIONS #######
          */
         // GET /v1/applications/{application_id} ['applications:read']
-        else if (/^(\/v1\/applications\/)[a-fA-F0-9]{24}\/{0,1}$/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^((\/v1\/applications\/)[^\W_]{1,}\/{0,1})$/.test(req.originalUrl) && req.method === 'GET') {
             getApplicationByIdRules(req, res, next)
-        }
-
-
-        else {
+        } else {
             next()
         }
     }
@@ -232,9 +229,7 @@ function getChildByIdRules(urlBase, req, res, next) {
         req.user.sub_type !== UserType.FAMILY) {
         next()
         return
-    }
-
-    else if (req.user.sub_type === UserType.CHILD) {
+    } else if (req.user.sub_type === UserType.CHILD) {
         if (!equalUsers(req)) {
             errorHandler(403, res)
             return
