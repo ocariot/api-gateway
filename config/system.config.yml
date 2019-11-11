@@ -8,3 +8,5 @@ db:
 plugins:
   express-apigw-base-plugin:
     package: express-apigw-base-plugin
+  express-gateway-plugin-ocariot:
+    package: express-gateway-plugin-ocariot
