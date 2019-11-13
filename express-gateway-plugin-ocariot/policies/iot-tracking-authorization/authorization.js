@@ -192,7 +192,7 @@ async function getResourceByChildIdRules(urlBase, req, res, next) {
  *
  *  {resource} - Can be Physical Activity, Sleep, Weight, or Body Fat
  */
-async function deleteResourceByChildIdRules(req, res, next) {
+async function deleteResourceByChildIdRules(urlBase, req, res, next) {
     if (await searchChildById(urlBase, req)) {
         if (req.user.sub_type === UserType.APPLICATION) next()
         else if (req.user.sub_type === UserType.EDUCATOR && await isAssociatedChild(urlBase, req)) next()
