@@ -146,13 +146,14 @@ module.exports = function (actionParams) {
  *  {resource} - Can be Physical Activity, Sleep, Weight, or Body Fat
  */
 async function postResourceByChildIdRules(urlBase, req, res, next) {
-    if (await searchChildById(urlBase, req)) {
+    resultSearch = await searchChildById(urlBase, req)
+    if (resultSearch === true) {
         if (req.user.sub_type === UserType.APPLICATION) next()
         else if (req.user.sub_type === UserType.CHILD && req.params.child_id === req.user.sub) next()
         else if (req.user.sub_type === UserType.EDUCATOR && await isAssociatedChild(urlBase, req)) next()
         else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
         else errorHandler(403, res, req)
-    } else errorHandler(400, res, req)
+    } else errorHandler(-1, res, req, resultSearch)
 }
 
 /**
@@ -170,14 +171,15 @@ async function postResourceByChildIdRules(urlBase, req, res, next) {
  *  {resource} - Can be Physical Activity, Sleep, Weight, or Body Fat
  */
 async function getResourceByChildIdRules(urlBase, req, res, next) {
-    if (await searchChildById(urlBase, req)) {
+    resultSearch = await searchChildById(urlBase, req)
+    if (resultSearch === true) {
         if (req.user.sub_type === UserType.ADMIN || req.user.sub_type === UserType.APPLICATION) next()
         else if (req.user.sub_type === UserType.CHILD && req.params.child_id === req.user.sub) next()
         else if ((req.user.sub_type === UserType.EDUCATOR || req.user.sub_type === UserType.HEALTH_PROFESSIONAL)
             && await isAssociatedChild(urlBase, req)) next()
         else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
         else errorHandler(403, res, req)
-    } else errorHandler(400, res, req)
+    } else errorHandler(-1, res, req, resultSearch)
 }
 
 /**
@@ -193,12 +195,13 @@ async function getResourceByChildIdRules(urlBase, req, res, next) {
  *  {resource} - Can be Physical Activity, Sleep, Weight, or Body Fat
  */
 async function deleteResourceByChildIdRules(urlBase, req, res, next) {
-    if (await searchChildById(urlBase, req)) {
+    resultSearch = await searchChildById(urlBase, req)
+    if (resultSearch === true) {
         if (req.user.sub_type === UserType.APPLICATION) next()
         else if (req.user.sub_type === UserType.EDUCATOR && await isAssociatedChild(urlBase, req)) next()
         else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
         else errorHandler(403, res, req)
-    } else errorHandler(400, res, req)
+    } else errorHandler(-1, res, req, resultSearch)
 }
 
 /**
@@ -209,25 +212,21 @@ async function deleteResourceByChildIdRules(urlBase, req, res, next) {
  *     (institution_id present in the request body) as long as that Institution exists.
  */
 async function postEnvironmentRules(urlBase, req, res, next) {
-    if (await searchInstitutionById(urlBase, req)) next()
-    else errorHandler(400, res, req)
+    resultSearch = await searchInstitutionById(urlBase, req)
+    if (resultSearch === true) next()
+    else errorHandler(-1, res, req, resultSearch)
 }
 
 // ####### AUXILIAR FUNCTIONS #######
 function searchChildById(urlBase, req) {
     return new Promise((resolve, reject) => {
         service
-            .get(urlBase.concat(`/v1/children`))
-            .then(result => result.data)
+            .get(urlBase.concat(`/v1/children/${req.params.child_id}`))
             .then(result => {
-                result.forEach(child => {
-                    if (child.id === req.params.child_id) return resolve(true)
-                })
-                return resolve(false)
+                if (result.status === 200) return resolve(true)
             })
             .catch(e => {
-                console.log(e)
-                return resolve(false)
+                return resolve(e.response.data)
             })
     })
 }
@@ -235,17 +234,12 @@ function searchChildById(urlBase, req) {
 function searchInstitutionById(urlBase, req) {
     return new Promise((resolve, reject) => {
         service
-            .get(urlBase.concat(`/v1/institutions`))
-            .then(result => result.data)
+            .get(urlBase.concat(`/v1/institutions/${req.body.institution_id}`))
             .then(result => {
-                result.forEach(institution => {
-                    if (institution.id === req.body.institution_id) return resolve(true)
-                })
-                return resolve(false)
+                if (result.status === 200) return resolve(true)
             })
             .catch(e => {
-                console.log(e)
-                return resolve(false)
+                return resolve(e.response.data)
             })
     })
 }
