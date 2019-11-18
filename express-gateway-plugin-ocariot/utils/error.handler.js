@@ -8,6 +8,12 @@ module.exports = (code, res, req, err) => {
                     message: `There is no registered Child with ID: ${req.params.child_id} on the platform!`,
                     description: 'Please register the Child and try again...'
                 }
+            } else if (req.params.user_id) {
+                message = {
+                    code: 400,
+                    message: `There is no registered Child with ID: ${req.params.user_id} on the platform!`,
+                    description: 'Please register the Child and try again...'
+                }
             } else {
                 message = {
                     code: 400,
