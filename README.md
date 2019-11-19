@@ -6,6 +6,7 @@ OCARIoT Platform APIs Manager. It is responsible for routing requests or blockin
 
 ## Prerequisites
 - [Node 8.0.0+](https://nodejs.org/en/download/)
+- [Redis](https://redis.io/download/)
 
 ## Set the environment variables
 Application settings are defined by environment variables. To define the settings, make a copy of the `.env.example file`, naming for `.env`. After that, open and edit the settings as needed. The following environments variables are available:

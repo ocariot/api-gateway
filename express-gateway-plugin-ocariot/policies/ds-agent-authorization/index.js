@@ -1,8 +1,8 @@
 module.exports = {
-    name: 'iot-tracking-authorization',
+    name: 'ds-agent-authorization',
     policy: require('./authorization'),
     schema: {
-        $id: 'http://express-gateway.io/schemas/policies/iot-tracking-authorization.json',
+        $id: 'http://express-gateway.io/schemas/policies/ds-agent-authorization.json',
         type: 'object',
         properties: {
             accountServiceUrlBase: {
