@@ -967,6 +967,7 @@ policies:
   - request-transformer
   - account-authorization
   - iot-tracking-authorization
+  - ds-agent-authorization
   - log
 
 ####### PIPELINES DEFINITION ########
@@ -1053,7 +1054,6 @@ pipelines:
       - iot-tracking-authorization:
             action:
               accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
-              iotTrackingServiceUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
       - request-transformer:
           - action:
               headers:
@@ -1100,6 +1100,9 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - ds-agent-authorization:
+          action:
+            accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
       - request-transformer:
           - action:
               headers:
