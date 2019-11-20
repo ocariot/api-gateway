@@ -17,7 +17,7 @@ module.exports = (code, res, req, err) => {
             } else {
                 message = {
                     code: 400,
-                    message: `There is no registered Institution with ID: ${req.body.institution_id} on the platform!`,
+                    message: `There is no registered Institution with ID: ${req.params.institution_id} on the platform!`,
                     description: 'Please register the Institution and try again...'
                 }
             }

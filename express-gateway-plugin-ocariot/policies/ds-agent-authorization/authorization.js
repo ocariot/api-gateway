@@ -8,15 +8,15 @@ module.exports = function (actionParams) {
          * ####### USERS.FITBIT.AUTH #######
          */
         // POST /v1/users/{user_id}/fitbit/auth ['external:sync']
-        if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/{0,1}$/.test(req.originalUrl) && req.method === 'POST') {
+        if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/{0,1}$/.test(req.path) && req.method === 'POST') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
         // GET /v1/users/{user_id}/fitbit/auth ['external:sync']
-        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/{0,1}$/.test(req.originalUrl) && req.method === 'GET') {
+        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/{0,1}$/.test(req.path) && req.method === 'GET') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
         // POST /v1/users/{user_id}/fitbit/auth/revoke ['external:sync']
-        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/revoke\/{0,1}$/.test(req.originalUrl) && req.method === 'POST') {
+        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/revoke\/{0,1}$/.test(req.path) && req.method === 'POST') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -24,7 +24,7 @@ module.exports = function (actionParams) {
          * ####### USERS.FITBIT.SYNC #######
          */
         // POST /v1/users/{user_id}/fitbit/sync ['external:sync']
-        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/sync\/{0,1}$/.test(req.originalUrl) && req.method === 'POST') {
+        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/sync\/{0,1}$/.test(req.path) && req.method === 'POST') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         } else {
             next()
@@ -82,7 +82,6 @@ function isAssociatedChild(urlBase, req) {
                     return resolve(false)
                 })
                 .catch(e => {
-                    console.log(e.response.data)
                     return resolve(false)
                 })
         } else {
@@ -99,7 +98,6 @@ function isAssociatedChild(urlBase, req) {
                     return resolve(false)
                 })
                 .catch(e => {
-                    console.log(e.response.data)
                     return resolve(false)
                 })
         }
