@@ -116,7 +116,7 @@ apiEndpoints:
 
   ## ENVIRONMENT ENDPOINTS ##
   environmentPrivateAPI:
-    ### ENVIRONMENTS ###
+    ### ENVIRONMENTS (DEPRECIATED ROUTES) ###
     - host: '*'
       paths: ['/v1/environments']
       methods: ["POST"]
@@ -129,6 +129,27 @@ apiEndpoints:
 
     - host: '*'
       paths: ['/v1/environments/:environment_id']
+      methods: ["DELETE"]
+      scopes: ['environment:delete']
+
+  ### ENVIRONMENTS (NEW ROUTES) ###
+    - host: '*'
+      paths: ['/v1/institutions/:institution_id/environments']
+      methods: ["POST"]
+      scopes: ['environment:create']
+
+    - host: '*'
+      paths: ['/v1/institutions/:institution_id/environments']
+      methods: ["GET"]
+      scopes: ['environment:read']
+
+    - host: '*'
+      paths: ['/v1/institutions/:institution_id/environments']
+      methods: ["DELETE"]
+      scopes: ['environment:delete']
+
+    - host: '*'
+      paths: ['/v1/institutions/:institution_id/environments/:environment_id']
       methods: ["DELETE"]
       scopes: ['environment:delete']
 
