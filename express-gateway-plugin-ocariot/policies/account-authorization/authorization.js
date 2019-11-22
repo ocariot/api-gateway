@@ -56,7 +56,7 @@ module.exports = function (actionParams) {
          * ####### EDUCATORS #######
          */
         // GET /v1/educators/{educator_id} ['educators:read']
-        else if (/^((\/v1\/educators\/)[^\W_]{241,}\/{0,1})$/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/educators\/)[^\W_]{24}\/{0,1})$/.test(req.path) && req.method === 'GET') {
             getEducatorByIdRules(req, res, next)
         }
         // PATCH /v1/educators/{educator_id} ['educators:read']
