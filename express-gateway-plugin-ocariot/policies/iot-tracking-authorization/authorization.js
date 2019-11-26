@@ -8,22 +8,22 @@ module.exports = function (actionParams) {
          * ####### CHILDREN.PHYSICALACTIVITIES #######
          */
         // POST /v1/children/{child_id}/physicalactivities ['physicalactivities:create']
-        if (/^((\/v1\/children\/)[^\W_]{1,}\/physicalactivities\/{0,1})$/.test(req.path) && req.method === 'POST') {
+        if (/^((\/v1\/children\/)[^\W_]{24}\/physicalactivities\/{0,1})$/.test(req.path) && req.method === 'POST') {
             postResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/physicalactivities/{physicalactivity_id} ['physicalactivities:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/physicalactivities\/[^\W_]{1,}\/{0,1})$/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/physicalactivities\/[^\W_]{24}\/{0,1})$/.test(req.path) && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // DELETE /v1/children/{child_id}/physicalactivities/{physicalactivity_id} ['physicalactivities:delete']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/physicalactivities\/[^\W_]{1,}\/{0,1})$/.test(req.path) && req.method === 'DELETE') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/physicalactivities\/[^\W_]{24}\/{0,1})$/.test(req.path) && req.method === 'DELETE') {
             deleteResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/physicalactivities ['physicalactivities:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/physicalactivities)/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/physicalactivities)\/{0,1}$/.test(req.path) && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -31,24 +31,24 @@ module.exports = function (actionParams) {
          * ####### CHILDREN.SLEEP #######
          */
         // POST /v1/children/{child_id}/sleep ['sleep:create']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/sleep\/{0,1})$/.test(req.path) && req.method === 'POST') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/sleep\/{0,1})$/.test(req.path) && req.method === 'POST') {
             postResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/sleep/{sleep_id} ['sleep:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/sleep\/[^\W_]{1,}\/{0,1})$/.test(req.path)
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/sleep\/[^\W_]{24}\/{0,1})$/.test(req.path)
             && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // DELETE /v1/children/{child_id}/sleep/{sleep_id} ['sleep:delete']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/sleep\/[^\W_]{1,}\/{0,1})$/.test(req.path)
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/sleep\/[^\W_]{24}\/{0,1})$/.test(req.path)
             && req.method === 'DELETE') {
             deleteResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/sleep ['sleep:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/sleep)/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/sleep)\/{0,1}$/.test(req.path) && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -56,19 +56,19 @@ module.exports = function (actionParams) {
          * ####### CHILDREN.LOGS #######
          */
         // POST /v1/children/{child_id}/logs/{resource} ['physicalactivities:create']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}(\/logs\/)(steps|calories|active_minutes|lightly_active_minutes|sedentary_minutes)\/{0,1})$/.test(req.path)
+        else if (/^((\/v1\/children\/)[^\W_]{24}(\/logs\/)(steps|calories|active_minutes|lightly_active_minutes|sedentary_minutes)\/{0,1})$/.test(req.path)
             && req.method === 'POST') {
             postResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/logs/date/{date_start}/{date_end} ['physicalactivities:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/logs\/date\/\d{4}-(0[1-9]|1[0-2])-\d\d\/\d{4}-(0[1-9]|1[0-2])-\d\d\/{0,1})$/.test(req.path)
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/logs\/date\/\d{4}-(0[1-9]|1[0-2])-\d\d\/\d{4}-(0[1-9]|1[0-2])-\d\d\/{0,1})$/.test(req.path)
             && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/logs/{resource}/date/{date_start}/{date_end} ['physicalactivities:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}(\/logs\/)(steps|calories|active_minutes|lightly_active_minutes|sedentary_minutes)(\/date\/\d{4}-(0[1-9]|1[0-2])-\d\d\/\d{4}-(0[1-9]|1[0-2])-\d\d)\/{0,1})$/.test(req.path)
+        else if (/^((\/v1\/children\/)[^\W_]{24}(\/logs\/)(steps|calories|active_minutes|lightly_active_minutes|sedentary_minutes)(\/date\/\d{4}-(0[1-9]|1[0-2])-\d\d\/\d{4}-(0[1-9]|1[0-2])-\d\d)\/{0,1})$/.test(req.path)
             && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
@@ -77,22 +77,22 @@ module.exports = function (actionParams) {
          * ####### CHILDREN.WEIGHTS #######
          */
         // POST /v1/children/{child_id}/weights ['measurements:create']
-        else if (/^(\/v1\/children\/)[^\W_]{1,}\/weights\/{0,1}$/.test(req.path) && req.method === 'POST') {
+        else if (/^(\/v1\/children\/)[^\W_]{24}\/weights\/{0,1}$/.test(req.path) && req.method === 'POST') {
             postResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/weights/{weight_id} ['measurements:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/weights\/[^\W_]{1,}\/{0,1})$/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/weights\/[^\W_]{24}\/{0,1})$/.test(req.path) && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // DELETE /v1/children/{child_id}/weights/{weight_id} ['measurements:delete']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/weights\/[^\W_]{1,}\/{0,1})$/.test(req.path) && req.method === 'DELETE') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/weights\/[^\W_]{24}\/{0,1})$/.test(req.path) && req.method === 'DELETE') {
             deleteResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/weights ['measurements:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/weights)/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/weights)\/{0,1}$/.test(req.path) && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -100,22 +100,22 @@ module.exports = function (actionParams) {
          * ####### CHILDREN.BODYFATS #######
          */
         // POST /v1/children/{child_id}/bodyfats ['measurements:create']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/bodyfats\/{0,1})$/.test(req.path) && req.method === 'POST') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/bodyfats\/{0,1})$/.test(req.path) && req.method === 'POST') {
             postResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/bodyfats/{bodyfat_id} ['measurements:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/bodyfats\/[^\W_]{1,}\/{0,1})$/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/bodyfats\/[^\W_]{24}\/{0,1})$/.test(req.path) && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // DELETE /v1/children/{child_id}/bodyfats/{bodyfat_id} ['measurements:delete']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/bodyfats\/[^\W_]{1,}\/{0,1})$/.test(req.path) && req.method === 'DELETE') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/bodyfats\/[^\W_]{24}\/{0,1})$/.test(req.path) && req.method === 'DELETE') {
             deleteResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
         // GET /v1/children/{child_id}/bodyfats ['measurements:read']
-        else if (/^((\/v1\/children\/)[^\W_]{1,}\/bodyfats)/.test(req.path) && req.method === 'GET') {
+        else if (/^((\/v1\/children\/)[^\W_]{24}\/bodyfats)\/{0,1}$/.test(req.path) && req.method === 'GET') {
             getResourceByChildIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -125,10 +125,15 @@ module.exports = function (actionParams) {
         // POST /v1/institutions/{institution_id}/environments ['environment:create']
         // GET /v1/institutions/{institution_id}/environments ['environment:read']
         // DELETE /v1/institutions/{institution_id}/environments ['environment:delete']
-        // DELETE /v1/institutions/{institution_id}/environments/{environment_id} ['environment:delete']
-        else if (/^((\/v1\/institutions\/)[^\W_]{1,}\/environments)/.test(req.path)) {
+        else if (/^((\/v1\/institutions\/)[^\W_]{24}\/environments)\/{0,1}$/.test(req.path)) {
             requestEnvironmentRules(actionParams.accountServiceUrlBase, req, res, next)
-        } else {
+        }
+
+        // DELETE /v1/institutions/{institution_id}/environments/{environment_id} ['environment:delete']
+        else if (/^((\/v1\/institutions\/)[^\W_]{24}\/environments\/[^\W_]{24}\/{0,1})$/.test(req.path)) {
+            requestEnvironmentRules(actionParams.accountServiceUrlBase, req, res, next)
+        }
+        else {
             next()
         }
     }
@@ -149,14 +154,16 @@ module.exports = function (actionParams) {
  *  {resource} - Can be Physical Activity, Sleep, Weight, or Body Fat
  */
 async function postResourceByChildIdRules(urlBase, req, res, next) {
-    resultSearch = await searchChildById(urlBase, req)
-    if (resultSearch === true) {
-        if (req.user.sub_type === UserType.APPLICATION) next()
-        else if (req.user.sub_type === UserType.CHILD && req.params.child_id === req.user.sub) next()
-        else if (req.user.sub_type === UserType.EDUCATOR && await isAssociatedChild(urlBase, req)) next()
-        else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
-        else errorHandler(403, res, req)
-    } else errorHandler(-1, res, req, resultSearch)
+    if (req.user.sub_type === UserType.CHILD && req.params.child_id !== req.user.sub) errorHandler(403, res, req)
+    else {
+        resultSearch = await searchChildById(urlBase, req)
+        if (resultSearch === true) {
+            if (req.user.sub_type === UserType.APPLICATION || req.user.sub_type === UserType.CHILD) next()
+            else if (req.user.sub_type === UserType.EDUCATOR && await isAssociatedChild(urlBase, req)) next()
+            else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
+            else errorHandler(403, res, req)
+        } else errorHandler(-1, res, req, resultSearch)
+    }
 }
 
 /**
@@ -174,15 +181,18 @@ async function postResourceByChildIdRules(urlBase, req, res, next) {
  *  {resource} - Can be Physical Activity, Sleep, Weight, or Body Fat
  */
 async function getResourceByChildIdRules(urlBase, req, res, next) {
-    resultSearch = await searchChildById(urlBase, req)
-    if (resultSearch === true) {
-        if (req.user.sub_type === UserType.ADMIN || req.user.sub_type === UserType.APPLICATION) next()
-        else if (req.user.sub_type === UserType.CHILD && req.params.child_id === req.user.sub) next()
-        else if ((req.user.sub_type === UserType.EDUCATOR || req.user.sub_type === UserType.HEALTH_PROFESSIONAL)
-            && await isAssociatedChild(urlBase, req)) next()
-        else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
-        else errorHandler(403, res, req)
-    } else errorHandler(-1, res, req, resultSearch)
+    if (req.user.sub_type === UserType.CHILD && req.params.child_id !== req.user.sub) errorHandler(403, res, req)
+    else {
+        resultSearch = await searchChildById(urlBase, req)
+        if (resultSearch === true) {
+            if (req.user.sub_type === UserType.ADMIN || req.user.sub_type === UserType.APPLICATION
+                || req.user.sub_type === UserType.CHILD) next()
+            else if ((req.user.sub_type === UserType.EDUCATOR || req.user.sub_type === UserType.HEALTH_PROFESSIONAL)
+                && await isAssociatedChild(urlBase, req)) next()
+            else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
+            else errorHandler(403, res, req)
+        } else errorHandler(-1, res, req, resultSearch)
+    }
 }
 
 /**
