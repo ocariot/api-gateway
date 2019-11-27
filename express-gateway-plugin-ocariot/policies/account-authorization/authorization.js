@@ -346,7 +346,7 @@ function getGroupsByEducatorIdRules(req, res, next) {
  * RULES:
  *  1. Only Educator users can list a ChildrenGroup data that is their own.
  */
-async function getGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
+function getGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
     if (requestGroupByIdAndUserIdRules(UserType.EDUCATOR, req)) next()
     else errorHandler(403, res)
 }
@@ -357,7 +357,7 @@ async function getGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
  * RULES:
  *  1. Only Educator users can update a ChildrenGroup data that is their own.
  */
-async function patchGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
+function patchGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
     if (requestGroupByIdAndUserIdRules(UserType.EDUCATOR, req)) next()
     else errorHandler(403, res)
 }
@@ -368,7 +368,7 @@ async function patchGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
  * RULES:
  *  1. Only Educator users can delete a ChildrenGroup data that is their own.
  */
-async function deleteGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
+function deleteGroupByIdAndEducatorIdRules(urlBase, req, res, next) {
     if (requestGroupByIdAndUserIdRules(UserType.EDUCATOR, req)) next()
     else errorHandler(403, res)
 }
@@ -426,7 +426,7 @@ function getGroupsByHealthProfIdRules(req, res, next) {
  * RULES:
  *  1. Only HealthProfessional users can list a ChildrenGroup data that is their own.
  */
-async function getGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
+function getGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
     if (requestGroupByIdAndUserIdRules(UserType.HEALTH_PROFESSIONAL, req)) next()
     else errorHandler(403, res)
 }
@@ -437,7 +437,7 @@ async function getGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
  * RULES:
  *  1. Only HealthProfessional users can update a ChildrenGroup data that is their own.
  */
-async function patchGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
+function patchGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
     if (requestGroupByIdAndUserIdRules(UserType.HEALTH_PROFESSIONAL, req)) next()
     else errorHandler(403, res)
 }
@@ -448,7 +448,7 @@ async function patchGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
  * RULES:
  *  1. Only HealthProfessional users can delete a ChildrenGroup data that is their own.
  */
-async function deleteGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
+function deleteGroupByIdAndHealthProfIdRules(urlBase, req, res, next) {
     if (requestGroupByIdAndUserIdRules(UserType.HEALTH_PROFESSIONAL, req)) next()
     else errorHandler(403, res)
 }
