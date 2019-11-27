@@ -8,15 +8,15 @@ module.exports = function (actionParams) {
          * ####### USERS.FITBIT.AUTH #######
          */
         // POST /v1/users/{user_id}/fitbit/auth ['external:sync']
-        if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/{0,1}$/.test(req.path) && req.method === 'POST') {
+        if (/^(\/v1\/users\/)[^\W_]{24}\/fitbit\/auth\/{0,1}$/.test(req.path) && req.method === 'POST') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
         // GET /v1/users/{user_id}/fitbit/auth ['external:sync']
-        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/{0,1}$/.test(req.path) && req.method === 'GET') {
+        else if (/^(\/v1\/users\/)[^\W_]{24}\/fitbit\/auth\/{0,1}$/.test(req.path) && req.method === 'GET') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
         // POST /v1/users/{user_id}/fitbit/auth/revoke ['external:sync']
-        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/auth\/revoke\/{0,1}$/.test(req.path) && req.method === 'POST') {
+        else if (/^(\/v1\/users\/)[^\W_]{24}\/fitbit\/auth\/revoke\/{0,1}$/.test(req.path) && req.method === 'POST') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
@@ -24,7 +24,7 @@ module.exports = function (actionParams) {
          * ####### USERS.FITBIT.SYNC #######
          */
         // POST /v1/users/{user_id}/fitbit/sync ['external:sync']
-        else if (/^(\/v1\/users\/)[^\W_]{1,}\/fitbit\/sync\/{0,1}$/.test(req.path) && req.method === 'POST') {
+        else if (/^(\/v1\/users\/)[^\W_]{24}\/fitbit\/sync\/{0,1}$/.test(req.path) && req.method === 'POST') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         } else {
             next()
@@ -44,15 +44,17 @@ module.exports = function (actionParams) {
  *  4. Family user can access one of the mapped routes with any user ID as long as that user (Child) is associated with it.
  */
 async function requestResourceByUserIdRules(urlBase, req, res, next) {
-    resultSearch = await searchChildById(urlBase, req)
-    if (resultSearch === true) {
-        if (req.user.sub_type === UserType.APPLICATION) next()
-        else if (req.user.sub_type === UserType.CHILD && req.params.user_id === req.user.sub) next()
-        else if ((req.user.sub_type === UserType.EDUCATOR || req.user.sub_type === UserType.HEALTH_PROFESSIONAL)
-                  && await isAssociatedChild(urlBase, req)) next()
-        else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
-        else errorHandler(403, res, req)
-    } else errorHandler(-1, res, req, resultSearch)
+    if (req.user.sub_type === UserType.CHILD && req.params.user_id !== req.user.sub) errorHandler(403, res, req)
+    else {
+        resultSearch = await searchChildById(urlBase, req)
+        if (resultSearch === true) {
+            if (req.user.sub_type === UserType.APPLICATION || req.user.sub_type === UserType.CHILD) next()
+            else if ((req.user.sub_type === UserType.EDUCATOR || req.user.sub_type === UserType.HEALTH_PROFESSIONAL)
+                && await isAssociatedChild(urlBase, req)) next()
+            else if (req.user.sub_type === UserType.FAMILY && await isAssociatedChild(urlBase, req)) next()
+            else errorHandler(403, res, req)
+        } else errorHandler(-1, res, req, resultSearch)
+    }
 }
 
 // ####### FUNCTIONS #######
