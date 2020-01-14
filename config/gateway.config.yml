@@ -378,27 +378,27 @@ apiEndpoints:
         - '/v1/q1sociodemographics/:id'
         - '/v1/q1sociodemographics/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['socioquest:read']
 
     - host: '*'
       paths: ['/v1/q1sociodemographics/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['socioquest:update']
 
     - host: '*'
       paths: ['/v1/q1sociodemographics/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['socioquest:delete']
 
     - host: '*'
       paths: ['/v1/q1sociodemographics']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['socioquest:create']
 
     - host: '*'
       paths: ['/v1/q1sociodemographics']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['socioquest:update']
 
     ### Q21CHILDSHEALTHCONDITIONS ###
     - host: '*'
@@ -407,27 +407,27 @@ apiEndpoints:
         - '/v1/q21childshealthconditions/:id'
         - '/v1/q21childshealthconditions/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['healthquest:read']
 
     - host: '*'
       paths: ['/v1/q21childshealthconditions/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['healthquest:update']
 
     - host: '*'
       paths: ['/v1/q21childshealthconditions/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['healthquest:delete']
 
     - host: '*'
       paths: ['/v1/q21childshealthconditions']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['healthquest:create']
 
     - host: '*'
       paths: ['/v1/q21childshealthconditions']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['healthquest:update']
 
     ### Q22PARENTSHEALTHCONDITIONS ###
     - host: '*'
@@ -436,27 +436,27 @@ apiEndpoints:
         - '/v1/q22parentshealthconditions/:id'
         - '/v1/q22parentshealthconditions/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['healthquest:read']
 
     - host: '*'
       paths: ['/v1/q22parentshealthconditions/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['healthquest:update']
 
     - host: '*'
       paths: ['/v1/q22parentshealthconditions/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['healthquest:delete']
 
     - host: '*'
       paths: ['/v1/q22parentshealthconditions']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['healthquest:create']
 
     - host: '*'
       paths: ['/v1/q22parentshealthconditions']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['healthquest:update']
 
     ### Q23IPAQ ###
     - host: '*'
@@ -465,27 +465,27 @@ apiEndpoints:
         - '/v1/q23ipaq/:id'
         - '/v1/q23ipaq/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['parentphyquest:read']
 
     - host: '*'
       paths: ['/v1/q23ipaq/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['parentphyquest:update']
 
     - host: '*'
       paths: ['/v1/q23ipaq/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['parentphyquest:delete']
 
     - host: '*'
       paths: ['/v1/q23ipaq']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['parentphyquest:create']
 
     - host: '*'
       paths: ['/v1/q23ipaq']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['parentphyquest:update']
 
     ### Q3PHYSICALANTHROPOMETRICMEASURES ###
     - host: '*'
@@ -494,27 +494,27 @@ apiEndpoints:
         - '/v1/q3physicalandanthropometricmeasures/:id'
         - '/v1/q3physicalandanthropometricmeasures/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['childrenphyquest:read']
 
     - host: '*'
       paths: ['/v1/q3physicalandanthropometricmeasures/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['childrenphyquest:update']
 
     - host: '*'
       paths: ['/v1/q3physicalandanthropometricmeasures/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['childrenphyquest:delete']
 
     - host: '*'
       paths: ['/v1/q3physicalandanthropometricmeasures']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['childrenphyquest:create']
 
     - host: '*'
       paths: ['/v1/q3physicalandanthropometricmeasures']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['childrenphyquest:update']
 
     ### Q401FOODFREQUENCY ###
     - host: '*'
@@ -523,27 +523,27 @@ apiEndpoints:
         - '/v1/q401ffq/:id'
         - '/v1/q401ffq/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['habitsquest:read']
 
     - host: '*'
       paths: ['/v1/q401ffq/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     - host: '*'
       paths: ['/v1/q401ffq/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['habitsquest:delete']
 
     - host: '*'
       paths: ['/v1/q401ffq']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['habitsquest:create']
 
     - host: '*'
       paths: ['/v1/q401ffq']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     ### Q402FOODHABITSANDFEEDINGBEHAVIOURS ###
     - host: '*'
@@ -552,27 +552,27 @@ apiEndpoints:
         - '/v1/q402foodhabitsandfeedingbehaviors/:id'
         - '/v1/q402foodhabitsandfeedingbehaviors/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['habitsquest:read']
 
     - host: '*'
       paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     - host: '*'
       paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['habitsquest:delete']
 
     - host: '*'
       paths: ['/v1/q402foodhabitsandfeedingbehaviors']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['habitsquest:create']
 
     - host: '*'
       paths: ['/v1/q402foodhabitsandfeedingbehaviors']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     ### Q501PHYSICALACTIVITYFORCHILDREN ###
     - host: '*'
@@ -581,27 +581,27 @@ apiEndpoints:
         - '/v1/q501physicalactivityforchildren/:id'
         - '/v1/q501physicalactivityforchildren/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['habitsquest:read']
 
     - host: '*'
       paths: ['/v1/q501physicalactivityforchildren/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     - host: '*'
       paths: ['/v1/q501physicalactivityforchildren/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['habitsquest:delete']
 
     - host: '*'
       paths: ['/v1/q501physicalactivityforchildren']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['habitsquest:create']
 
     - host: '*'
       paths: ['/v1/q501physicalactivityforchildren']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     ### Q502PHYSICALACTIVITYANDSEDENTARYHABITS ###
     - host: '*'
@@ -610,27 +610,27 @@ apiEndpoints:
         - '/v1/q502physicalactivityandsedentaryhabits/:id'
         - '/v1/q502physicalactivityandsedentaryhabits/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['habitsquest:read']
 
     - host: '*'
       paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     - host: '*'
       paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['habitsquest:delete']
 
     - host: '*'
       paths: ['/v1/q502physicalactivityandsedentaryhabits']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['habitsquest:create']
 
     - host: '*'
       paths: ['/v1/q502physicalactivityandsedentaryhabits']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     ### Q503SLEEPINGHABITS ###
     - host: '*'
@@ -639,27 +639,27 @@ apiEndpoints:
         - '/v1/q503sleepinghabits/:id'
         - '/v1/q503sleepinghabits/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['habitsquest:read']
 
     - host: '*'
       paths: ['/v1/q503sleepinghabits/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     - host: '*'
       paths: ['/v1/q503sleepinghabits/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['habitsquest:delete']
 
     - host: '*'
       paths: ['/v1/q503sleepinghabits']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['habitsquest:create']
 
     - host: '*'
       paths: ['/v1/q503sleepinghabits']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     ### Q601CHILDEATINGBEHAVIOUR ###
     - host: '*'
@@ -668,27 +668,27 @@ apiEndpoints:
         - '/v1/q601childeatingbehaviour/:id'
         - '/v1/q601childeatingbehaviour/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['habitsquest:read']
 
     - host: '*'
       paths: ['/v1/q601childeatingbehaviour/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     - host: '*'
       paths: ['/v1/q601childeatingbehaviour/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['habitsquest:delete']
 
     - host: '*'
       paths: ['/v1/q601childeatingbehaviour']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['habitsquest:create']
 
     - host: '*'
       paths: ['/v1/q601childeatingbehaviour']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['habitsquest:update']
 
     ### Q602AUTOPERCEPTION ###
     - host: '*'
@@ -697,27 +697,27 @@ apiEndpoints:
         - '/v1/q602autoperception/:id'
         - '/v1/q602autoperception/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['perceptionquest:read']
 
     - host: '*'
       paths: ['/v1/q602autoperception/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['perceptionquest:update']
 
     - host: '*'
       paths: ['/v1/q602autoperception/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['perceptionquest:delete']
 
     - host: '*'
       paths: ['/v1/q602autoperception']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['perceptionquest:create']
 
     - host: '*'
       paths: ['/v1/q602autoperception']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['perceptionquest:update']
 
     ### QFOODTRACKING ###
     - host: '*'
@@ -903,27 +903,27 @@ apiEndpoints:
         - '/v1/foodqs/:id'
         - '/v1/foodqs/count'
       methods: ["GET"]
-      scopes: ['foodrecord:read']
+      scopes: ['foodhabitsquest:read']
 
     - host: '*'
       paths: ['/v1/foodqs/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['foodrecord:update']
+      scopes: ['foodhabitsquest:update']
 
     - host: '*'
       paths: ['/v1/foodqs/:id']
       methods: ["DELETE"]
-      scopes: ['foodrecord:delete']
+      scopes: ['foodhabitsquest:delete']
 
     - host: '*'
       paths: ['/v1/foodqs']
       methods: ["POST"]
-      scopes: ['foodrecord:create']
+      scopes: ['foodhabitsquest:create']
 
     - host: '*'
       paths: ['/v1/foodqs']
       methods: ["PATCH"]
-      scopes: ['foodrecord:update']
+      scopes: ['foodhabitsquest:update']
 
   ## MISSIONS ENDPOINTS ##
   missionsPrivateAPI:
