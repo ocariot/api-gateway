@@ -726,27 +726,27 @@ apiEndpoints:
         - '/v1/qfoodtrackings/:id'
         - '/v1/qfoodtrackings/count'
       methods: ["GET"]
-      scopes: ['questionnaires:read']
+      scopes: ['foodtracking:read']
 
     - host: '*'
       paths: ['/v1/qfoodtrackings/:id']
       methods: ["PUT", "PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['foodtracking:update']
 
     - host: '*'
       paths: ['/v1/qfoodtrackings/:id']
       methods: ["DELETE"]
-      scopes: ['questionnaires:delete']
+      scopes: ['foodtracking:delete']
 
     - host: '*'
       paths: ['/v1/qfoodtrackings']
       methods: ["POST"]
-      scopes: ['questionnaires:create']
+      scopes: ['foodtracking:create']
 
     - host: '*'
       paths: ['/v1/qfoodtrackings']
       methods: ["PATCH"]
-      scopes: ['questionnaires:update']
+      scopes: ['foodtracking:update']
 
   ## GAMIFICATION ENDPOINTS ##
   gamificationPrivateAPI:
