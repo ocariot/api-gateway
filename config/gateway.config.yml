@@ -368,6 +368,15 @@ apiEndpoints:
       paths: ['/v1/users/:user_id/fitbit/sync']
       methods: ['POST']
       scopes: ['external:sync']
+      
+  ## Notifications ENDPOINTS ##
+  notificationsAPI:
+    ### NOTIFICATION ###
+    - host: '*'
+      paths:
+        - '/v1/notifications/user/:id'
+      methods: ['POST']
+      scopes: ['notifications:create']
 
   ## FOOD TRACKING AND QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
@@ -974,6 +983,8 @@ serviceEndpoints:
     url: '${MISSION_SERVICE:-https://localhost:7001}'
   foodService:
     url: '${FOOD_SERVICE:-https://localhost:8001}'
+  notificationService:
+    url: '${NOTIFICATION_SERVICE:-https://localhost:9001}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -1091,6 +1102,26 @@ pipelines:
               secure: false
               timeout: 10000
               serviceEndpoint: activityService
+
+  #### Pipelines to manage data coming from ACTIVITY PRIVATE and PUBLIC APIs ####
+  notificationPrivatePipeline:
+    apiEndpoints: ['notificationsAPI']
+    policies:
+      - body-parser-policy:
+      - jwt-policy:
+          - action:
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
+              issuer: ${ISSUER:-ocariot}
+      - jwtScopes-policy:
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              secure: false
+              timeout: 10000
+              serviceEndpoint: notificationService
 
   #### Pipelines to manage data coming from DATA SYNC AGENT PRIVATE and PUBLIC APIs ####
   dsAgentPublicPipeline:
