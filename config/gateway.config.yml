@@ -1103,7 +1103,7 @@ pipelines:
               timeout: 10000
               serviceEndpoint: activityService
 
-  #### Pipelines to manage data coming from ACTIVITY PRIVATE and PUBLIC APIs ####
+  #### Pipelines to manage data coming from Notification PRIVATE and PUBLIC APIs ####
   notificationPrivatePipeline:
     apiEndpoints: ['notificationsAPI']
     policies:
