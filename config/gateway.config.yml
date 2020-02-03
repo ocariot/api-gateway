@@ -1295,12 +1295,22 @@ pipelines:
   notificationPrivatePipeline:
     apiEndpoints: ['notificationsPrivateAPI']
     policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
       - jwt-policy:
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
               prependPath:  true
