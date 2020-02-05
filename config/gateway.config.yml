@@ -339,12 +339,6 @@ apiEndpoints:
       scopes: ['institutions:delete']
 
   ## DATA SYNC AGENT ENDPOINTS ##
-  dsAgentPublicApi:
-    ### FITBIT.SUBSCRIBER ###
-    - host: '*'
-      paths: ['/v1/fitbit/subscriber']
-      methods: ['GET', 'POST']
-
   dsAgentPrivateApi:
     ### FITBIT ###
     - host: '*'
@@ -1123,22 +1117,6 @@ pipelines:
               serviceEndpoint: activityService
 
   #### Pipelines to manage data coming from DATA SYNC AGENT PRIVATE and PUBLIC APIs ####
-  dsAgentPublicPipeline:
-    apiEndpoints: ['dsAgentPublicApi']
-    policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
-      - proxy:
-          - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
-              serviceEndpoint: dsAgentService
-
   dsAgentPrivatePipeline:
     apiEndpoints: ['dsAgentPrivateApi']
     policies:
