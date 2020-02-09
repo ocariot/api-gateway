@@ -339,12 +339,6 @@ apiEndpoints:
       scopes: ['institutions:delete']
 
   ## DATA SYNC AGENT ENDPOINTS ##
-  dsAgentPublicApi:
-    ### FITBIT.SUBSCRIBER ###
-    - host: '*'
-      paths: ['/v1/fitbit/subscriber']
-      methods: ['GET', 'POST']
-
   dsAgentPrivateApi:
     ### FITBIT ###
     - host: '*'
@@ -363,12 +357,13 @@ apiEndpoints:
       methods: ['POST']
       scopes: ['external:sync']
 
+  dsAgentFitbitSyncPrivateApi:
     ### USERS.FITBIT.SYNC ###
     - host: '*'
       paths: ['/v1/users/:user_id/fitbit/sync']
       methods: ['POST']
       scopes: ['external:sync']
-      
+
   ## FOOD TRACKING AND QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
     ### Q1SOCIODEMOGRAPHIC ###
@@ -1123,22 +1118,6 @@ pipelines:
               serviceEndpoint: activityService
 
   #### Pipelines to manage data coming from DATA SYNC AGENT PRIVATE and PUBLIC APIs ####
-  dsAgentPublicPipeline:
-    apiEndpoints: ['dsAgentPublicApi']
-    policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
-      - proxy:
-          - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
-              serviceEndpoint: dsAgentService
-
   dsAgentPrivatePipeline:
     apiEndpoints: ['dsAgentPrivateApi']
     policies:
@@ -1161,6 +1140,47 @@ pipelines:
                   Ocariot-User-Id: req.user.sub
                   Ocariot-User-type: req.user.sub_type
                   Ocariot-User-Scope: req.user.scope
+      - proxy:
+          - action:
+              prependPath:  true
+              ignorePath:   false
+              stripPath:    false
+              changeOrigin: true
+              secure: false
+              timeout: 10000
+              serviceEndpoint: dsAgentService
+
+  dsAgentFitbitSyncPrivatePipeline:
+    apiEndpoints: ['dsAgentFitbitSyncPrivateApi']
+    policies:
+      - log:
+          action:
+            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - body-parser-policy:
+      - jwt-policy:
+          - action:
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
+              issuer: ${ISSUER:-ocariot}
+      - jwtScopes-policy:
+      - ds-agent-authorization:
+          action:
+            accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
+      - request-transformer:
+          - action:
+              headers:
+                add:
+                  Ocariot-User-Id: req.user.sub
+                  Ocariot-User-type: req.user.sub_type
+                  Ocariot-User-Scope: req.user.scope
+      - rate-limit:
+        - action:
+            max: 10
+            windowMs: 3600000
+            rateLimitBy: "${req.hostname} ${req.params.user_id}"
+            statusCode: 429
+            message: 'Synchronization limit per hour exceeded for child. Please try again later...'
+            headers: true
+            delayMs: 0
       - proxy:
           - action:
               prependPath:  true
