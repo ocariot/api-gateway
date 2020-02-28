@@ -132,7 +132,7 @@ apiEndpoints:
       methods: ["DELETE"]
       scopes: ['environment:delete']
 
-  ### ENVIRONMENTS (NEW ROUTES) ###
+    ### ENVIRONMENTS (NEW ROUTES) ###
     - host: '*'
       paths: ['/v1/institutions/:institution_id/environments']
       methods: ["POST"]
@@ -995,10 +995,20 @@ apiEndpoints:
       methods: ['POST']
       scopes: ['notifications:create']
 
+  ## VAULT ##
+  vault:
+    host: ${VAULT_HOSTNAME:-vault.localhost}
+
+  ## RABBIT MANAGEMENT ##
+  rabbit:
+    host: ${RABBIT_MGT_HOSTNAME:-rabbit.localhost}
+
+  ## MONITOR/GRAFANA ##
+  monitor:
+    host: ${MONITOR_HOSTNAME:-monitor.localhost}
+
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
-  gatewayService:
-    url: '${API_GATEWAY_SERVICE:-https://localhost:8081}'
   accountService:
     url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
   activityService:
@@ -1015,6 +1025,12 @@ serviceEndpoints:
     url: '${FOOD_SERVICE:-https://localhost:9001}'
   notificationService:
     url: '${NOTIFICATION_SERVICE:-https://localhost:10001}'
+  vaultService:
+    url: '${VAULT_SERVICE:-https://localhost:8200}'
+  rabbitManagementService:
+    url: '${RABBIT_MGT_SERVICE:-https://localhost:15671}'
+  monitorService:
+    url: '${MONITOR_SERVICE:-https://localhost:3200}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -1030,7 +1046,6 @@ policies:
   - account-authorization
   - iot-tracking-authorization
   - ds-agent-authorization
-  - log
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -1038,7 +1053,7 @@ pipelines:
   accountPublicPipeline:
     apiEndpoints: ['accountPublicApi']
     policies:
-      - log:
+      - log: &log
           action:
             message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
       - body-parser-policy:
@@ -1052,7 +1067,7 @@ pipelines:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - proxy:
-          - action:
+          - action: &proxy
               prependPath:  true
               ignorePath:   false
               stripPath:    false
@@ -1064,18 +1079,16 @@ pipelines:
   accountPrivatePipeline:
     apiEndpoints: ['accountPrivateApi']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
+      - jwt-policy: &jwt
           - action:
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
               issuer: ${ISSUER:-ocariot}
       - jwtScopes-policy:
       - account-authorization:
-            action:
-              accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
+          action:
+            accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
       - delete-user-policy:
           - condition:
               name: 'regex-path-method'
@@ -1083,7 +1096,7 @@ pipelines:
               method: 'DELETE'
             action:
               urlDeleteService: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/users
-      - request-transformer:
+      - request-transformer: &req-transformer
           - action:
               headers:
                 add:
@@ -1092,267 +1105,162 @@ pipelines:
                   Ocariot-User-Scope: req.user.scope
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: accountService
 
   #### Pipelines to manage data coming from ACTIVITY PRIVATE and PUBLIC APIs ####
   activityPrivatePipeline:
     apiEndpoints: ['activityPrivateApi', 'environmentPrivateAPI']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
       - iot-tracking-authorization:
-            action:
-              accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+          action:
+            accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
+      - request-transformer: *req-transformer
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: activityService
 
   #### Pipelines to manage data coming from DATA SYNC AGENT PRIVATE and PUBLIC APIs ####
   dsAgentPrivatePipeline:
     apiEndpoints: ['dsAgentPrivateApi']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
-      - ds-agent-authorization:
+      - ds-agent-authorization: &ds-agent-authorization
           action:
             accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+      - request-transformer: *req-transformer
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: dsAgentService
 
   dsAgentFitbitSyncPrivatePipeline:
     apiEndpoints: ['dsAgentFitbitSyncPrivateApi']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
-      - ds-agent-authorization:
-          action:
-            accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+      - ds-agent-authorization: *ds-agent-authorization
+      - request-transformer: *req-transformer
       - rate-limit:
-        - action:
-            max: 10
-            windowMs: 3600000
-            rateLimitBy: "${req.hostname} ${req.params.user_id}"
-            statusCode: 429
-            message: 'Synchronization limit per hour exceeded for child. Please try again later...'
-            headers: true
-            delayMs: 0
+          - action:
+              max: 10
+              windowMs: 3600000
+              rateLimitBy: "${req.hostname} ${req.params.user_id}"
+              statusCode: 429
+              message: 'Synchronization limit per hour exceeded for child. Please try again later...'
+              headers: true
+              delayMs: 0
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: dsAgentService
 
   #### Pipelines to manage data coming from QUESTIONNAIRES PRIVATE and PUBLIC APIs ####
   questionnairesPrivatePipeline:
     apiEndpoints: ['questionnairesPrivateAPI']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+      - request-transformer: *req-transformer
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: questionnaireService
 
   #### Pipelines to manage data coming from GAMIFICATION PRIVATE and PUBLIC APIs ####
   gamificationPrivatePipeline:
     apiEndpoints: ['gamificationPrivateAPI']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+      - request-transformer: *req-transformer
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: gamificationService
 
   #### Pipelines to manage data coming from MISSIONS PRIVATE and PUBLIC APIs ####
   missionsPrivatePipeline:
     apiEndpoints: ['missionsPrivateAPI']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+      - request-transformer: *req-transformer
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: missionsService
 
   #### Pipelines to manage data coming from FOOD HABITS PRIVATE and PUBLIC APIs ####
   foodPrivatePipeline:
     apiEndpoints: ['foodPrivateApi']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+      - request-transformer: *req-transformer
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: foodService
 
   #### Pipelines to manage data coming from NOTIFICATION PRIVATE and PUBLIC APIs ####
   notificationPrivatePipeline:
     apiEndpoints: ['notificationsPrivateAPI']
     policies:
-      - log:
-          action:
-            message: ${req.connection.remoteAddress} - "${req.method} ${req.originalUrl} HTTP/${req.httpVersion}" - "${req.headers['user-agent']}"
+      - log: *log
       - body-parser-policy:
-      - jwt-policy:
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
-      - request-transformer:
-          - action:
-              headers:
-                add:
-                  Ocariot-User-Id: req.user.sub
-                  Ocariot-User-type: req.user.sub_type
-                  Ocariot-User-Scope: req.user.scope
+      - request-transformer: *req-transformer
       - proxy:
           - action:
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
-              changeOrigin: true
-              secure: false
-              timeout: 10000
+              <<: *proxy
               serviceEndpoint: notificationService
+
+  #### Pipelines from VAULT ####
+  vaultPipeline:
+    apiEndpoints: ['vault']
+    policies:
+      - log: *log
+      - proxy:
+          - action:
+              <<: *proxy
+              serviceEndpoint: vaultService
+
+  #### Pipelines from RABBIT MANAGEMENT ####
+  rabbitPipeline:
+    apiEndpoints: ['rabbit']
+    policies:
+      - log: *log
+      - proxy:
+          - action:
+              <<: *proxy
+              serviceEndpoint: rabbitManagementService
+
+  #### Pipelines from MONITOR/GRAFANA ####
+  monitorPipeline:
+    apiEndpoints: ['monitor']
+    policies:
+      - log: *log
+      - proxy:
+          - action:
+              <<: *proxy
+              serviceEndpoint: monitorService

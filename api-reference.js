@@ -29,8 +29,11 @@ module.exports = function (app) {
         customSiteTitle: 'API Reference | OCARIoT'
     }
 
-    app.get('/', (req, res) => {
-        res.redirect('/v1/reference')
+    app.get('/', (req, res, next) => {
+        if (req.hostname === (process.env.API_GATEWAY_HOSTNAME || '')) {
+            return res.redirect('/v1/reference')
+        }
+        next()
     })
 
     app.use('/v1/reference', swaggerUi.serve, (req, res) => {
