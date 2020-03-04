@@ -14,9 +14,10 @@ Application settings are defined by environment variables. To define the setting
 | VARIABLE | DESCRIPTION  | DEFAULT |
 |-----|-----|-----|
 | `NODE_ENV` | Defines the environment in which the application runs. You can set: `test` _(in this environment, the database defined in `MONGODB_URI_TEST` is used and the logs are disabled for better visualization of the test output)_, `development` _(in this environment, all log levels are enabled)_ and `production` _(in this environment, only the warning and error logs are enabled)_. | `development` |
-| `API_GATEWAY_SERVICE` | URI used to connect to the API Gateway public API.  | `https://localhost:443` |
 | `PORT_HTTP` | Port used by the API GATEWAY service to listen for HTTP request. | `80` |
 | `PORT_HTTPS` | Port used by the API GATEWAY service to listen for HTTPS request. | `443` |
+| `API_GATEWAY_HOSTNAME` | API Gateway Hostname. | `localhost` |
+| `RABBIT_MGT_HOSTNAME` | RabbitMQ Management hostname. | `rabbit.localhost` |
 | `ISSUER` | The issuer used to validate the JWT token sent for requests. The value must be provided by the Account service that generates the token. | `ocariot` |
 | `SSL_KEY_PATH` | SSL/TLS certificate private key. | `.certs/server.key` |
 | `SSL_CERT_PATH` | SSL/TLS certificate. | `.certs/server.crt` |
@@ -26,10 +27,13 @@ Application settings are defined by environment variables. To define the setting
 | `DS_AGENT_SERVICE` | URI used to connect to the Data Sync Agent service. | `https://localhost:5001` |
 | `QUESTIONNAIRE_SERVICE` | URI used to connect to the Questinnaire service. | `https://localhost:6001` |
 | `GAMIFICATION_SERVICE` | URI used to connect to the Gamification service. | `https://localhost:7001` |
-| `FOOD_SERVICE` | URI used to connect to the Food service. | `https://localhost:8001` |
+| `MISSION_SERVICE` | URI used to connect to the Mission service. | `https://localhost:8001` |
+| `FOOD_SERVICE` | URI used to connect to the Food service. | `https://localhost:9001` |
+| `NOTIFICATION_SERVICE` | URI used to connect to the Notification service. | `https://localhost:10001` |
+| `RABBIT_MGT_SERVICE` | URI used to connect to the RabbitMQ Management. | `https://localhost:15672` |
 | `EMULATE_REDIS` | Signals whether the redis bank will be emulated or not. | `true` |
 | `PORT_REDIS` | Redis instance port. | `6379` |
-| `PORT_REDIS` | Redis instance hostname. | `localhost` |
+| `HOST_REDIS` | Redis instance hostname. | `localhost` |
 
 
 

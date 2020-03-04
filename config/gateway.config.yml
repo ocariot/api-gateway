@@ -938,14 +938,14 @@ apiEndpoints:
 
     - host: '*'
       paths:
-        - '/v1/observations/observations-severities/:userId' ### MISSION SELECTION ###
+        - '/v1/observations/observations-severities/:childId' ### MISSION SELECTION ###
         - '/v1/observations/analyze-results/:childId' ### MISSION SELECTION ###
         - '/v1/observations/get-completed-missions/:childId' ### MISSION SELECTION ###
         - '/v1/observations/get-active-missions/:childId' ### MISSION SELECTION ###
         - '/v1/observations/get-all-missions/:childId' ### MISSION SELECTION ###
         - '/v1/observations/get-stratification/:childId' ### MISSION SELECTION ###
         - '/v1/observations/get-questionnaires'  ### DSS ###
-        - '​/v1/observations/get-week-questionnaires​/:childId'  ### DSS ###
+        - '/v1/observations/get-week-questionnaires/:childId'  ### DSS ###
         - '/v1/robot-result/food-recognition/:childId' ### ROBOT ###
         - '/v1/robot-result/mission/:childId' ### ROBOT ###
         - '/v1/educator-missions/' ### EDUCATOR MISSIONS ###
@@ -1007,6 +1007,10 @@ apiEndpoints:
   monitor:
     host: ${MONITOR_HOSTNAME:-monitor.localhost}
 
+  ## PORTAINER MANAGEMENT ##
+  manager:
+    host: ${MANAGER_HOSTNAME:-monitor.localhost}
+
 ####### SERVICE ENDPOINTS DEFINITIONS ########
 serviceEndpoints:
   accountService:
@@ -1031,6 +1035,8 @@ serviceEndpoints:
     url: '${RABBIT_MGT_SERVICE:-https://localhost:15671}'
   monitorService:
     url: '${MONITOR_SERVICE:-https://localhost:3200}'
+  managerService:
+    url: '${MANAGER_SERVICE:-https://localhost:9000}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -1264,3 +1270,13 @@ pipelines:
           - action:
               <<: *proxy
               serviceEndpoint: monitorService
+
+  #### Pipelines from RABBIT MANAGEMENT ####
+  managerPipeline:
+    apiEndpoints: ['manager']
+    policies:
+      - log: *log
+      - proxy:
+          - action:
+              <<: *proxy
+              serviceEndpoint: managerService
