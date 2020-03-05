@@ -20,6 +20,11 @@ apiEndpoints:
       paths: ['/v1/auth']
       methods: ['POST']
 
+  accountScopesApi:
+    - host: 'localhost'
+      paths: ['/v1/users/types/:user_type/scopes']
+      methods: ['POST']
+
   ## ACTIVITY TRACKING ENDPOINTS ##
   activityPrivateApi:
     ### USERS.CHILDREN.PHYSICALACTIVITIES ###
@@ -1080,6 +1085,16 @@ pipelines:
               changeOrigin: true
               timeout: 10000
               secure: false
+              serviceEndpoint: accountService
+
+  accountScopesPipeline:
+    apiEndpoints: ['accountScopesApi']
+    policies:
+      - log: *log
+      - body-parser-policy:
+      - proxy:
+          - action:
+              <<: *proxy
               serviceEndpoint: accountService
 
   accountPrivatePipeline:
