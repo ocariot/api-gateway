@@ -961,6 +961,18 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['missions:read']
 
+    - host: '*'
+      paths:
+        - '/v1/educator-missions/:missionId' ### EDUCATOR MISSIONS ###
+      methods: ["PUT"]
+      scopes: ['missions:update']
+
+    - host: '*'
+      paths:
+        - '/v1/educator-missions/:missionId' ### EDUCATOR MISSIONS ###
+      methods: ["DELETE"]
+      scopes: ['missions:delete']
+
   ## FOOD HABITS ENDPOINTS ##
   foodPrivateApi:
     - host: '*'
