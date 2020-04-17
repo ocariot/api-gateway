@@ -1012,6 +1012,18 @@ apiEndpoints:
       methods: ['POST']
       scopes: ['notifications:create']
 
+    - host: '*'
+      paths:
+        - '/v1/notifications/pendingnotification/:id'
+      methods: ['GET']
+      scopes: ['notifications:read']
+
+    - host: '*'
+      paths:
+        - '/v1/notifications/deletetoken/:id'
+      methods: ['DELETE']
+      scopes: ['notifications:delete']
+
   ## VAULT ##
   vault:
     host: ${VAULT_HOSTNAME:-vault.localhost}
