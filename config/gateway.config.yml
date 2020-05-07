@@ -1021,7 +1021,7 @@ apiEndpoints:
     - host: '*'
       paths:
         - '/v1/notifications/deletetoken/:id'
-      methods: ['DELETE']
+      methods: ['PATCH']
       scopes: ['notifications:delete']
 
   ## VAULT ##
