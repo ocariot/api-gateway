@@ -1,6 +1,6 @@
 {
   "name": "ocariot-api-gateway",
-  "version": "2.11.1",
+  "version": "2.12.0",
   "description": "Responsible for providing access to the resources provided by the microservices that make up the OCARIoT platform.",
   "main": "server.js",
   "scripts": {},
