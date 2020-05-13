@@ -934,6 +934,7 @@ apiEndpoints:
         - '/v1/observations/answer-question/:childId' ### MISSION SELECTION ###
         - '/v1/robot-result' ### ROBOT ###
         - '/v1/robot-result/food-recognition' ### ROBOT ###
+        - '/v1/baseline/baseline-questionnaire' ### BASELINE
         - '/v1/educator-missions/' ### EDUCATOR MISSIONS ###
         - '/v1/educator-missions/activate' ### EDUCATOR MISSIONS ###
         - '/v1/educator-missions/validate' ### EDUCATOR MISSIONS ###
