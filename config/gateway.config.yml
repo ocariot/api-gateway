@@ -5,114 +5,122 @@ https:
   port: ${PORT_HTTPS:-443}
   hostname: '0.0.0.0'
   tls:
+    ${API_IOT_HOSTNAME}:
+      key: ${SSL_IOT_KEY_PATH}
+      cert: ${SSL_IOT_CERT_PATH}
+      ca:
+        - ${SSL_IOT_CA_PATH}
     "default":
-      key: ${SSL_KEY_PATH:-./.certs/server.key}
-      cert: ${SSL_CERT_PATH:-./.certs/server.crt}
+      key: ${SSL_KEY_PATH}
+      cert: ${SSL_CERT_PATH}
+  options:
+    requestCert: true
+    rejectUnauthorized: false
 
-# API ENDPOINTS DEFINITION #
-
-## GATEWAY CUSTOM ENDPOINT ##
 apiEndpoints:
   ## ACCOUNT ENDPOINTS ##
   accountPublicApi:
     ### AUTH ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/auth']
       methods: ['POST']
 
-  accountScopesApi:
-    - host: 'localhost'
-      paths: ['/v1/users/types/:user_type/scopes']
-      methods: ['POST']
+  ## IoT DEVICES ENDPOINTS ##
+  iotPrivateApi:
+    - host: ${API_IOT_HOSTNAME}
+      paths:
+        - '/v1/institutions/:institution_id/environments'
+        - '/v1/children/:username/weights'
+      methods: ["POST"]
 
   ## ACTIVITY TRACKING ENDPOINTS ##
   activityPrivateApi:
     ### USERS.CHILDREN.PHYSICALACTIVITIES ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/physicalactivities'
       methods: ["POST"]
       scopes: ['physicalactivities:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/physicalactivities'
         - '/v1/children/:child_id/physicalactivities/:physicalactivity_id'
       methods: ["GET"]
       scopes: ['physicalactivities:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/physicalactivities/:physicalactivity_id']
       methods: ["PATCH"]
       scopes: ['physicalactivities:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/physicalactivities/:physicalactivity_id']
       methods: ["DELETE"]
       scopes: ['physicalactivities:delete']
 
     ### USERS.CHILDREN.LOGS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/logs/date/:date_start/:date_end']
       methods: ["GET"]
       scopes: ['physicalactivities:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/logs/:resource/date/:date_start/:date_end']
       methods: ["GET"]
       scopes: ['physicalactivities:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/logs/:resource']
       methods: ["POST"]
       scopes: ['physicalactivities:create']
 
     ### USERS.CHILDREN.SLEEP ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/sleep']
       methods: ["POST"]
       scopes: ['sleep:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/sleep'
         - '/v1/children/:child_id/sleep/:sleep_id'
       methods: ["GET"]
       scopes: ['sleep:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/sleep/:sleep_id']
       methods: ["PATCH"]
       scopes: ['sleep:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id/sleep/:sleep_id']
       methods: ["DELETE"]
       scopes: ['sleep:delete']
 
     ### USERS.CHILDREN.WEIGHT / USERS.CHILDREN.BODYFAT ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/weights'
         - '/v1/children/:child_id/bodyfats'
       methods: ["POST"]
       scopes: ['measurements:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/weights'
         - '/v1/children/:child_id/bodyfats'
       methods: ["GET"]
       scopes: ['measurements:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/weights/:weight_id'
         - '/v1/children/:child_id/bodyfats/:bodyfat_id'
       methods: ["GET"]
       scopes: ['measurements:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/weights/:weight_id'
         - '/v1/children/:child_id/bodyfats/:bodyfat_id'
@@ -121,159 +129,142 @@ apiEndpoints:
 
   ## ENVIRONMENT ENDPOINTS ##
   environmentPrivateAPI:
-    ### ENVIRONMENTS (DEPRECIATED ROUTES) ###
-    - host: '*'
-      paths: ['/v1/environments']
-      methods: ["POST"]
-      scopes: ['environment:create']
-
-    - host: '*'
-      paths: ['/v1/environments']
-      methods: ["GET"]
-      scopes: ['environment:read']
-
-    - host: '*'
-      paths: ['/v1/environments/:environment_id']
-      methods: ["DELETE"]
-      scopes: ['environment:delete']
-
-    ### ENVIRONMENTS (NEW ROUTES) ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions/:institution_id/environments']
       methods: ["POST"]
       scopes: ['environment:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions/:institution_id/environments']
       methods: ["GET"]
       scopes: ['environment:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions/:institution_id/environments']
       methods: ["DELETE"]
       scopes: ['environment:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions/:institution_id/environments/:environment_id']
       methods: ["DELETE"]
       scopes: ['environment:delete']
 
   accountPrivateApi:
     ### USERS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/users/:user_id']
       methods: ['DELETE']
       scopes: ['users:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/users/:user_id/password']
       methods: ['PUT']
       scopes: ['applications:update', 'children:update', 'educators:update', 'families:update', 'healthprofessionals:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/users/:user_id/reset-password']
       methods: ['POST']
       scopes: ['users:resetPassword']
 
     ### USERS.CHILDREN ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children']
       methods: ['POST']
       scopes: ['children:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children']
       methods: ['GET']
       scopes: ['children:readAll']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id']
       methods: ['GET']
       scopes: ['children:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/children/:child_id']
       methods: ['PATCH']
       scopes: ['children:update']
 
     ### USERS.EDUCATORS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/educators']
       methods: ['POST']
       scopes: ['educators:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/educators']
       methods: ['GET']
       scopes: ['educators:readAll']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/educators/:educator_id']
       methods: ['GET']
       scopes: ['educators:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/educators/:educator_id']
       methods: ['PATCH']
       scopes: ['educators:update']
 
     ### USERS.FAMILIES || USERS.FAMILIES.CHILDREN ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/families', '/v1/families/:family_id/children/:child_id']
       methods: ['POST']
       scopes: ['families:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/families']
       methods: ['GET']
       scopes: ['families:readAll']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/families/:family_id', '/v1/families/:family_id/children']
       methods: ['GET']
       scopes: ['families:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/families/:family_id']
       methods: ['PATCH']
       scopes: ['families:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/families/:family_id/children/:child_id'
       methods: ['DELETE']
       scopes: ['families:delete']
 
     ### USERS.HEALTHPROFESSIONALS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/healthprofessionals']
       methods: ['POST']
       scopes: ['healthprofessionals:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/healthprofessionals']
       methods: ['GET']
       scopes: ['healthprofessionals:readAll']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/healthprofessionals/:healthprofessional_id']
       methods: ['GET']
       scopes: ['healthprofessionals:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/healthprofessionals/:healthprofessional_id']
       methods: ['PATCH']
       scopes: ['healthprofessionals:update']
 
     ### USERS.EDUCATORS.CHILDREN.GROUPS || USERS.HEALTHPROFESSIONALS.CHILDREN.GROUPS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/educators/:educator_id/children/groups'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups'
       methods: ['POST']
       scopes: ['childrengroups:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/educators/:educator_id/children/groups'
         - '/v1/educators/:educator_id/children/groups/:group_id'
@@ -282,14 +273,14 @@ apiEndpoints:
       methods: ['GET']
       scopes: ['childrengroups:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/educators/:educator_id/children/groups/:group_id'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
       methods: ['PATCH']
       scopes: ['childrengroups:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/educators/:educator_id/children/groups/:group_id'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
@@ -297,48 +288,48 @@ apiEndpoints:
       scopes: ['childrengroups:delete']
 
     ### USERS.APPLICATIONS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/applications']
       methods: ['POST']
       scopes: ['applications:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/applications']
       methods: ['GET']
       scopes: ['applications:readAll']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/applications/:application_id']
       methods: ['GET']
       scopes: ['applications:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/applications/:application_id']
       methods: ['PATCH']
       scopes: ['applications:update']
 
     ### INSTITUTIONS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions']
       methods: ['POST']
       scopes: ['institutions:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions']
       methods: ['GET']
       scopes: ['institutions:readAll']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions/:institution_id']
       methods: ['GET']
       scopes: ['institutions:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions/:institution_id']
       methods: ['PATCH']
       scopes: ['institutions:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/institutions/:institution_id']
       methods: ['DELETE']
       scopes: ['institutions:delete']
@@ -346,25 +337,25 @@ apiEndpoints:
   ## DATA SYNC AGENT ENDPOINTS ##
   dsAgentPrivateApi:
     ### FITBIT ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/fitbit']
       methods: ['GET']
       scopes: ['external:sync']
 
     ### USERS.FITBIT.AUTH ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/users/:user_id/fitbit/auth']
       methods: ['POST', 'GET']
       scopes: ['external:sync']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/users/:user_id/fitbit/auth/revoke']
       methods: ['POST']
       scopes: ['external:sync']
 
   dsAgentFitbitSyncPrivateApi:
     ### USERS.FITBIT.SYNC ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/users/:user_id/fitbit/sync']
       methods: ['POST']
       scopes: ['external:sync']
@@ -372,7 +363,7 @@ apiEndpoints:
   ## FOOD TRACKING AND QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
     ### Q1SOCIODEMOGRAPHIC ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q1sociodemographics'
         - '/v1/q1sociodemographics/:id'
@@ -380,28 +371,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['socioquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q1sociodemographics/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['socioquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q1sociodemographics/:id']
       methods: ["DELETE"]
       scopes: ['socioquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q1sociodemographics']
       methods: ["POST"]
       scopes: ['socioquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q1sociodemographics']
       methods: ["PATCH"]
       scopes: ['socioquest:update']
 
     ### Q21CHILDSHEALTHCONDITIONS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q21childshealthconditions'
         - '/v1/q21childshealthconditions/:id'
@@ -409,28 +400,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['healthquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q21childshealthconditions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['healthquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q21childshealthconditions/:id']
       methods: ["DELETE"]
       scopes: ['healthquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q21childshealthconditions']
       methods: ["POST"]
       scopes: ['healthquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q21childshealthconditions']
       methods: ["PATCH"]
       scopes: ['healthquest:update']
 
     ### Q22PARENTSHEALTHCONDITIONS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q22parentshealthconditions'
         - '/v1/q22parentshealthconditions/:id'
@@ -438,28 +429,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['healthquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q22parentshealthconditions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['healthquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q22parentshealthconditions/:id']
       methods: ["DELETE"]
       scopes: ['healthquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q22parentshealthconditions']
       methods: ["POST"]
       scopes: ['healthquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q22parentshealthconditions']
       methods: ["PATCH"]
       scopes: ['healthquest:update']
 
     ### Q23IPAQ ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q23ipaq'
         - '/v1/q23ipaq/:id'
@@ -467,28 +458,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['parentphyquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q23ipaq/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['parentphyquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q23ipaq/:id']
       methods: ["DELETE"]
       scopes: ['parentphyquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q23ipaq']
       methods: ["POST"]
       scopes: ['parentphyquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q23ipaq']
       methods: ["PATCH"]
       scopes: ['parentphyquest:update']
 
     ### Q3PHYSICALANTHROPOMETRICMEASURES ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q3physicalandanthropometricmeasures'
         - '/v1/q3physicalandanthropometricmeasures/:id'
@@ -496,28 +487,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['childrenphyquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q3physicalandanthropometricmeasures/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['childrenphyquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q3physicalandanthropometricmeasures/:id']
       methods: ["DELETE"]
       scopes: ['childrenphyquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q3physicalandanthropometricmeasures']
       methods: ["POST"]
       scopes: ['childrenphyquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q3physicalandanthropometricmeasures']
       methods: ["PATCH"]
       scopes: ['childrenphyquest:update']
 
     ### Q401FOODFREQUENCY ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q401ffq'
         - '/v1/q401ffq/:id'
@@ -525,28 +516,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['habitsquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q401ffq/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['habitsquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q401ffq/:id']
       methods: ["DELETE"]
       scopes: ['habitsquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q401ffq']
       methods: ["POST"]
       scopes: ['habitsquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q401ffq']
       methods: ["PATCH"]
       scopes: ['habitsquest:update']
 
     ### Q402FOODHABITSANDFEEDINGBEHAVIOURS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q402foodhabitsandfeedingbehaviors'
         - '/v1/q402foodhabitsandfeedingbehaviors/:id'
@@ -554,28 +545,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['habitsquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['habitsquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
       methods: ["DELETE"]
       scopes: ['habitsquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q402foodhabitsandfeedingbehaviors']
       methods: ["POST"]
       scopes: ['habitsquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q402foodhabitsandfeedingbehaviors']
       methods: ["PATCH"]
       scopes: ['habitsquest:update']
 
     ### Q501PHYSICALACTIVITYFORCHILDREN ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q501physicalactivityforchildren'
         - '/v1/q501physicalactivityforchildren/:id'
@@ -583,28 +574,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['habitsquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q501physicalactivityforchildren/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['habitsquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q501physicalactivityforchildren/:id']
       methods: ["DELETE"]
       scopes: ['habitsquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q501physicalactivityforchildren']
       methods: ["POST"]
       scopes: ['habitsquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q501physicalactivityforchildren']
       methods: ["PATCH"]
       scopes: ['habitsquest:update']
 
     ### Q502PHYSICALACTIVITYANDSEDENTARYHABITS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q502physicalactivityandsedentaryhabits'
         - '/v1/q502physicalactivityandsedentaryhabits/:id'
@@ -612,28 +603,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['habitsquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['habitsquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
       methods: ["DELETE"]
       scopes: ['habitsquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q502physicalactivityandsedentaryhabits']
       methods: ["POST"]
       scopes: ['habitsquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q502physicalactivityandsedentaryhabits']
       methods: ["PATCH"]
       scopes: ['habitsquest:update']
 
     ### Q503SLEEPINGHABITS ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q503sleepinghabits'
         - '/v1/q503sleepinghabits/:id'
@@ -641,28 +632,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['habitsquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q503sleepinghabits/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['habitsquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q503sleepinghabits/:id']
       methods: ["DELETE"]
       scopes: ['habitsquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q503sleepinghabits']
       methods: ["POST"]
       scopes: ['habitsquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q503sleepinghabits']
       methods: ["PATCH"]
       scopes: ['habitsquest:update']
 
     ### Q601CHILDEATINGBEHAVIOUR ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q601childeatingbehaviour'
         - '/v1/q601childeatingbehaviour/:id'
@@ -670,28 +661,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['habitsquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q601childeatingbehaviour/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['habitsquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q601childeatingbehaviour/:id']
       methods: ["DELETE"]
       scopes: ['habitsquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q601childeatingbehaviour']
       methods: ["POST"]
       scopes: ['habitsquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q601childeatingbehaviour']
       methods: ["PATCH"]
       scopes: ['habitsquest:update']
 
     ### Q602AUTOPERCEPTION ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/q602autoperception'
         - '/v1/q602autoperception/:id'
@@ -699,28 +690,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['perceptionquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q602autoperception/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['perceptionquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q602autoperception/:id']
       methods: ["DELETE"]
       scopes: ['perceptionquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q602autoperception']
       methods: ["POST"]
       scopes: ['perceptionquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/q602autoperception']
       methods: ["PATCH"]
       scopes: ['perceptionquest:update']
 
     ### QFOODTRACKING ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/qfoodtrackings'
         - '/v1/qfoodtrackings/:id'
@@ -728,22 +719,22 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['foodtracking:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/qfoodtrackings/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['foodtracking:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/qfoodtrackings/:id']
       methods: ["DELETE"]
       scopes: ['foodtracking:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/qfoodtrackings']
       methods: ["POST"]
       scopes: ['foodtracking:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/qfoodtrackings']
       methods: ["PATCH"]
       scopes: ['foodtracking:update']
@@ -751,7 +742,7 @@ apiEndpoints:
   ## GAMIFICATION ENDPOINTS ##
   gamificationPrivateAPI:
     ### AGENT_REPORT ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/agentreports'
         - '/v1/agentreports/:id'
@@ -759,28 +750,28 @@ apiEndpoints:
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/agentreports/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/agentreports/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/agentreports']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/agentreports']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### BADGE ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/badges'
         - '/v1/badges/:id'
@@ -788,28 +779,28 @@ apiEndpoints:
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/badges/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/badges/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/badges']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/badges']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### CUSTOMIZATION ITEM ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/customizationitems'
         - '/v1/customizationitems/:id'
@@ -817,28 +808,28 @@ apiEndpoints:
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/customizationitems/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/customizationitems/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/customizationitems']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/customizationitems']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### GAMIFICATION PROFILE ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/gamificationprofiles'
         - '/v1/gamificationprofiles/:id'
@@ -846,28 +837,28 @@ apiEndpoints:
       methods: ['GET']
       scopes: ['gamificationprofile:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/gamificationprofiles/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/gamificationprofiles/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/gamificationprofiles']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/gamificationprofiles']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### QUESTION ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/questions'
         - '/v1/questions/:id'
@@ -875,28 +866,28 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['gamificationprofile:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/questions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['gamificationprofile:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/questions/:id']
       methods: ["DELETE"]
       scopes: ['gamificationprofile:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/questions']
       methods: ["POST"]
       scopes: ['gamificationprofile:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/questions']
       methods: ["PATCH"]
       scopes: ['gamificationprofile:update']
 
     ### MISSION ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/missions'
         - '/v1/missions/:id'
@@ -904,29 +895,29 @@ apiEndpoints:
       methods: ['GET']
       scopes: ['missions:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/missions/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['missions:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/missions/:id']
       methods: ["DELETE"]
       scopes: ['missions:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/missions']
       methods: ["POST"]
       scopes: ['missions:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/missions']
       methods: ["PATCH"]
       scopes: ['missions:update']
 
   ## MISSIONS ENDPOINTS ##
   missionsPrivateAPI:
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/observations/update-progress/:missionId' ### MISSION SELECTION ###
         - '/v1/observations/activate-mission/:missionId' ### MISSION SELECTION ###
@@ -942,7 +933,7 @@ apiEndpoints:
       methods: ["POST"]
       scopes: ['missions:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/observations/observations-severities/:childId' ### MISSION SELECTION ###
         - '/v1/observations/analyze-results/:childId' ### MISSION SELECTION ###
@@ -962,13 +953,13 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['missions:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/educator-missions/:missionId' ### EDUCATOR MISSIONS ###
       methods: ["PUT"]
       scopes: ['missions:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/educator-missions/:missionId' ### EDUCATOR MISSIONS ###
       methods: ["DELETE"]
@@ -976,7 +967,7 @@ apiEndpoints:
 
   ## FOOD HABITS ENDPOINTS ##
   foodPrivateApi:
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/foodqs'
         - '/v1/foodqs/:id'
@@ -984,22 +975,22 @@ apiEndpoints:
       methods: ["GET"]
       scopes: ['foodhabitsquest:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/foodqs/:id']
       methods: ["PUT", "PATCH"]
       scopes: ['foodhabitsquest:update']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/foodqs/:id']
       methods: ["DELETE"]
       scopes: ['foodhabitsquest:delete']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/foodqs']
       methods: ["POST"]
       scopes: ['foodhabitsquest:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths: ['/v1/foodqs']
       methods: ["PATCH"]
       scopes: ['foodhabitsquest:update']
@@ -1007,19 +998,19 @@ apiEndpoints:
   ## NOTIFICATION ENDPOINTS ##
   notificationsPrivateAPI:
     ### NOTIFICATION ###
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/notifications/user/:id'
       methods: ['POST']
       scopes: ['notifications:create']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/notifications/pendingnotification/:id'
       methods: ['GET']
       scopes: ['notifications:read']
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/notifications/deletetoken/:id'
       methods: ['PATCH']
@@ -1082,6 +1073,7 @@ policies:
   - account-authorization
   - iot-tracking-authorization
   - ds-agent-authorization
+  - terminate
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -1112,15 +1104,23 @@ pipelines:
               secure: false
               serviceEndpoint: accountService
 
-  accountScopesPipeline:
-    apiEndpoints: ['accountScopesApi']
+  iotPipeline:
+    apiEndpoints: ['iotPrivateApi']
     policies:
       - log: *log
+      - terminate:
+          - condition:
+              name: not
+              condition:
+                name: tlsClientAuthenticated
+            action:
+              statusCode: 403
+              message: "Forbidden"
       - body-parser-policy:
       - proxy:
           - action:
               <<: *proxy
-              serviceEndpoint: accountService
+              serviceEndpoint: activityService
 
   accountPrivatePipeline:
     apiEndpoints: ['accountPrivateApi']
