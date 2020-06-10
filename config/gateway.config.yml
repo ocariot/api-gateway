@@ -30,7 +30,6 @@ apiEndpoints:
     - host: ${API_IOT_HOSTNAME}
       paths:
         - '/v1/institutions/:institution_id/environments'
-        - '/v1/children/:username/weights'
       methods: ["POST"]
 
   ## ACTIVITY TRACKING ENDPOINTS ##
