@@ -11,15 +11,15 @@ const instance = axios.create({
 })
 
 module.exports = {
-    get: function (url) {
-        return instance.get(url)
+    get: function (url, options) {
+        return instance.get(url, options)
     },
 
-    post: (url, body) => {
-        return instance.post(url, body)
+    post: (url, body, options) => {
+        return instance.post(url, body, options)
     },
 
-    delete: function (url) {
-        return instance.delete(url)
+    delete: function (url, options) {
+        return instance.delete(url, options)
     }
 }

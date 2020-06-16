@@ -32,6 +32,28 @@ apiEndpoints:
         - '/v1/institutions/:institution_id/environments'
       methods: ["POST"]
 
+  devicePrivateApi:
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/institutions/:institution_id/devices/:device_id/pki'
+        - '/v1/institutions/:institution_id/devices'
+      methods: ["POST"]
+      scopes: ['devices:create']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/institutions/:institution_id/devices'
+        - '/v1/institutions/:institution_id/devices/:device_id'
+      methods: ["GET"]
+      scopes: ['devices:read']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/institutions/:institution_id/devices/:device_id/pki'
+        - '/v1/institutions/:institution_id/devices/:device_id'
+      methods: ["DELETE"]
+      scopes: ['devices:delete']
+
   ## ACTIVITY TRACKING ENDPOINTS ##
   activityPrivateApi:
     ### USERS.CHILDREN.PHYSICALACTIVITIES ###
@@ -1072,6 +1094,8 @@ policies:
   - account-authorization
   - iot-tracking-authorization
   - ds-agent-authorization
+  - device-authorization
+  - device-pki
   - terminate
 
 ####### PIPELINES DEFINITION ########
@@ -1103,6 +1127,29 @@ pipelines:
               secure: false
               serviceEndpoint: accountService
 
+  devicePipeline:
+    apiEndpoints: ['devicePrivateApi']
+    policies:
+      - log: *log
+      - body-parser-policy:
+      - jwt-policy: &jwt
+          - action:
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
+              issuer: ${ISSUER:-ocariot}
+      - jwtScopes-policy:
+      - iot-tracking-authorization: &iot-tracking-authorization
+          action:
+            accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
+      - device-pki:
+          - action:
+              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
+              vaultServiceUrlBase: ${VAULT_URL_BASE:-'https://vault'}
+              vaultServiceToken: ${VAULT_TOKEN:-''}
+      - proxy:
+          - action:
+              <<: *proxy
+              serviceEndpoint: activityService
+
   iotPipeline:
     apiEndpoints: ['iotPrivateApi']
     policies:
@@ -1116,6 +1163,7 @@ pipelines:
               statusCode: 403
               message: "Forbidden"
       - body-parser-policy:
+      - device-authorization:
       - proxy:
           - action:
               <<: *proxy
@@ -1126,10 +1174,7 @@ pipelines:
     policies:
       - log: *log
       - body-parser-policy:
-      - jwt-policy: &jwt
-          - action:
-              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.pem}
-              issuer: ${ISSUER:-ocariot}
+      - jwt-policy: *jwt
       - jwtScopes-policy:
       - account-authorization:
           action:
@@ -1161,9 +1206,7 @@ pipelines:
       - body-parser-policy:
       - jwt-policy: *jwt
       - jwtScopes-policy:
-      - iot-tracking-authorization:
-          action:
-            accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
+      - iot-tracking-authorization: *iot-tracking-authorization
       - request-transformer: *req-transformer
       - proxy:
           - action:

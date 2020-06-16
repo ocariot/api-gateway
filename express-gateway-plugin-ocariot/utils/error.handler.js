@@ -22,10 +22,8 @@ module.exports = (code, res, req, err) => {
                 }
             }
             res.status(400).send(message)
-        }
-        else res.status(err.code).send(err)
-    }
-    else {
+        } else res.status(err.code).send(err)
+    } else {
         let message = {}
         switch (code) {
             case 401:
@@ -40,6 +38,13 @@ module.exports = (code, res, req, err) => {
                     code: 403,
                     message: 'FORBIDDEN',
                     description: 'Authorization failed due to insufficient permissions.'
+                }
+                break
+            case 404:
+                message = {
+                    code: 404,
+                    message: `${req.path} not found.`,
+                    description: `Specified resource: ${req.path} was not found or does not exist.`
                 }
                 break
             default:

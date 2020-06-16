@@ -1,4 +1,4 @@
-const service = require('./../../services/http-client')
+const service = require('../../utils/http-client')
 const errorHandler = require('./../../utils/error.handler')
 const UserType = require('./../../utils/constants').UserType
 
@@ -20,9 +20,9 @@ module.exports = function (actionParams) {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
         }
 
-        /**
-         * ####### USERS.FITBIT.SYNC #######
-         */
+            /**
+             * ####### USERS.FITBIT.SYNC #######
+             */
         // POST /v1/users/{user_id}/fitbit/sync ['external:sync']
         else if (/^(\/v1\/users\/)[^\W_]{24}\/fitbit\/sync\/{0,1}$/.test(req.path) && req.method === 'POST') {
             requestResourceByUserIdRules(actionParams.accountServiceUrlBase, req, res, next)
@@ -46,7 +46,7 @@ module.exports = function (actionParams) {
 async function requestResourceByUserIdRules(urlBase, req, res, next) {
     if (req.user.sub_type === UserType.CHILD && req.params.user_id !== req.user.sub) errorHandler(403, res, req)
     else {
-        resultSearch = await searchChildById(urlBase, req)
+        const resultSearch = await searchChildById(urlBase, req)
         if (resultSearch === true) {
             if (req.user.sub_type === UserType.APPLICATION || req.user.sub_type === UserType.CHILD) next()
             else if ((req.user.sub_type === UserType.EDUCATOR || req.user.sub_type === UserType.HEALTH_PROFESSIONAL)
