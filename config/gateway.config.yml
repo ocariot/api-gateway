@@ -1143,7 +1143,7 @@ pipelines:
       - device-pki:
           - action:
               iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
-              vaultServiceUrlBase: ${VAULT_URL_BASE:-'https://vault'}
+              vaultServiceUrlBase: ${VAULT_SERVICE:-'https://localhost:8200'}
               vaultServiceToken: ${VAULT_TOKEN:-''}
       - proxy:
           - action:
