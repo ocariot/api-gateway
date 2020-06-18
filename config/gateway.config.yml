@@ -1144,7 +1144,7 @@ pipelines:
           - action:
               iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
               vaultServiceUrlBase: ${VAULT_SERVICE:-'https://localhost:8200'}
-              vaultServiceToken: ${VAULT_TOKEN:-''}
+              vaultServiceToken: ${VAULT_ACCESS_TOKEN:-''}
       - proxy:
           - action:
               <<: *proxy

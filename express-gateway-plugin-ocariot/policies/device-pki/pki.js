@@ -39,23 +39,33 @@ module.exports = (actionParams) => {
 async function generateCert(req, res) {
     try {
         // 1. validate request body
-        // validateBody(req.body)
+        validateBody(req.body)
+
         // 2. check that the device exists
         const device = await getDevice(req.params.institution_id, req.params.device_id)
 
-        // 3. sign certificate in vault
+        // 3. checking if the device has a certificate
+        const deviceRegistred = await deviceDao.getCertInfo(req.params.device_id)
+        if (deviceRegistred && deviceRegistred.serial_number) {
+            invalidateCertificate({serial_number: deviceRegistred.serial_number}).then().catch((err) => {
+                console.log('Error: ', err.code, '. Message:', err.message)
+            })
+        }
+
+        // 4. sign certificate in vault
         const data = {
             csr: req.body.csr,
-            ttl: req.body.ttl ? `${req.body.ttl}h` : '8760h'
+            ttl: req.body.ttl ? `${req.body.ttl}h` : '8760h',
+            common_name: device.id
         }
         const clientCert = await signCertificate(data)
 
-        // 4. save device and certificate information to the database
+        // 5. save device and certificate information to the database
         if (!(await deviceDao.saveCertInfo(device.id, clientCert.serial_number))) {
             return res.status(msgInternalError.code).json(msgInternalError)
         }
 
-        // 5. result certificate
+        // 6. result certificate
         res.status(201).json({
             'certificate': clientCert.certificate,
             'ca': clientCert.ca,
@@ -69,16 +79,43 @@ async function generateCert(req, res) {
     }
 }
 
-function revokeCert(req, res) {
+async function revokeCert(req, res) {
+    try {
+        // 1.checking if the device has a certificate
+        const device = await deviceDao.getCertInfo(req.params.device_id)
 
+        if (!device.serial_number) {
+            return res.status(204).json()
+        }
+
+        if (!(await deviceDao.deleteCertInfo(device.device_id))) {
+            return res.status(msgInternalError.code).json(msgInternalError)
+        }
+
+        // 2. payload to send for Vault
+        const data = {
+            serial_number: device.serial_number
+        }
+
+        // 3. invalidating certificate in Vault
+        invalidateCertificate(data).then().catch((err) => {
+            console.log('Error: ', err.code, '. Message:', err.message)
+        })
+
+        res.status(204).json()
+    } catch (err) {
+        if (err instanceof Error && typeof err.message === 'string') {
+            err = JSON.parse(err.message)
+        }
+        res.status(err.code).json(err)
+    }
 }
 
 function validateBody(body, res) {
     if (!body.csr) {
         throw new Error('{"code": 400, "message": "Required fields were not provided...", "description": "csr required!"}')
-    } else {
-        validateCsr(body.csr)
     }
+
     // validate 1-8760
     const re = RegExp('^([1-9]|[1-8][0-9]|9[0-9]|[1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|[1-7][0-9]{3}|8[0-6][0-9]{2}|87[0-5][0-9]|8760)$')
     if (body.ttl && !re.test(body.ttl)) {
@@ -89,10 +126,6 @@ function validateBody(body, res) {
 
 function convertHoursInDateSeconds(hours) {
     return new Date().setSeconds(parseInt(hours, 10) * 6000)
-}
-
-function validateCsr(csr) {
-
 }
 
 function getDevice(institutionId, deviceId) {
@@ -113,13 +146,14 @@ function getDevice(institutionId, deviceId) {
 function signCertificate(data) {
     return new Promise((resolve, reject) => {
         httpClient
-            .post(vaultUrlBase.concat(`/pki/sign/:name`), data, {headers: {'X-Vault-Token': vaultToken}})
+            .post(vaultUrlBase.concat(`/v1/pki/sign/devices`), data, {headers: {'X-Vault-Token': vaultToken}})
             .then(result => {
                 if (result.data) return resolve(buildCertificate(result.data))
                 reject(msgInternalError)
             })
             .catch(err => {
                 if (!err.response || !err.response.data) return reject(msgInternalError)
+                if (!err.response.data.code) err.response.data.code = err.response.status
                 reject(err.response.data)
             })
     })
@@ -127,10 +161,23 @@ function signCertificate(data) {
 
 function buildCertificate(data) {
     return {
-        certificate: '',
-        ca: '',
-        serial_number: ''
+        certificate: data.data.certificate,
+        ca: data.data.issuing_ca,
+        serial_number: data.data.serial_number
     }
+}
+
+function invalidateCertificate(data) {
+    return new Promise((resolve,reject) => {
+        httpClient
+            .post(vaultUrlBase.concat(`/v1/pki/revoke`), data, {headers: {'X-Vault-Token': vaultToken}})
+            .then(result => {
+                return resolve(result.data)
+            })
+            .catch((err) => {
+                return reject(msgInternalError)
+            })
+    })
 }
 
 function removeDevice(req, res) {
@@ -142,7 +189,16 @@ function removeDevice(req, res) {
                 return res.status(msgInternalError.code).json(msgInternalError)
             }
             // 2. remove in gateway database
-            await deviceDao.deleteCertInfo(req.params.device_id)
+            const device = await deviceDao.getCertInfo(req.params.device_id)
+            // 2.1. checking if the device has a certificate
+            if (device.serial_number){
+                // 2.2. invalidating certificate in Vault
+                invalidateCertificate({serial_number: device.serial_number}).then().catch((err) => {
+                    console.log('Error: ', err.code, '. Message:', err.message)
+                })
+                await deviceDao.deleteCertInfo(device.device_id)
+            }
+
             res.status(204).send()
         })
         .catch(err => {
