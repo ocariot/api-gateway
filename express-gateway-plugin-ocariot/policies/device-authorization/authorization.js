@@ -23,6 +23,5 @@ module.exports = () => {
         } catch (e) {
             res.status(msgInternalError.code).json(msgInternalError)
         }
-
     }
 }

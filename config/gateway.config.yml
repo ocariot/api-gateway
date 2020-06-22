@@ -32,11 +32,17 @@ apiEndpoints:
         - '/v1/institutions/:institution_id/environments'
       methods: ["POST"]
 
+  ## IoT DEVICES ENDPOINTS ##
+  iotRenewCertPrivateApi:
+    - host: ${API_IOT_HOSTNAME}
+      paths:
+        - '/v1/institutions/:institution_id/devices/:device_id/pki/renew'
+      methods: ["POST"]
+
   devicePrivateApi:
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/institutions/:institution_id/devices/:device_id/pki'
-        - '/v1/institutions/:institution_id/devices/:device_id/pki/renew'
         - '/v1/institutions/:institution_id/devices'
       methods: ["POST"]
       scopes: ['devices:create']
@@ -1150,6 +1156,25 @@ pipelines:
           - action:
               <<: *proxy
               serviceEndpoint: activityService
+
+  iotCertRenewPipeline:
+    apiEndpoints: ['iotRenewCertPrivateApi']
+    policies:
+      - log: *log
+      - terminate:
+          - condition:
+              name: not
+              condition:
+                name: tlsClientAuthenticated
+            action:
+              statusCode: 403
+              message: "Forbidden"
+      - body-parser-policy:
+      - device-pki:
+          - action:
+              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
+              vaultServiceUrlBase: ${VAULT_SERVICE:-'https://localhost:8200'}
+              vaultServiceToken: ${VAULT_ACCESS_TOKEN:-''}
 
   iotPipeline:
     apiEndpoints: ['iotPrivateApi']
