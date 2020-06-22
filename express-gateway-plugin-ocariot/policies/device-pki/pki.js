@@ -23,6 +23,11 @@ module.exports = (actionParams) => {
             return generateCert(req, res)
         }
 
+        // POST /v1/institutions/{institution_id}/devices/{device_id}/pki/renew
+        if (/^((\/v1\/institutions\/)[^\W_]{24}\/devices\/[^\W_]{24}\/pki\/renew\/?)$/.test(req.path) && req.method === 'POST') {
+            return renewCert(req, res)
+        }
+
         // DELETE /v1/institutions/{institution_id}/devices/{device_id}/pki
         if (/^((\/v1\/institutions\/)[^\W_]{24}\/devices\/[^\W_]{24}\/pki\/?)$/.test(req.path) && req.method === 'DELETE') {
             return revokeCert(req, res)
@@ -45,9 +50,9 @@ async function generateCert(req, res) {
         const device = await getDevice(req.params.institution_id, req.params.device_id)
 
         // 3. checking if the device has a certificate
-        const deviceRegistred = await deviceDao.getCertInfo(req.params.device_id)
-        if (deviceRegistred && deviceRegistred.serial_number) {
-            invalidateCertificate({serial_number: deviceRegistred.serial_number}).then().catch((err) => {
+        const deviceRegistered = await deviceDao.getCertInfo(req.params.device_id)
+        if (deviceRegistered && deviceRegistered.serial_number) {
+            invalidateCertificate({serial_number: deviceRegistered.serial_number}).then().catch((err) => {
                 console.log('Error: ', err.code, '. Message:', err.message)
             })
         }
@@ -60,12 +65,67 @@ async function generateCert(req, res) {
         }
         const clientCert = await signCertificate(data)
 
+        const certInfo ={
+            csr: data.csr,
+            ttl: data.ttl,
+            serial_number: clientCert.serial_number
+        }
+
         // 5. save device and certificate information to the database
-        if (!(await deviceDao.saveCertInfo(device.id, clientCert.serial_number))) {
+        if (!(await deviceDao.saveCertInfo(device.id, certInfo))) {
             return res.status(msgInternalError.code).json(msgInternalError)
         }
 
         // 6. result certificate
+        res.status(201).json({
+            'certificate': clientCert.certificate,
+            'ca': clientCert.ca,
+            'exp': convertHoursInDateSeconds(data.ttl)
+        })
+    } catch (err) {
+        if (err instanceof Error && typeof err.message === 'string') {
+            err = JSON.parse(err.message)
+        }
+        res.status(err.code).json(err)
+    }
+}
+
+async function renewCert(req, res) {
+    try{
+        // 1. checking if the device has a certificate
+        const deviceRegistered = await deviceDao.getCertInfo(req.params.device_id)
+
+        if (!deviceRegistered) {
+            return res.status(400).json({code: 400, message: 'No certificate registered for this device.'})
+        }
+
+        if (deviceRegistered.serial_number) {
+            invalidateCertificate({serial_number: deviceRegistered.serial_number}).then().catch((err) => {
+                console.log('Error: ', err.code, '. Message:', err.message)
+            })
+        }
+
+        // 2. sign certificate in vault
+        const data = {
+            csr: deviceRegistered.csr,
+            ttl: deviceRegistered.ttl,
+            common_name: deviceRegistered.device_id
+        }
+
+        const clientCert = await signCertificate(data)
+
+        const certInfo ={
+            csr: data.csr,
+            ttl: data.ttl,
+            serial_number: clientCert.serial_number
+        }
+
+        // 3. save device and certificate information to the database
+        if (!(await deviceDao.saveCertInfo(deviceRegistered.device_id, certInfo))) {
+            return res.status(msgInternalError.code).json(msgInternalError)
+        }
+
+        // 4. result certificate
         res.status(201).json({
             'certificate': clientCert.certificate,
             'ca': clientCert.ca,
@@ -84,7 +144,7 @@ async function revokeCert(req, res) {
         // 1.checking if the device has a certificate
         const device = await deviceDao.getCertInfo(req.params.device_id)
 
-        if (!device.serial_number) {
+        if (!device || !device.serial_number) {
             return res.status(204).json()
         }
 
@@ -191,7 +251,7 @@ function removeDevice(req, res) {
             // 2. remove in gateway database
             const device = await deviceDao.getCertInfo(req.params.device_id)
             // 2.1. checking if the device has a certificate
-            if (device.serial_number){
+            if (device && device.serial_number){
                 // 2.2. invalidating certificate in Vault
                 invalidateCertificate({serial_number: device.serial_number}).then().catch((err) => {
                     console.log('Error: ', err.code, '. Message:', err.message)

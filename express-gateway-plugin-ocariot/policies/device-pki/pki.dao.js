@@ -7,20 +7,23 @@ const ID = (id) => {
 exports.getCertInfo = (deviceId) => {
     return new Promise((resolve) => {
         db.get(ID(deviceId), (err, result) => {
-            if (err) return resolve(undefined)
+            if (err || !result) return resolve(undefined)
+            const certInfo = JSON.parse(result)
             resolve({
                 device_id: deviceId,
-                serial_number: result
+                serial_number: certInfo.serial_number,
+                csr: certInfo.csr,
+                ttl: certInfo.ttl
             })
         })
     })
 }
 
-exports.saveCertInfo = (deviceId, serialNumber) => {
+exports.saveCertInfo = (deviceId, certInfo) => {
     return new Promise((resolve) => {
         db
             .pipeline()
-            .set(ID(deviceId), serialNumber)
+            .set(ID(deviceId), JSON.stringify(certInfo))
             .get(ID(deviceId))
             .exec((err, result) => {
                 if (err) return resolve(false)

@@ -36,6 +36,7 @@ apiEndpoints:
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/institutions/:institution_id/devices/:device_id/pki'
+        - '/v1/institutions/:institution_id/devices/:device_id/pki/renew'
         - '/v1/institutions/:institution_id/devices'
       methods: ["POST"]
       scopes: ['devices:create']
