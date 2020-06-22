@@ -17,10 +17,14 @@ Application settings are defined by environment variables. To define the setting
 | `PORT_HTTP` | Port used by the API GATEWAY service to listen for HTTP request. | `80` |
 | `PORT_HTTPS` | Port used by the API GATEWAY service to listen for HTTPS request. | `443` |
 | `API_GATEWAY_HOSTNAME` | API Gateway Hostname. | `localhost` |
+| `API_IOT_HOSTNAME` | API IoT Hostname. | `iot.localhost` |
 | `RABBIT_MGT_HOSTNAME` | RabbitMQ Management hostname. | `rabbit.localhost` |
 | `ISSUER` | The issuer used to validate the JWT token sent for requests. The value must be provided by the Account service that generates the token. | `ocariot` |
 | `SSL_KEY_PATH` | SSL/TLS certificate private key. | `.certs/server.key` |
 | `SSL_CERT_PATH` | SSL/TLS certificate. | `.certs/server.crt` |
+| `SSL_IOT_KEY_PATH` | Private key for IoT service SSL certificate. | `.certs/iot_server.key` |
+| `SSL_IOT_CERT_PATH` | Certificate SSL for IoT service. | `.certs/iot_server.crt` |
+| `SSL_IOT_CA_PATH` | CA SSL for IoT service. | `.certs/ca.crt` |
 | `JWT_PUBLIC_KEY_PATH` | Public key used to generate and validate JSON Web Token (JWT). The value must be provided by the Account service that generates the token. | `.certs/jwt.key.pub` |
 | `ACCOUNT_SERVICE` | URI used to connect to the Account service. | `https://localhost:3001` |
 | `IOT_TRACKING_SERVICE` | URI used to connect to the IoT Tracking service. | `https://localhost:4001` |

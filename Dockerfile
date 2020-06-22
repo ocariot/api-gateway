@@ -1,4 +1,5 @@
-FROM node:10.16.3
+FROM node:12-alpine
+RUN apk --no-cache add bash curl grep git
 
 # create and set app directory
 RUN mkdir -p /usr/src/ag

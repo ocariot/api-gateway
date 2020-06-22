@@ -1,4 +1,4 @@
-const service = require('./../../services/http-client')
+const service = require('./../../utils/http-client')
 const errorHandler = require('./../../utils/error.handler')
 const UserType = require('./../../utils/constants').UserType
 
