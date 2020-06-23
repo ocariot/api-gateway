@@ -26,6 +26,7 @@ Application settings are defined by environment variables. To define the setting
 | `SSL_IOT_CERT_PATH` | Certificate SSL for IoT service. | `.certs/iot_server.crt` |
 | `SSL_IOT_CA_PATH` | CA SSL for IoT service. | `.certs/ca.crt` |
 | `JWT_PUBLIC_KEY_PATH` | Public key used to generate and validate JSON Web Token (JWT). The value must be provided by the Account service that generates the token. | `.certs/jwt.key.pub` |
+| `VAULT_ACCESS_TOKEN` | Access Token for http access to the vault. | `vault_access_token` |
 | `ACCOUNT_SERVICE` | URI used to connect to the Account service. | `https://localhost:3001` |
 | `IOT_TRACKING_SERVICE` | URI used to connect to the IoT Tracking service. | `https://localhost:4001` |
 | `DS_AGENT_SERVICE` | URI used to connect to the Data Sync Agent service. | `https://localhost:5001` |
@@ -35,6 +36,7 @@ Application settings are defined by environment variables. To define the setting
 | `FOOD_SERVICE` | URI used to connect to the Food service. | `https://localhost:9001` |
 | `NOTIFICATION_SERVICE` | URI used to connect to the Notification service. | `https://localhost:10001` |
 | `RABBIT_MGT_SERVICE` | URI used to connect to the RabbitMQ Management. | `https://localhost:15672` |
+| `VAULT_SERVICE` | URI used to connect to the Vault. | `https://localhost:8200` |
 | `EMULATE_REDIS` | Signals whether the redis bank will be emulated or not. | `true` |
 | `PORT_REDIS` | Redis instance port. | `6379` |
 | `HOST_REDIS` | Redis instance hostname. | `localhost` |
