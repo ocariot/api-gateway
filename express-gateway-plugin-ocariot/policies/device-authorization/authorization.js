@@ -15,7 +15,7 @@ module.exports = () => {
             const device = await deviceDao.getCertInfo(deviceId)
 
             // 2. comparing the certificate's serialNumber with the serialNumber maintained at the gateway
-            if (!device.serial_number || device.serial_number.replace(/:/g,'') != serialNumber.toLowerCase()) {
+            if (!device || device.serial_number.replace(/:/g,'') != serialNumber.toLowerCase()) {
                 return errorHandler(403, res)
             }
 
