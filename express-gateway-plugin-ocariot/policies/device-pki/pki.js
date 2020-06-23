@@ -97,7 +97,7 @@ async function renewCert(req, res) {
         const deviceRegistered = await deviceDao.getCertInfo(req.params.device_id)
 
         if (!deviceRegistered) {
-            return res.status(400).json({code: 400, message: 'No certificate registered for this device.'})
+            return res.status(403).json({code: 403, message: 'No certificate registered for this device.'})
         }
 
         const serialNumber = req.socket.getPeerCertificate(true).serialNumber
