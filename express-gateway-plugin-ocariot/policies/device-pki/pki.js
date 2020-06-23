@@ -1,5 +1,6 @@
 const httpClient = require('./../../utils/http-client')
 const deviceDao = require('./pki.dao')
+const errorHandler = require('./../../utils/error.handler')
 
 const isProd = process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'production'
 
@@ -65,7 +66,7 @@ async function generateCert(req, res) {
         }
         const clientCert = await signCertificate(data)
 
-        const certInfo ={
+        const certInfo = {
             csr: data.csr,
             ttl: data.ttl,
             serial_number: clientCert.serial_number
@@ -91,7 +92,7 @@ async function generateCert(req, res) {
 }
 
 async function renewCert(req, res) {
-    try{
+    try {
         // 1. checking if the device has a certificate
         const deviceRegistered = await deviceDao.getCertInfo(req.params.device_id)
 
@@ -99,11 +100,14 @@ async function renewCert(req, res) {
             return res.status(400).json({code: 400, message: 'No certificate registered for this device.'})
         }
 
-        if (deviceRegistered.serial_number) {
-            invalidateCertificate({serial_number: deviceRegistered.serial_number}).then().catch((err) => {
-                console.log('Error: ', err.code, '. Message:', err.message)
-            })
+        const serialNumber = req.socket.getPeerCertificate(true).serialNumber
+        if (deviceRegistered.serial_number.replace(/:/g,'') != serialNumber.toLowerCase()) {
+            return errorHandler(403, res)
         }
+
+        invalidateCertificate({serial_number: deviceRegistered.serial_number}).then().catch((err) => {
+            console.log('Error: ', err.code, '. Message:', err.message)
+        })
 
         // 2. sign certificate in vault
         const data = {
@@ -114,7 +118,7 @@ async function renewCert(req, res) {
 
         const clientCert = await signCertificate(data)
 
-        const certInfo ={
+        const certInfo = {
             csr: data.csr,
             ttl: data.ttl,
             serial_number: clientCert.serial_number
@@ -228,7 +232,7 @@ function buildCertificate(data) {
 }
 
 function invalidateCertificate(data) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
         httpClient
             .post(vaultUrlBase.concat(`/v1/pki/revoke`), data, {headers: {'X-Vault-Token': vaultToken}})
             .then(result => {
@@ -251,7 +255,7 @@ function removeDevice(req, res) {
             // 2. remove in gateway database
             const device = await deviceDao.getCertInfo(req.params.device_id)
             // 2.1. checking if the device has a certificate
-            if (device && device.serial_number){
+            if (device && device.serial_number) {
                 // 2.2. invalidating certificate in Vault
                 invalidateCertificate({serial_number: device.serial_number}).then().catch((err) => {
                     console.log('Error: ', err.code, '. Message:', err.message)
