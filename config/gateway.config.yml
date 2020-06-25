@@ -952,6 +952,7 @@ apiEndpoints:
         - '/v1/observations/activate-mission/:missionId' ### MISSION SELECTION ###
         - '/v1/observations/complete-mission/:missionId' ### MISSION SELECTION ###
         - '/v1/observations/answer-question/:childId' ### MISSION SELECTION ###
+        - '/v1/observations/answer-questionnaire/:childId' ### MISSION SELECTION ###
         - '/v1/robot-result' ### ROBOT ###
         - '/v1/robot-result/food-recognition' ### ROBOT ###
         - '/v1/baseline/baseline-questionnaire' ### BASELINE
