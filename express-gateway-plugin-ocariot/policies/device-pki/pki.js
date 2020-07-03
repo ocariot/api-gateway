@@ -101,7 +101,7 @@ async function renewCert(req, res) {
         }
 
         const serialNumber = req.socket.getPeerCertificate(true).serialNumber
-        if (deviceRegistered.serial_number.replace(/:/g,'') != serialNumber.toLowerCase()) {
+        if (deviceRegistered.serial_number.replace(/:/g, '') !== serialNumber.toLowerCase()) {
             return errorHandler(403, res)
         }
 
