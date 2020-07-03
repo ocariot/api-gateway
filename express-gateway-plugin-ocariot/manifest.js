@@ -6,6 +6,7 @@ module.exports = {
         pluginContext.registerPolicy(require('./policies/ds-agent-authorization'))
         pluginContext.registerPolicy(require('./policies/device-authorization'))
         pluginContext.registerPolicy(require('./policies/device-pki'))
+        pluginContext.registerPolicy(require('./policies/iot-measurements'))
     },
     // this is for CLI to automatically add to "policies" whitelist in gateway.config
     policies: [
@@ -14,6 +15,7 @@ module.exports = {
         'ds-agent-authorization',
         'device-pki-authorization',
         'device-pki',
+        'iot-measurements'
     ],
     schema: {
         $id: 'http://express-gateway.io/schemas/plugins/express-gateway-plugin-ocariot.json'

@@ -48,7 +48,7 @@ module.exports = (code, res, req, err) => {
                 }
                 break
             default:
-                return {
+                message = {
                     code: 500,
                     message: 'An internal server error has occurred.'
                 }
