@@ -1164,15 +1164,8 @@ pipelines:
     apiEndpoints: ['iotRenewCertPrivateApi']
     policies:
       - log: *log
-      - terminate:
-          - condition:
-              name: not
-              condition:
-                name: tlsClientAuthenticated
-            action:
-              statusCode: 403
-              message: "TLS client authentication failed!"
       - body-parser-policy:
+      - device-authorization:
       - device-pki:
           - action:
               iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
@@ -1183,14 +1176,6 @@ pipelines:
     apiEndpoints: ['iotPrivateApi']
     policies:
       - log: *log
-      - terminate:
-          - condition:
-              name: not
-              condition:
-                name: tlsClientAuthenticated
-            action:
-              statusCode: 403
-              message: "TLS client authentication failed!"
       - body-parser-policy:
       - device-authorization:
       - iot-measurements:
