@@ -1166,6 +1166,8 @@ pipelines:
       - log: *log
       - body-parser-policy:
       - device-authorization:
+          - action:
+              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
       - device-pki:
           - action:
               iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
@@ -1178,6 +1180,8 @@ pipelines:
       - log: *log
       - body-parser-policy:
       - device-authorization:
+          - action:
+              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
       - iot-measurements:
           action:
             accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
