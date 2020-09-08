@@ -5,11 +5,11 @@ https:
   port: ${PORT_HTTPS:-443}
   hostname: '0.0.0.0'
   tls:
-    ${API_IOT_HOSTNAME}:
-      key: ${SSL_IOT_KEY_PATH}
-      cert: ${SSL_IOT_CERT_PATH}
-      ca:
-        - ${SSL_IOT_CA_PATH}
+#    ${API_IOT_HOSTNAME}:
+#      key: ${SSL_IOT_KEY_PATH}
+#      cert: ${SSL_IOT_CERT_PATH}
+#      ca:
+#        - ${SSL_IOT_CA_PATH}
     "default":
       key: ${SSL_KEY_PATH}
       cert: ${SSL_CERT_PATH}
@@ -22,8 +22,8 @@ apiEndpoints:
   accountPublicApi:
     ### AUTH ###
     - host: '*'
-      paths: ['/v1/auth']
-      methods: ['POST']
+      paths: [ '/v1/auth' ]
+      methods: [ 'POST' ]
 
   ## IoT DEVICES ENDPOINTS ##
   iotPrivateApi:
@@ -31,36 +31,37 @@ apiEndpoints:
       paths:
         - '/v1/institutions/:institution_id/environments'
         - '/v1/children/:username/weights'
-      methods: ["POST"]
+        - '/v1/children/nfc/:nfc_tag/weights'
+      methods: [ "POST" ]
 
   ## IoT DEVICES ENDPOINTS ##
   iotRenewCertPrivateApi:
     - host: ${API_IOT_HOSTNAME}
       paths:
         - '/v1/institutions/:institution_id/devices/:device_id/pki/renew'
-      methods: ["POST"]
+      methods: [ "POST" ]
 
   devicePrivateApi:
     - host: '*'
       paths:
         - '/v1/institutions/:institution_id/devices/:device_id/pki'
         - '/v1/institutions/:institution_id/devices'
-      methods: ["POST"]
-      scopes: ['devices:create']
+      methods: [ "POST" ]
+      scopes: [ 'devices:create' ]
 
     - host: '*'
       paths:
         - '/v1/institutions/:institution_id/devices'
         - '/v1/institutions/:institution_id/devices/:device_id'
-      methods: ["GET"]
-      scopes: ['devices:read']
+      methods: [ "GET" ]
+      scopes: [ 'devices:read' ]
 
     - host: '*'
       paths:
         - '/v1/institutions/:institution_id/devices/:device_id/pki'
         - '/v1/institutions/:institution_id/devices/:device_id'
-      methods: ["DELETE"]
-      scopes: ['devices:delete']
+      methods: [ "DELETE" ]
+      scopes: [ 'devices:delete' ]
 
   ## ACTIVITY TRACKING ENDPOINTS ##
   activityPrivateApi:
@@ -68,230 +69,237 @@ apiEndpoints:
     - host: '*'
       paths:
         - '/v1/children/:child_id/physicalactivities'
-      methods: ["POST"]
-      scopes: ['physicalactivities:create']
+      methods: [ "POST" ]
+      scopes: [ 'physicalactivities:create' ]
 
     - host: '*'
       paths:
         - '/v1/children/:child_id/physicalactivities'
         - '/v1/children/:child_id/physicalactivities/:physicalactivity_id'
-      methods: ["GET"]
-      scopes: ['physicalactivities:read']
+      methods: [ "GET" ]
+      scopes: [ 'physicalactivities:read' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id/physicalactivities/:physicalactivity_id']
-      methods: ["PATCH"]
-      scopes: ['physicalactivities:update']
+      paths: [ '/v1/children/:child_id/physicalactivities/:physicalactivity_id' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'physicalactivities:update' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id/physicalactivities/:physicalactivity_id']
-      methods: ["DELETE"]
-      scopes: ['physicalactivities:delete']
+      paths: [ '/v1/children/:child_id/physicalactivities/:physicalactivity_id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'physicalactivities:delete' ]
 
     ### USERS.CHILDREN.LOGS ###
     - host: '*'
-      paths: ['/v1/children/:child_id/logs/date/:date_start/:date_end']
-      methods: ["GET"]
-      scopes: ['physicalactivities:read']
+      paths: [ '/v1/children/:child_id/logs/date/:date_start/:date_end' ]
+      methods: [ "GET" ]
+      scopes: [ 'physicalactivities:read' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id/logs/:resource/date/:date_start/:date_end']
-      methods: ["GET"]
-      scopes: ['physicalactivities:read']
+      paths: [ '/v1/children/:child_id/logs/:resource/date/:date_start/:date_end' ]
+      methods: [ "GET" ]
+      scopes: [ 'physicalactivities:read' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id/logs/:resource']
-      methods: ["POST"]
-      scopes: ['physicalactivities:create']
+      paths: [ '/v1/children/:child_id/logs/:resource' ]
+      methods: [ "POST" ]
+      scopes: [ 'physicalactivities:create' ]
 
     ### USERS.CHILDREN.SLEEP ###
     - host: '*'
-      paths: ['/v1/children/:child_id/sleep']
-      methods: ["POST"]
-      scopes: ['sleep:create']
+      paths: [ '/v1/children/:child_id/sleep' ]
+      methods: [ "POST" ]
+      scopes: [ 'sleep:create' ]
 
     - host: '*'
       paths:
         - '/v1/children/:child_id/sleep'
         - '/v1/children/:child_id/sleep/:sleep_id'
-      methods: ["GET"]
-      scopes: ['sleep:read']
+      methods: [ "GET" ]
+      scopes: [ 'sleep:read' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id/sleep/:sleep_id']
-      methods: ["PATCH"]
-      scopes: ['sleep:update']
+      paths: [ '/v1/children/:child_id/sleep/:sleep_id' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'sleep:update' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id/sleep/:sleep_id']
-      methods: ["DELETE"]
-      scopes: ['sleep:delete']
+      paths: [ '/v1/children/:child_id/sleep/:sleep_id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'sleep:delete' ]
 
     ### USERS.CHILDREN.WEIGHT / USERS.CHILDREN.BODYFAT ###
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id/weights'
         - '/v1/children/:child_id/bodyfats'
-      methods: ["POST"]
-      scopes: ['measurements:create']
+      methods: [ "POST" ]
+      scopes: [ 'measurements:create' ]
 
     - host: '*'
       paths:
         - '/v1/children/:child_id/weights'
         - '/v1/children/:child_id/bodyfats'
-      methods: ["GET"]
-      scopes: ['measurements:read']
+      methods: [ "GET" ]
+      scopes: [ 'measurements:read' ]
 
     - host: '*'
       paths:
         - '/v1/children/:child_id/weights/:weight_id'
         - '/v1/children/:child_id/bodyfats/:bodyfat_id'
-      methods: ["GET"]
-      scopes: ['measurements:read']
+      methods: [ "GET" ]
+      scopes: [ 'measurements:read' ]
 
     - host: '*'
       paths:
         - '/v1/children/:child_id/weights/:weight_id'
         - '/v1/children/:child_id/bodyfats/:bodyfat_id'
-      methods: ["DELETE"]
-      scopes: ['measurements:delete']
+      methods: [ "DELETE" ]
+      scopes: [ 'measurements:delete' ]
 
   ## ENVIRONMENT ENDPOINTS ##
   environmentPrivateAPI:
     - host: ${API_GATEWAY_HOSTNAME}
-      paths: ['/v1/institutions/:institution_id/environments']
-      methods: ["POST"]
-      scopes: ['environment:create']
+      paths: [ '/v1/institutions/:institution_id/environments' ]
+      methods: [ "POST" ]
+      scopes: [ 'environment:create' ]
 
     - host: '*'
-      paths: ['/v1/institutions/:institution_id/environments']
-      methods: ["GET"]
-      scopes: ['environment:read']
+      paths: [ '/v1/institutions/:institution_id/environments' ]
+      methods: [ "GET" ]
+      scopes: [ 'environment:read' ]
 
     - host: '*'
-      paths: ['/v1/institutions/:institution_id/environments']
-      methods: ["DELETE"]
-      scopes: ['environment:delete']
+      paths: [ '/v1/institutions/:institution_id/environments' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'environment:delete' ]
 
     - host: '*'
-      paths: ['/v1/institutions/:institution_id/environments/:environment_id']
-      methods: ["DELETE"]
-      scopes: ['environment:delete']
+      paths: [ '/v1/institutions/:institution_id/environments/:environment_id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'environment:delete' ]
 
   accountPrivateApi:
     ### USERS ###
     - host: '*'
-      paths: ['/v1/users/:user_id']
-      methods: ['DELETE']
-      scopes: ['users:delete']
+      paths: [ '/v1/users/:user_id' ]
+      methods: [ 'DELETE' ]
+      scopes: [ 'users:delete' ]
 
     - host: '*'
-      paths: ['/v1/users/:user_id/password']
-      methods: ['PUT']
-      scopes: ['applications:update', 'children:update', 'educators:update', 'families:update', 'healthprofessionals:update']
+      paths: [ '/v1/users/:user_id/password' ]
+      methods: [ 'PUT' ]
+      scopes: [ 'applications:update', 'children:update', 'educators:update', 'families:update', 'healthprofessionals:update' ]
 
     - host: '*'
-      paths: ['/v1/users/:user_id/reset-password']
-      methods: ['POST']
-      scopes: ['users:resetPassword']
+      paths: [ '/v1/users/:user_id/reset-password' ]
+      methods: [ 'POST' ]
+      scopes: [ 'users:resetPassword' ]
 
     ### USERS.CHILDREN ###
     - host: '*'
-      paths: ['/v1/children']
-      methods: ['POST']
-      scopes: ['children:create']
+      paths: [ '/v1/children' ]
+      methods: [ 'POST' ]
+      scopes: [ 'children:create' ]
 
     - host: '*'
-      paths: ['/v1/children']
-      methods: ['GET']
-      scopes: ['children:readAll']
+      paths: [ '/v1/children' ]
+      methods: [ 'GET' ]
+      scopes: [ 'children:readAll' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id']
-      methods: ['GET']
-      scopes: ['children:read']
+      paths:
+        - '/v1/children/:child_id'
+        - '/v1/children/nfc/:nfc_tag'
+      methods: [ 'GET' ]
+      scopes: [ 'children:read' ]
 
     - host: '*'
-      paths: ['/v1/children/:child_id']
-      methods: ['PATCH']
-      scopes: ['children:update']
+      paths: [ '/v1/children/:child_id' ]
+      methods: [ 'PATCH' ]
+      scopes: [ 'children:update' ]
+
+    - host: '*'
+      paths: [ '/v1/children/:child_id/nfc' ]
+      methods: [ 'POST' ]
+      scopes: [ 'children:update' ]
 
     ### USERS.EDUCATORS ###
     - host: '*'
-      paths: ['/v1/educators']
-      methods: ['POST']
-      scopes: ['educators:create']
+      paths: [ '/v1/educators' ]
+      methods: [ 'POST' ]
+      scopes: [ 'educators:create' ]
 
     - host: '*'
-      paths: ['/v1/educators']
-      methods: ['GET']
-      scopes: ['educators:readAll']
+      paths: [ '/v1/educators' ]
+      methods: [ 'GET' ]
+      scopes: [ 'educators:readAll' ]
 
     - host: '*'
-      paths: ['/v1/educators/:educator_id']
-      methods: ['GET']
-      scopes: ['educators:read']
+      paths: [ '/v1/educators/:educator_id' ]
+      methods: [ 'GET' ]
+      scopes: [ 'educators:read' ]
 
     - host: '*'
-      paths: ['/v1/educators/:educator_id']
-      methods: ['PATCH']
-      scopes: ['educators:update']
+      paths: [ '/v1/educators/:educator_id' ]
+      methods: [ 'PATCH' ]
+      scopes: [ 'educators:update' ]
 
     ### USERS.FAMILIES || USERS.FAMILIES.CHILDREN ###
     - host: '*'
-      paths: ['/v1/families', '/v1/families/:family_id/children/:child_id']
-      methods: ['POST']
-      scopes: ['families:create']
+      paths: [ '/v1/families', '/v1/families/:family_id/children/:child_id' ]
+      methods: [ 'POST' ]
+      scopes: [ 'families:create' ]
 
     - host: '*'
-      paths: ['/v1/families']
-      methods: ['GET']
-      scopes: ['families:readAll']
+      paths: [ '/v1/families' ]
+      methods: [ 'GET' ]
+      scopes: [ 'families:readAll' ]
 
     - host: '*'
-      paths: ['/v1/families/:family_id', '/v1/families/:family_id/children']
-      methods: ['GET']
-      scopes: ['families:read']
+      paths: [ '/v1/families/:family_id', '/v1/families/:family_id/children' ]
+      methods: [ 'GET' ]
+      scopes: [ 'families:read' ]
 
     - host: '*'
-      paths: ['/v1/families/:family_id']
-      methods: ['PATCH']
-      scopes: ['families:update']
+      paths: [ '/v1/families/:family_id' ]
+      methods: [ 'PATCH' ]
+      scopes: [ 'families:update' ]
 
     - host: '*'
       paths:
         - '/v1/families/:family_id/children/:child_id'
-      methods: ['DELETE']
-      scopes: ['families:delete']
+      methods: [ 'DELETE' ]
+      scopes: [ 'families:delete' ]
 
     ### USERS.HEALTHPROFESSIONALS ###
     - host: '*'
-      paths: ['/v1/healthprofessionals']
-      methods: ['POST']
-      scopes: ['healthprofessionals:create']
+      paths: [ '/v1/healthprofessionals' ]
+      methods: [ 'POST' ]
+      scopes: [ 'healthprofessionals:create' ]
 
     - host: '*'
-      paths: ['/v1/healthprofessionals']
-      methods: ['GET']
-      scopes: ['healthprofessionals:readAll']
+      paths: [ '/v1/healthprofessionals' ]
+      methods: [ 'GET' ]
+      scopes: [ 'healthprofessionals:readAll' ]
 
     - host: '*'
-      paths: ['/v1/healthprofessionals/:healthprofessional_id']
-      methods: ['GET']
-      scopes: ['healthprofessionals:read']
+      paths: [ '/v1/healthprofessionals/:healthprofessional_id' ]
+      methods: [ 'GET' ]
+      scopes: [ 'healthprofessionals:read' ]
 
     - host: '*'
-      paths: ['/v1/healthprofessionals/:healthprofessional_id']
-      methods: ['PATCH']
-      scopes: ['healthprofessionals:update']
+      paths: [ '/v1/healthprofessionals/:healthprofessional_id' ]
+      methods: [ 'PATCH' ]
+      scopes: [ 'healthprofessionals:update' ]
 
     ### USERS.EDUCATORS.CHILDREN.GROUPS || USERS.HEALTHPROFESSIONALS.CHILDREN.GROUPS ###
     - host: '*'
       paths:
         - '/v1/educators/:educator_id/children/groups'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups'
-      methods: ['POST']
-      scopes: ['childrengroups:create']
+      methods: [ 'POST' ]
+      scopes: [ 'childrengroups:create' ]
 
     - host: '*'
       paths:
@@ -299,95 +307,95 @@ apiEndpoints:
         - '/v1/educators/:educator_id/children/groups/:group_id'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
-      methods: ['GET']
-      scopes: ['childrengroups:read']
+      methods: [ 'GET' ]
+      scopes: [ 'childrengroups:read' ]
 
     - host: '*'
       paths:
         - '/v1/educators/:educator_id/children/groups/:group_id'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
-      methods: ['PATCH']
-      scopes: ['childrengroups:update']
+      methods: [ 'PATCH' ]
+      scopes: [ 'childrengroups:update' ]
 
     - host: '*'
       paths:
         - '/v1/educators/:educator_id/children/groups/:group_id'
         - '/v1/healthprofessionals/:healthprofessional_id/children/groups/:group_id'
-      methods: ['DELETE']
-      scopes: ['childrengroups:delete']
+      methods: [ 'DELETE' ]
+      scopes: [ 'childrengroups:delete' ]
 
     ### USERS.APPLICATIONS ###
     - host: '*'
-      paths: ['/v1/applications']
-      methods: ['POST']
-      scopes: ['applications:create']
+      paths: [ '/v1/applications' ]
+      methods: [ 'POST' ]
+      scopes: [ 'applications:create' ]
 
     - host: '*'
-      paths: ['/v1/applications']
-      methods: ['GET']
-      scopes: ['applications:readAll']
+      paths: [ '/v1/applications' ]
+      methods: [ 'GET' ]
+      scopes: [ 'applications:readAll' ]
 
     - host: '*'
-      paths: ['/v1/applications/:application_id']
-      methods: ['GET']
-      scopes: ['applications:read']
+      paths: [ '/v1/applications/:application_id' ]
+      methods: [ 'GET' ]
+      scopes: [ 'applications:read' ]
 
     - host: '*'
-      paths: ['/v1/applications/:application_id']
-      methods: ['PATCH']
-      scopes: ['applications:update']
+      paths: [ '/v1/applications/:application_id' ]
+      methods: [ 'PATCH' ]
+      scopes: [ 'applications:update' ]
 
     ### INSTITUTIONS ###
     - host: '*'
-      paths: ['/v1/institutions']
-      methods: ['POST']
-      scopes: ['institutions:create']
+      paths: [ '/v1/institutions' ]
+      methods: [ 'POST' ]
+      scopes: [ 'institutions:create' ]
 
     - host: '*'
-      paths: ['/v1/institutions']
-      methods: ['GET']
-      scopes: ['institutions:readAll']
+      paths: [ '/v1/institutions' ]
+      methods: [ 'GET' ]
+      scopes: [ 'institutions:readAll' ]
 
     - host: '*'
-      paths: ['/v1/institutions/:institution_id']
-      methods: ['GET']
-      scopes: ['institutions:read']
+      paths: [ '/v1/institutions/:institution_id' ]
+      methods: [ 'GET' ]
+      scopes: [ 'institutions:read' ]
 
     - host: '*'
-      paths: ['/v1/institutions/:institution_id']
-      methods: ['PATCH']
-      scopes: ['institutions:update']
+      paths: [ '/v1/institutions/:institution_id' ]
+      methods: [ 'PATCH' ]
+      scopes: [ 'institutions:update' ]
 
     - host: '*'
-      paths: ['/v1/institutions/:institution_id']
-      methods: ['DELETE']
-      scopes: ['institutions:delete']
+      paths: [ '/v1/institutions/:institution_id' ]
+      methods: [ 'DELETE' ]
+      scopes: [ 'institutions:delete' ]
 
   ## DATA SYNC AGENT ENDPOINTS ##
   dsAgentPrivateApi:
     ### FITBIT ###
     - host: '*'
-      paths: ['/v1/fitbit']
-      methods: ['GET']
-      scopes: ['external:sync']
+      paths: [ '/v1/fitbit' ]
+      methods: [ 'GET' ]
+      scopes: [ 'external:sync' ]
 
     ### USERS.FITBIT.AUTH ###
     - host: '*'
-      paths: ['/v1/users/:user_id/fitbit/auth']
-      methods: ['POST', 'GET']
-      scopes: ['external:sync']
+      paths: [ '/v1/users/:user_id/fitbit/auth' ]
+      methods: [ 'POST', 'GET' ]
+      scopes: [ 'external:sync' ]
 
     - host: '*'
-      paths: ['/v1/users/:user_id/fitbit/auth/revoke']
-      methods: ['POST']
-      scopes: ['external:sync']
+      paths: [ '/v1/users/:user_id/fitbit/auth/revoke' ]
+      methods: [ 'POST' ]
+      scopes: [ 'external:sync' ]
 
   dsAgentFitbitSyncPrivateApi:
     ### USERS.FITBIT.SYNC ###
     - host: '*'
-      paths: ['/v1/users/:user_id/fitbit/sync']
-      methods: ['POST']
-      scopes: ['external:sync']
+      paths: [ '/v1/users/:user_id/fitbit/sync' ]
+      methods: [ 'POST' ]
+      scopes: [ 'external:sync' ]
 
   ## FOOD TRACKING AND QUESTIONNAIRE ENDPOINTS ##
   questionnairesPrivateAPI:
@@ -397,28 +405,28 @@ apiEndpoints:
         - '/v1/q1sociodemographics'
         - '/v1/q1sociodemographics/:id'
         - '/v1/q1sociodemographics/count'
-      methods: ["GET"]
-      scopes: ['socioquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'socioquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q1sociodemographics/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['socioquest:update']
+      paths: [ '/v1/q1sociodemographics/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'socioquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q1sociodemographics/:id']
-      methods: ["DELETE"]
-      scopes: ['socioquest:delete']
+      paths: [ '/v1/q1sociodemographics/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'socioquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q1sociodemographics']
-      methods: ["POST"]
-      scopes: ['socioquest:create']
+      paths: [ '/v1/q1sociodemographics' ]
+      methods: [ "POST" ]
+      scopes: [ 'socioquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q1sociodemographics']
-      methods: ["PATCH"]
-      scopes: ['socioquest:update']
+      paths: [ '/v1/q1sociodemographics' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'socioquest:update' ]
 
     ### Q21CHILDSHEALTHCONDITIONS ###
     - host: '*'
@@ -426,28 +434,28 @@ apiEndpoints:
         - '/v1/q21childshealthconditions'
         - '/v1/q21childshealthconditions/:id'
         - '/v1/q21childshealthconditions/count'
-      methods: ["GET"]
-      scopes: ['healthquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'healthquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q21childshealthconditions/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['healthquest:update']
+      paths: [ '/v1/q21childshealthconditions/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'healthquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q21childshealthconditions/:id']
-      methods: ["DELETE"]
-      scopes: ['healthquest:delete']
+      paths: [ '/v1/q21childshealthconditions/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'healthquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q21childshealthconditions']
-      methods: ["POST"]
-      scopes: ['healthquest:create']
+      paths: [ '/v1/q21childshealthconditions' ]
+      methods: [ "POST" ]
+      scopes: [ 'healthquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q21childshealthconditions']
-      methods: ["PATCH"]
-      scopes: ['healthquest:update']
+      paths: [ '/v1/q21childshealthconditions' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'healthquest:update' ]
 
     ### Q22PARENTSHEALTHCONDITIONS ###
     - host: '*'
@@ -455,28 +463,28 @@ apiEndpoints:
         - '/v1/q22parentshealthconditions'
         - '/v1/q22parentshealthconditions/:id'
         - '/v1/q22parentshealthconditions/count'
-      methods: ["GET"]
-      scopes: ['healthquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'healthquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q22parentshealthconditions/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['healthquest:update']
+      paths: [ '/v1/q22parentshealthconditions/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'healthquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q22parentshealthconditions/:id']
-      methods: ["DELETE"]
-      scopes: ['healthquest:delete']
+      paths: [ '/v1/q22parentshealthconditions/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'healthquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q22parentshealthconditions']
-      methods: ["POST"]
-      scopes: ['healthquest:create']
+      paths: [ '/v1/q22parentshealthconditions' ]
+      methods: [ "POST" ]
+      scopes: [ 'healthquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q22parentshealthconditions']
-      methods: ["PATCH"]
-      scopes: ['healthquest:update']
+      paths: [ '/v1/q22parentshealthconditions' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'healthquest:update' ]
 
     ### Q23IPAQ ###
     - host: '*'
@@ -484,28 +492,28 @@ apiEndpoints:
         - '/v1/q23ipaq'
         - '/v1/q23ipaq/:id'
         - '/v1/q23ipaq/count'
-      methods: ["GET"]
-      scopes: ['parentphyquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'parentphyquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q23ipaq/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['parentphyquest:update']
+      paths: [ '/v1/q23ipaq/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'parentphyquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q23ipaq/:id']
-      methods: ["DELETE"]
-      scopes: ['parentphyquest:delete']
+      paths: [ '/v1/q23ipaq/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'parentphyquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q23ipaq']
-      methods: ["POST"]
-      scopes: ['parentphyquest:create']
+      paths: [ '/v1/q23ipaq' ]
+      methods: [ "POST" ]
+      scopes: [ 'parentphyquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q23ipaq']
-      methods: ["PATCH"]
-      scopes: ['parentphyquest:update']
+      paths: [ '/v1/q23ipaq' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'parentphyquest:update' ]
 
     ### Q3PHYSICALANTHROPOMETRICMEASURES ###
     - host: '*'
@@ -513,28 +521,28 @@ apiEndpoints:
         - '/v1/q3physicalandanthropometricmeasures'
         - '/v1/q3physicalandanthropometricmeasures/:id'
         - '/v1/q3physicalandanthropometricmeasures/count'
-      methods: ["GET"]
-      scopes: ['childrenphyquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'childrenphyquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q3physicalandanthropometricmeasures/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['childrenphyquest:update']
+      paths: [ '/v1/q3physicalandanthropometricmeasures/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'childrenphyquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q3physicalandanthropometricmeasures/:id']
-      methods: ["DELETE"]
-      scopes: ['childrenphyquest:delete']
+      paths: [ '/v1/q3physicalandanthropometricmeasures/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'childrenphyquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q3physicalandanthropometricmeasures']
-      methods: ["POST"]
-      scopes: ['childrenphyquest:create']
+      paths: [ '/v1/q3physicalandanthropometricmeasures' ]
+      methods: [ "POST" ]
+      scopes: [ 'childrenphyquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q3physicalandanthropometricmeasures']
-      methods: ["PATCH"]
-      scopes: ['childrenphyquest:update']
+      paths: [ '/v1/q3physicalandanthropometricmeasures' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'childrenphyquest:update' ]
 
     ### Q401FOODFREQUENCY ###
     - host: '*'
@@ -542,28 +550,28 @@ apiEndpoints:
         - '/v1/q401ffq'
         - '/v1/q401ffq/:id'
         - '/v1/q401ffq/count'
-      methods: ["GET"]
-      scopes: ['habitsquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'habitsquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q401ffq/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q401ffq/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q401ffq/:id']
-      methods: ["DELETE"]
-      scopes: ['habitsquest:delete']
+      paths: [ '/v1/q401ffq/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'habitsquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q401ffq']
-      methods: ["POST"]
-      scopes: ['habitsquest:create']
+      paths: [ '/v1/q401ffq' ]
+      methods: [ "POST" ]
+      scopes: [ 'habitsquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q401ffq']
-      methods: ["PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q401ffq' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     ### Q402FOODHABITSANDFEEDINGBEHAVIOURS ###
     - host: '*'
@@ -571,28 +579,28 @@ apiEndpoints:
         - '/v1/q402foodhabitsandfeedingbehaviors'
         - '/v1/q402foodhabitsandfeedingbehaviors/:id'
         - '/v1/q402foodhabitsandfeedingbehaviors/count'
-      methods: ["GET"]
-      scopes: ['habitsquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'habitsquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q402foodhabitsandfeedingbehaviors/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q402foodhabitsandfeedingbehaviors/:id']
-      methods: ["DELETE"]
-      scopes: ['habitsquest:delete']
+      paths: [ '/v1/q402foodhabitsandfeedingbehaviors/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'habitsquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q402foodhabitsandfeedingbehaviors']
-      methods: ["POST"]
-      scopes: ['habitsquest:create']
+      paths: [ '/v1/q402foodhabitsandfeedingbehaviors' ]
+      methods: [ "POST" ]
+      scopes: [ 'habitsquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q402foodhabitsandfeedingbehaviors']
-      methods: ["PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q402foodhabitsandfeedingbehaviors' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     ### Q501PHYSICALACTIVITYFORCHILDREN ###
     - host: '*'
@@ -600,28 +608,28 @@ apiEndpoints:
         - '/v1/q501physicalactivityforchildren'
         - '/v1/q501physicalactivityforchildren/:id'
         - '/v1/q501physicalactivityforchildren/count'
-      methods: ["GET"]
-      scopes: ['habitsquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'habitsquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q501physicalactivityforchildren/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q501physicalactivityforchildren/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q501physicalactivityforchildren/:id']
-      methods: ["DELETE"]
-      scopes: ['habitsquest:delete']
+      paths: [ '/v1/q501physicalactivityforchildren/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'habitsquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q501physicalactivityforchildren']
-      methods: ["POST"]
-      scopes: ['habitsquest:create']
+      paths: [ '/v1/q501physicalactivityforchildren' ]
+      methods: [ "POST" ]
+      scopes: [ 'habitsquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q501physicalactivityforchildren']
-      methods: ["PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q501physicalactivityforchildren' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     ### Q502PHYSICALACTIVITYANDSEDENTARYHABITS ###
     - host: '*'
@@ -629,28 +637,28 @@ apiEndpoints:
         - '/v1/q502physicalactivityandsedentaryhabits'
         - '/v1/q502physicalactivityandsedentaryhabits/:id'
         - '/v1/q502physicalactivityandsedentaryhabits/count'
-      methods: ["GET"]
-      scopes: ['habitsquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'habitsquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q502physicalactivityandsedentaryhabits/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q502physicalactivityandsedentaryhabits/:id']
-      methods: ["DELETE"]
-      scopes: ['habitsquest:delete']
+      paths: [ '/v1/q502physicalactivityandsedentaryhabits/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'habitsquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q502physicalactivityandsedentaryhabits']
-      methods: ["POST"]
-      scopes: ['habitsquest:create']
+      paths: [ '/v1/q502physicalactivityandsedentaryhabits' ]
+      methods: [ "POST" ]
+      scopes: [ 'habitsquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q502physicalactivityandsedentaryhabits']
-      methods: ["PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q502physicalactivityandsedentaryhabits' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     ### Q503SLEEPINGHABITS ###
     - host: '*'
@@ -658,28 +666,28 @@ apiEndpoints:
         - '/v1/q503sleepinghabits'
         - '/v1/q503sleepinghabits/:id'
         - '/v1/q503sleepinghabits/count'
-      methods: ["GET"]
-      scopes: ['habitsquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'habitsquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q503sleepinghabits/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q503sleepinghabits/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q503sleepinghabits/:id']
-      methods: ["DELETE"]
-      scopes: ['habitsquest:delete']
+      paths: [ '/v1/q503sleepinghabits/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'habitsquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q503sleepinghabits']
-      methods: ["POST"]
-      scopes: ['habitsquest:create']
+      paths: [ '/v1/q503sleepinghabits' ]
+      methods: [ "POST" ]
+      scopes: [ 'habitsquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q503sleepinghabits']
-      methods: ["PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q503sleepinghabits' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     ### Q601CHILDEATINGBEHAVIOUR ###
     - host: '*'
@@ -687,28 +695,28 @@ apiEndpoints:
         - '/v1/q601childeatingbehaviour'
         - '/v1/q601childeatingbehaviour/:id'
         - '/v1/q601childeatingbehaviour/count'
-      methods: ["GET"]
-      scopes: ['habitsquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'habitsquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q601childeatingbehaviour/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q601childeatingbehaviour/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q601childeatingbehaviour/:id']
-      methods: ["DELETE"]
-      scopes: ['habitsquest:delete']
+      paths: [ '/v1/q601childeatingbehaviour/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'habitsquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q601childeatingbehaviour']
-      methods: ["POST"]
-      scopes: ['habitsquest:create']
+      paths: [ '/v1/q601childeatingbehaviour' ]
+      methods: [ "POST" ]
+      scopes: [ 'habitsquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q601childeatingbehaviour']
-      methods: ["PATCH"]
-      scopes: ['habitsquest:update']
+      paths: [ '/v1/q601childeatingbehaviour' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'habitsquest:update' ]
 
     ### Q602AUTOPERCEPTION ###
     - host: '*'
@@ -716,28 +724,28 @@ apiEndpoints:
         - '/v1/q602autoperception'
         - '/v1/q602autoperception/:id'
         - '/v1/q602autoperception/count'
-      methods: ["GET"]
-      scopes: ['perceptionquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'perceptionquest:read' ]
 
     - host: '*'
-      paths: ['/v1/q602autoperception/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['perceptionquest:update']
+      paths: [ '/v1/q602autoperception/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'perceptionquest:update' ]
 
     - host: '*'
-      paths: ['/v1/q602autoperception/:id']
-      methods: ["DELETE"]
-      scopes: ['perceptionquest:delete']
+      paths: [ '/v1/q602autoperception/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'perceptionquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/q602autoperception']
-      methods: ["POST"]
-      scopes: ['perceptionquest:create']
+      paths: [ '/v1/q602autoperception' ]
+      methods: [ "POST" ]
+      scopes: [ 'perceptionquest:create' ]
 
     - host: '*'
-      paths: ['/v1/q602autoperception']
-      methods: ["PATCH"]
-      scopes: ['perceptionquest:update']
+      paths: [ '/v1/q602autoperception' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'perceptionquest:update' ]
 
     ### QFOODTRACKING ###
     - host: '*'
@@ -745,28 +753,28 @@ apiEndpoints:
         - '/v1/qfoodtrackings'
         - '/v1/qfoodtrackings/:id'
         - '/v1/qfoodtrackings/count'
-      methods: ["GET"]
-      scopes: ['foodtracking:read']
+      methods: [ "GET" ]
+      scopes: [ 'foodtracking:read' ]
 
     - host: '*'
-      paths: ['/v1/qfoodtrackings/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['foodtracking:update']
+      paths: [ '/v1/qfoodtrackings/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'foodtracking:update' ]
 
     - host: '*'
-      paths: ['/v1/qfoodtrackings/:id']
-      methods: ["DELETE"]
-      scopes: ['foodtracking:delete']
+      paths: [ '/v1/qfoodtrackings/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'foodtracking:delete' ]
 
     - host: '*'
-      paths: ['/v1/qfoodtrackings']
-      methods: ["POST"]
-      scopes: ['foodtracking:create']
+      paths: [ '/v1/qfoodtrackings' ]
+      methods: [ "POST" ]
+      scopes: [ 'foodtracking:create' ]
 
     - host: '*'
-      paths: ['/v1/qfoodtrackings']
-      methods: ["PATCH"]
-      scopes: ['foodtracking:update']
+      paths: [ '/v1/qfoodtrackings' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'foodtracking:update' ]
 
   ## GAMIFICATION ENDPOINTS ##
   gamificationPrivateAPI:
@@ -776,28 +784,28 @@ apiEndpoints:
         - '/v1/agentreports'
         - '/v1/agentreports/:id'
         - '/v1/agentreports/count'
-      methods: ['GET']
-      scopes: ['gamificationprofile:read']
+      methods: [ 'GET' ]
+      scopes: [ 'gamificationprofile:read' ]
 
     - host: '*'
-      paths: ['/v1/agentreports/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/agentreports/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     - host: '*'
-      paths: ['/v1/agentreports/:id']
-      methods: ["DELETE"]
-      scopes: ['gamificationprofile:delete']
+      paths: [ '/v1/agentreports/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'gamificationprofile:delete' ]
 
     - host: '*'
-      paths: ['/v1/agentreports']
-      methods: ["POST"]
-      scopes: ['gamificationprofile:create']
+      paths: [ '/v1/agentreports' ]
+      methods: [ "POST" ]
+      scopes: [ 'gamificationprofile:create' ]
 
     - host: '*'
-      paths: ['/v1/agentreports']
-      methods: ["PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/agentreports' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     ### BADGE ###
     - host: '*'
@@ -805,28 +813,28 @@ apiEndpoints:
         - '/v1/badges'
         - '/v1/badges/:id'
         - '/v1/badges/count'
-      methods: ['GET']
-      scopes: ['gamificationprofile:read']
+      methods: [ 'GET' ]
+      scopes: [ 'gamificationprofile:read' ]
 
     - host: '*'
-      paths: ['/v1/badges/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/badges/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     - host: '*'
-      paths: ['/v1/badges/:id']
-      methods: ["DELETE"]
-      scopes: ['gamificationprofile:delete']
+      paths: [ '/v1/badges/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'gamificationprofile:delete' ]
 
     - host: '*'
-      paths: ['/v1/badges']
-      methods: ["POST"]
-      scopes: ['gamificationprofile:create']
+      paths: [ '/v1/badges' ]
+      methods: [ "POST" ]
+      scopes: [ 'gamificationprofile:create' ]
 
     - host: '*'
-      paths: ['/v1/badges']
-      methods: ["PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/badges' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     ### CUSTOMIZATION ITEM ###
     - host: '*'
@@ -834,28 +842,28 @@ apiEndpoints:
         - '/v1/customizationitems'
         - '/v1/customizationitems/:id'
         - '/v1/customizationitems/count'
-      methods: ['GET']
-      scopes: ['gamificationprofile:read']
+      methods: [ 'GET' ]
+      scopes: [ 'gamificationprofile:read' ]
 
     - host: '*'
-      paths: ['/v1/customizationitems/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/customizationitems/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     - host: '*'
-      paths: ['/v1/customizationitems/:id']
-      methods: ["DELETE"]
-      scopes: ['gamificationprofile:delete']
+      paths: [ '/v1/customizationitems/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'gamificationprofile:delete' ]
 
     - host: '*'
-      paths: ['/v1/customizationitems']
-      methods: ["POST"]
-      scopes: ['gamificationprofile:create']
+      paths: [ '/v1/customizationitems' ]
+      methods: [ "POST" ]
+      scopes: [ 'gamificationprofile:create' ]
 
     - host: '*'
-      paths: ['/v1/customizationitems']
-      methods: ["PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/customizationitems' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     ### GAMIFICATION PROFILE ###
     - host: '*'
@@ -863,28 +871,28 @@ apiEndpoints:
         - '/v1/gamificationprofiles'
         - '/v1/gamificationprofiles/:id'
         - '/v1/gamificationprofiles/count'
-      methods: ['GET']
-      scopes: ['gamificationprofile:read']
+      methods: [ 'GET' ]
+      scopes: [ 'gamificationprofile:read' ]
 
     - host: '*'
-      paths: ['/v1/gamificationprofiles/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/gamificationprofiles/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     - host: '*'
-      paths: ['/v1/gamificationprofiles/:id']
-      methods: ["DELETE"]
-      scopes: ['gamificationprofile:delete']
+      paths: [ '/v1/gamificationprofiles/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'gamificationprofile:delete' ]
 
     - host: '*'
-      paths: ['/v1/gamificationprofiles']
-      methods: ["POST"]
-      scopes: ['gamificationprofile:create']
+      paths: [ '/v1/gamificationprofiles' ]
+      methods: [ "POST" ]
+      scopes: [ 'gamificationprofile:create' ]
 
     - host: '*'
-      paths: ['/v1/gamificationprofiles']
-      methods: ["PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/gamificationprofiles' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     ### QUESTION ###
     - host: '*'
@@ -892,28 +900,28 @@ apiEndpoints:
         - '/v1/questions'
         - '/v1/questions/:id'
         - '/v1/questions/count'
-      methods: ["GET"]
-      scopes: ['gamificationprofile:read']
+      methods: [ "GET" ]
+      scopes: [ 'gamificationprofile:read' ]
 
     - host: '*'
-      paths: ['/v1/questions/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/questions/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     - host: '*'
-      paths: ['/v1/questions/:id']
-      methods: ["DELETE"]
-      scopes: ['gamificationprofile:delete']
+      paths: [ '/v1/questions/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'gamificationprofile:delete' ]
 
     - host: '*'
-      paths: ['/v1/questions']
-      methods: ["POST"]
-      scopes: ['gamificationprofile:create']
+      paths: [ '/v1/questions' ]
+      methods: [ "POST" ]
+      scopes: [ 'gamificationprofile:create' ]
 
     - host: '*'
-      paths: ['/v1/questions']
-      methods: ["PATCH"]
-      scopes: ['gamificationprofile:update']
+      paths: [ '/v1/questions' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'gamificationprofile:update' ]
 
     ### MISSION ###
     - host: '*'
@@ -921,28 +929,28 @@ apiEndpoints:
         - '/v1/missions'
         - '/v1/missions/:id'
         - '/v1/missions/count'
-      methods: ['GET']
-      scopes: ['missions:read']
+      methods: [ 'GET' ]
+      scopes: [ 'missions:read' ]
 
     - host: '*'
-      paths: ['/v1/missions/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['missions:update']
+      paths: [ '/v1/missions/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'missions:update' ]
 
     - host: '*'
-      paths: ['/v1/missions/:id']
-      methods: ["DELETE"]
-      scopes: ['missions:delete']
+      paths: [ '/v1/missions/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'missions:delete' ]
 
     - host: '*'
-      paths: ['/v1/missions']
-      methods: ["POST"]
-      scopes: ['missions:create']
+      paths: [ '/v1/missions' ]
+      methods: [ "POST" ]
+      scopes: [ 'missions:create' ]
 
     - host: '*'
-      paths: ['/v1/missions']
-      methods: ["PATCH"]
-      scopes: ['missions:update']
+      paths: [ '/v1/missions' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'missions:update' ]
 
   ## MISSIONS ENDPOINTS ##
   missionsPrivateAPI:
@@ -960,8 +968,8 @@ apiEndpoints:
         - '/v1/educator-missions/activate' ### EDUCATOR MISSIONS ###
         - '/v1/educator-missions/validate' ### EDUCATOR MISSIONS ###
         - '/v1/educator-missions/assign' ### EDUCATOR MISSIONS ###
-      methods: ["POST"]
-      scopes: ['missions:create']
+      methods: [ "POST" ]
+      scopes: [ 'missions:create' ]
 
     - host: '*'
       paths:
@@ -980,20 +988,20 @@ apiEndpoints:
         - '/v1/educator-missions/active/:childId' ### EDUCATOR MISSIONS ###
         - '/v1/educator-missions/completed/:childId' ### EDUCATOR MISSIONS ###
         - '/v1/educator-missions/assign/:childId' ### EDUCATOR MISSIONS ###
-      methods: ["GET"]
-      scopes: ['missions:read']
+      methods: [ "GET" ]
+      scopes: [ 'missions:read' ]
 
     - host: '*'
       paths:
         - '/v1/educator-missions/:missionId' ### EDUCATOR MISSIONS ###
-      methods: ["PUT"]
-      scopes: ['missions:update']
+      methods: [ "PUT" ]
+      scopes: [ 'missions:update' ]
 
     - host: '*'
       paths:
         - '/v1/educator-missions/:missionId' ### EDUCATOR MISSIONS ###
-      methods: ["DELETE"]
-      scopes: ['missions:delete']
+      methods: [ "DELETE" ]
+      scopes: [ 'missions:delete' ]
 
   ## FOOD HABITS ENDPOINTS ##
   foodPrivateApi:
@@ -1002,28 +1010,28 @@ apiEndpoints:
         - '/v1/foodqs'
         - '/v1/foodqs/:id'
         - '/v1/foodqs/count'
-      methods: ["GET"]
-      scopes: ['foodhabitsquest:read']
+      methods: [ "GET" ]
+      scopes: [ 'foodhabitsquest:read' ]
 
     - host: '*'
-      paths: ['/v1/foodqs/:id']
-      methods: ["PUT", "PATCH"]
-      scopes: ['foodhabitsquest:update']
+      paths: [ '/v1/foodqs/:id' ]
+      methods: [ "PUT", "PATCH" ]
+      scopes: [ 'foodhabitsquest:update' ]
 
     - host: '*'
-      paths: ['/v1/foodqs/:id']
-      methods: ["DELETE"]
-      scopes: ['foodhabitsquest:delete']
+      paths: [ '/v1/foodqs/:id' ]
+      methods: [ "DELETE" ]
+      scopes: [ 'foodhabitsquest:delete' ]
 
     - host: '*'
-      paths: ['/v1/foodqs']
-      methods: ["POST"]
-      scopes: ['foodhabitsquest:create']
+      paths: [ '/v1/foodqs' ]
+      methods: [ "POST" ]
+      scopes: [ 'foodhabitsquest:create' ]
 
     - host: '*'
-      paths: ['/v1/foodqs']
-      methods: ["PATCH"]
-      scopes: ['foodhabitsquest:update']
+      paths: [ '/v1/foodqs' ]
+      methods: [ "PATCH" ]
+      scopes: [ 'foodhabitsquest:update' ]
 
   ## NOTIFICATION ENDPOINTS ##
   notificationsPrivateAPI:
@@ -1031,20 +1039,20 @@ apiEndpoints:
     - host: '*'
       paths:
         - '/v1/notifications/user/:id'
-      methods: ['POST']
-      scopes: ['notifications:create']
+      methods: [ 'POST' ]
+      scopes: [ 'notifications:create' ]
 
     - host: '*'
       paths:
         - '/v1/notifications/pendingnotification/:id'
-      methods: ['GET']
-      scopes: ['notifications:read']
+      methods: [ 'GET' ]
+      scopes: [ 'notifications:read' ]
 
     - host: '*'
       paths:
         - '/v1/notifications/deletetoken/:id'
-      methods: ['PATCH']
-      scopes: ['notifications:delete']
+      methods: [ 'PATCH' ]
+      scopes: [ 'notifications:delete' ]
 
   ## VAULT ##
   vault:
@@ -1112,7 +1120,7 @@ policies:
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
 pipelines:
   accountPublicPipeline:
-    apiEndpoints: ['accountPublicApi']
+    apiEndpoints: [ 'accountPublicApi' ]
     policies:
       - log: &log
           action:
@@ -1129,16 +1137,16 @@ pipelines:
               issuer: ${ISSUER:-ocariot}
       - proxy:
           - action: &proxy
-              prependPath:  true
-              ignorePath:   false
-              stripPath:    false
+              prependPath: true
+              ignorePath: false
+              stripPath: false
               changeOrigin: true
               timeout: 10000
               secure: false
               serviceEndpoint: accountService
 
   devicePipeline:
-    apiEndpoints: ['devicePrivateApi']
+    apiEndpoints: [ 'devicePrivateApi' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1161,7 +1169,7 @@ pipelines:
               serviceEndpoint: activityService
 
   iotCertRenewPipeline:
-    apiEndpoints: ['iotRenewCertPrivateApi']
+    apiEndpoints: [ 'iotRenewCertPrivateApi' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1175,13 +1183,13 @@ pipelines:
               vaultServiceToken: ${VAULT_ACCESS_TOKEN:-''}
 
   iotPipeline:
-    apiEndpoints: ['iotPrivateApi']
+    apiEndpoints: [ 'iotPrivateApi' ]
     policies:
       - log: *log
       - body-parser-policy:
-      - device-authorization:
-          - action:
-              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
+#      - device-authorization:
+#          - action:
+#              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
       - iot-measurements:
           action:
             accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
@@ -1192,7 +1200,7 @@ pipelines:
               serviceEndpoint: activityService
 
   accountPrivatePipeline:
-    apiEndpoints: ['accountPrivateApi']
+    apiEndpoints: [ 'accountPrivateApi' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1222,7 +1230,7 @@ pipelines:
 
   #### Pipelines to manage data coming from ACTIVITY PRIVATE and PUBLIC APIs ####
   activityPrivatePipeline:
-    apiEndpoints: ['activityPrivateApi', 'environmentPrivateAPI']
+    apiEndpoints: [ 'activityPrivateApi', 'environmentPrivateAPI' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1237,7 +1245,7 @@ pipelines:
 
   #### Pipelines to manage data coming from DATA SYNC AGENT PRIVATE and PUBLIC APIs ####
   dsAgentPrivatePipeline:
-    apiEndpoints: ['dsAgentPrivateApi']
+    apiEndpoints: [ 'dsAgentPrivateApi' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1253,7 +1261,7 @@ pipelines:
               serviceEndpoint: dsAgentService
 
   dsAgentFitbitSyncPrivatePipeline:
-    apiEndpoints: ['dsAgentFitbitSyncPrivateApi']
+    apiEndpoints: [ 'dsAgentFitbitSyncPrivateApi' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1277,7 +1285,7 @@ pipelines:
 
   #### Pipelines to manage data coming from QUESTIONNAIRES PRIVATE and PUBLIC APIs ####
   questionnairesPrivatePipeline:
-    apiEndpoints: ['questionnairesPrivateAPI']
+    apiEndpoints: [ 'questionnairesPrivateAPI' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1291,7 +1299,7 @@ pipelines:
 
   #### Pipelines to manage data coming from GAMIFICATION PRIVATE and PUBLIC APIs ####
   gamificationPrivatePipeline:
-    apiEndpoints: ['gamificationPrivateAPI']
+    apiEndpoints: [ 'gamificationPrivateAPI' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1305,7 +1313,7 @@ pipelines:
 
   #### Pipelines to manage data coming from MISSIONS PRIVATE and PUBLIC APIs ####
   missionsPrivatePipeline:
-    apiEndpoints: ['missionsPrivateAPI']
+    apiEndpoints: [ 'missionsPrivateAPI' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1319,7 +1327,7 @@ pipelines:
 
   #### Pipelines to manage data coming from FOOD HABITS PRIVATE and PUBLIC APIs ####
   foodPrivatePipeline:
-    apiEndpoints: ['foodPrivateApi']
+    apiEndpoints: [ 'foodPrivateApi' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1333,7 +1341,7 @@ pipelines:
 
   #### Pipelines to manage data coming from NOTIFICATION PRIVATE and PUBLIC APIs ####
   notificationPrivatePipeline:
-    apiEndpoints: ['notificationsPrivateAPI']
+    apiEndpoints: [ 'notificationsPrivateAPI' ]
     policies:
       - log: *log
       - body-parser-policy:
@@ -1347,7 +1355,7 @@ pipelines:
 
   #### Pipelines from VAULT ####
   vaultPipeline:
-    apiEndpoints: ['vault']
+    apiEndpoints: [ 'vault' ]
     policies:
       - log: *log
       - proxy:
@@ -1357,7 +1365,7 @@ pipelines:
 
   #### Pipelines from RABBIT MANAGEMENT ####
   rabbitPipeline:
-    apiEndpoints: ['rabbit']
+    apiEndpoints: [ 'rabbit' ]
     policies:
       - log: *log
       - proxy:
@@ -1367,7 +1375,7 @@ pipelines:
 
   #### Pipelines from MONITOR/GRAFANA ####
   monitorPipeline:
-    apiEndpoints: ['monitor']
+    apiEndpoints: [ 'monitor' ]
     policies:
       - log: *log
       - proxy:
@@ -1377,7 +1385,7 @@ pipelines:
 
   #### Pipelines from RABBIT MANAGEMENT ####
   managerPipeline:
-    apiEndpoints: ['manager']
+    apiEndpoints: [ 'manager' ]
     policies:
       - log: *log
       - proxy:
