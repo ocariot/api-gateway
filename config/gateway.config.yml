@@ -5,11 +5,11 @@ https:
   port: ${PORT_HTTPS:-443}
   hostname: '0.0.0.0'
   tls:
-#    ${API_IOT_HOSTNAME}:
-#      key: ${SSL_IOT_KEY_PATH}
-#      cert: ${SSL_IOT_CERT_PATH}
-#      ca:
-#        - ${SSL_IOT_CA_PATH}
+    ${API_IOT_HOSTNAME}:
+      key: ${SSL_IOT_KEY_PATH}
+      cert: ${SSL_IOT_CERT_PATH}
+      ca:
+        - ${SSL_IOT_CA_PATH}
     "default":
       key: ${SSL_KEY_PATH}
       cert: ${SSL_CERT_PATH}
@@ -1187,9 +1187,9 @@ pipelines:
     policies:
       - log: *log
       - body-parser-policy:
-#      - device-authorization:
-#          - action:
-#              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
+      - device-authorization:
+          - action:
+              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
       - iot-measurements:
           action:
             accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
