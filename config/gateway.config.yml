@@ -32,7 +32,13 @@ apiEndpoints:
         - '/v1/institutions/:institution_id/environments'
         - '/v1/children/:username/weights'
         - '/v1/children/nfc/:nfc_tag/weights'
+        - '/v1/children/:child_id/nfc'
       methods: [ "POST" ]
+
+    - host: ${API_IOT_HOSTNAME}
+      paths:
+        - '/v1/children/nfc/:nfc_tag'
+      methods: [ 'GET' ]
 
   ## IoT DEVICES ENDPOINTS ##
   iotRenewCertPrivateApi:
