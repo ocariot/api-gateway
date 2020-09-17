@@ -30,15 +30,15 @@ apiEndpoints:
     - host: ${API_IOT_HOSTNAME}
       paths:
         - '/v1/institutions/:institution_id/environments'
+        - '/v1/children/:username/nfc'
         - '/v1/children/:username/weights'
         - '/v1/children/nfc/:nfc_tag/weights'
-        - '/v1/children/:child_id/nfc'
       methods: [ "POST" ]
 
     - host: ${API_IOT_HOSTNAME}
       paths:
-        - '/v1/children/nfc/:nfc_tag'
-      methods: [ 'GET' ]
+        - '/v1/children/:username'
+      methods: [ 'HEAD' ]
 
   ## IoT DEVICES ENDPOINTS ##
   iotRenewCertPrivateApi:
@@ -213,7 +213,7 @@ apiEndpoints:
       methods: [ 'GET' ]
       scopes: [ 'children:readAll' ]
 
-    - host: '*'
+    - host: ${API_GATEWAY_HOSTNAME}
       paths:
         - '/v1/children/:child_id'
         - '/v1/children/nfc/:nfc_tag'
@@ -225,10 +225,10 @@ apiEndpoints:
       methods: [ 'PATCH' ]
       scopes: [ 'children:update' ]
 
-    - host: '*'
-      paths: [ '/v1/children/:child_id/nfc' ]
-      methods: [ 'POST' ]
-      scopes: [ 'children:update' ]
+    #    - host: '*' // Endpoint removed, as it is being handled on the iot host
+    #      paths: [ '/v1/children/:child_id/nfc' ]
+    #      methods: [ 'POST' ]
+    #      scopes: [ 'children:update' ]
 
     ### USERS.EDUCATORS ###
     - host: '*'
@@ -1117,10 +1117,10 @@ policies:
   - account-authorization
   - iot-tracking-authorization
   - ds-agent-authorization
-  - device-authorization
-  - device-pki
+  - tls-policy
+  - iot-device-pki
   - terminate
-  - iot-measurements
+  - iot-device-authorization
 
 ####### PIPELINES DEFINITION ########
 #### Pipeline no manage data coming from ACCOUNT PRIVATE and PUBLIC APIs ####
@@ -1164,7 +1164,7 @@ pipelines:
       - iot-tracking-authorization: &iot-tracking-authorization
           action:
             accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
-      - device-pki:
+      - iot-device-pki:
           - action:
               iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
               vaultServiceUrlBase: ${VAULT_SERVICE:-'https://localhost:8200'}
@@ -1179,10 +1179,8 @@ pipelines:
     policies:
       - log: *log
       - body-parser-policy:
-      - device-authorization:
-          - action:
-              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
-      - device-pki:
+      - tls-policy:
+      - iot-device-pki:
           - action:
               iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
               vaultServiceUrlBase: ${VAULT_SERVICE:-'https://localhost:8200'}
@@ -1193,10 +1191,8 @@ pipelines:
     policies:
       - log: *log
       - body-parser-policy:
-      - device-authorization:
-          - action:
-              iotTrackingUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}
-      - iot-measurements:
+      - tls-policy:
+      - iot-device-authorization:
           action:
             accountServiceUrlBase: ${ACCOUNT_SERVICE:-https://localhost:3001}
             iotServiceUrlBase: ${IOT_TRACKING_SERVICE:-https://localhost:4001}

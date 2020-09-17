@@ -2,6 +2,10 @@ const service = require('../../utils/http-client')
 const errorHandler = require('./../../utils/error.handler')
 const UserType = require('./../../utils/constants').UserType
 
+/**
+ * Policy for handling rules related to microservice IoT Tracking
+ */
+
 let ACCOUNT_URL_BASE = ''
 module.exports = function (actionParams) {
     ACCOUNT_URL_BASE = actionParams.accountServiceUrlBase
