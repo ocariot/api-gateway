@@ -42,13 +42,17 @@ module.exports = function (actionParams) {
         if (/^(\/v1\/children\/)[^\W_]+\/weights\/?$/.test(req.path) && req.method === 'POST') {
             return await postWeightByUsername(req, res)
         }
-        // POST /v1/children/:username/nfc
+        // POST /v1/children/nfc/:nfc_tag/weights
         if (/^(\/v1\/children\/nfc\/)[^\W_]+\/weights\/?$/.test(req.path) && req.method === 'POST') {
             return postWeightByNfcTag(req, res)
         }
-        // GET /v1/children/:username
+        // HEAD /v1/children/:username
         if (/^(\/v1\/children\/)[^\W_]+\/?$/.test(req.path) && req.method === 'HEAD') {
             return childExistsByUsername(req, res)
+        }
+        // GET /v1/children/nfc/:nfc_tag
+        if (/^(\/v1\/children\/nfc\/)[^\W_]+\/?$/.test(req.path) && req.method === 'GET') {
+            return getChildUsernameByNfcTag(req, res)
         }
 
         next()
@@ -157,6 +161,30 @@ async function postWeightByNfcTag(req, res) {
 }
 
 /**
+ * Save Weight measurement by NFC tag
+ */
+async function getChildUsernameByNfcTag(req, res) {
+    try {
+        const child = await getChildByNfcTag(req.params.nfc_tag)
+
+        // 1. Check if the child exists
+        if (!child) {
+            return res.status(404).send(msgChildNotFoundNfc(req.params.nfc_tag))
+        }
+
+        // 2. response username
+        res.status(200).send({
+            username: child.username
+        })
+    } catch (err) {
+        if (err.response && err.response.status) {
+            return res.status(err.response.status).send(err.response.data)
+        }
+        errorHandler(500, res, req)
+    }
+}
+
+/**
  * Checks whether the child exists by username.
  */
 async function childExistsByUsername(req, res) {
@@ -190,5 +218,27 @@ function getChildByUsername(username) {
                 resolve(undefined)
             })
             .catch(reject)
+    })
+}
+
+/**
+ * get child by NFC tag
+ */
+function getChildByNfcTag(tag) {
+    return new Promise((resolve, reject) => {
+        httpClient
+            .get(`${ACCOUNT_URL_BASE}/v1/children/nfc/${tag}`)
+            .then((result) => {
+                if (result.data) {
+                    return resolve(result.data)
+                }
+                resolve(undefined)
+            })
+            .catch(err => {
+                if (err.response && err.response.status === 404) {
+                    resolve(undefined)
+                }
+                reject(err)
+            })
     })
 }
