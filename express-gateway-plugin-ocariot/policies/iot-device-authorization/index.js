@@ -1,8 +1,8 @@
 module.exports = {
-    name: 'iot-measurements',
-    policy: require('./iot.measurements'),
+    name: 'iot-device-authorization',
+    policy: require('./authorization'),
     schema: {
-        $id: 'http://express-gateway.io/schemas/policies/iot-measurements.json',
+        $id: 'http://express-gateway.io/schemas/policies/iot-device-authorization.json',
         type: 'object',
         properties: {
             accountServiceUrlBase: {

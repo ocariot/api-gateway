@@ -1,8 +1,8 @@
 module.exports = {
-    name: 'device-pki',
+    name: 'iot-device-pki',
     policy: require('./pki'),
     schema: {
-        $id: 'http://express-gateway.io/schemas/policies/device-pki.json',
+        $id: 'http://express-gateway.io/schemas/policies/iot-device-pki.json',
         type: 'object',
         properties: {
             iotTrackingUrlBase: {
