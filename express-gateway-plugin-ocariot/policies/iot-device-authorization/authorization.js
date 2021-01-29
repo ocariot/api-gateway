@@ -38,6 +38,10 @@ module.exports = function (actionParams) {
         if (/^(\/v1\/children\/)[^\W_]+\/nfc\/?$/.test(req.path) && req.method === 'POST') {
             return await registerNfcByUsername(req, res)
         }
+        // DELETE /v1/children/:username/nfc
+        if (/^(\/v1\/children\/)[^\W_]+\/nfc\/?$/.test(req.path) && req.method === 'DELETE') {
+            return await unregisterNfcByUsername(req, res)
+        }
         // POST /v1/children/:username/weights
         if (/^(\/v1\/children\/)[^\W_]+\/weights\/?$/.test(req.path) && req.method === 'POST') {
             return await postWeightByUsername(req, res)
@@ -100,6 +104,28 @@ async function registerNfcByUsername(req, res) {
 
         // 2. Registers an NFC tag to a child.
         await httpClient.post(`${ACCOUNT_URL_BASE}/v1/children/${child.id}/nfc`, req.body)
+        res.status(204).send()
+    } catch (err) {
+        if (err.response && err.response.status) {
+            return res.status(err.response.status).send(err.response.data)
+        }
+        errorHandler(500, res, req)
+    }
+}
+
+/**
+ * Unregisters an NFC tag to a child.
+ */
+async function unregisterNfcByUsername(req, res) {
+    try {
+        // 1. Check if the child exists
+        const child = await getChildByUsername(req.params.username)
+        if (!child) { // child not found by given username
+            return res.status(400).send(msgChildNotFoundUsername(req.params.username))
+        }
+
+        // 2. Unregisters an NFC tag to a child.
+        await httpClient.delete(`${ACCOUNT_URL_BASE}/v1/children/${child.id}/nfc`, req.body)
         res.status(204).send()
     } catch (err) {
         if (err.response && err.response.status) {
