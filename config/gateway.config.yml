@@ -45,6 +45,11 @@ apiEndpoints:
         - '/v1/children/nfc/:nfc_tag'
       methods: [ 'GET' ]
 
+    - host: ${API_IOT_HOSTNAME}
+      paths:
+        - '/v1/children/:username/nfc'
+      methods: [ 'DELETE' ]
+
   ## IoT DEVICES ENDPOINTS ##
   iotRenewCertPrivateApi:
     - host: ${API_IOT_HOSTNAME}
@@ -984,6 +989,7 @@ apiEndpoints:
 
     - host: '*'
       paths:
+        - '/v1/observations/get-all-child-questionnaires/:childId'
         - '/v1/observations/observations-severities/:childId' ### MISSION SELECTION ###
         - '/v1/observations/analyze-results/:childId' ### MISSION SELECTION ###
         - '/v1/observations/get-completed-missions/:childId' ### MISSION SELECTION ###

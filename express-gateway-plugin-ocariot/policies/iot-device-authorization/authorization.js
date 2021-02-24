@@ -20,6 +20,14 @@ const msgChildNotFoundNfc = (tag) => {
     }
 }
 
+const msgDivergeTimeNfcTag = () => {
+    return {
+        code: 400,
+        message: `The child has the divergent tag association time for this measurement `,
+        description: 'Please record the measurement with the valid tag association time... '
+    }
+}
+
 module.exports = function (actionParams) {
     ACCOUNT_URL_BASE = actionParams.accountServiceUrlBase
     IOT_URL_BASE = actionParams.iotServiceUrlBase
@@ -37,6 +45,10 @@ module.exports = function (actionParams) {
         // POST /v1/children/:username/nfc
         if (/^(\/v1\/children\/)[^\W_]+\/nfc\/?$/.test(req.path) && req.method === 'POST') {
             return await registerNfcByUsername(req, res)
+        }
+        // DELETE /v1/children/:username/nfc
+        if (/^(\/v1\/children\/)[^\W_]+\/nfc\/?$/.test(req.path) && req.method === 'DELETE') {
+            return await unregisterNfcByUsername(req, res)
         }
         // POST /v1/children/:username/weights
         if (/^(\/v1\/children\/)[^\W_]+\/weights\/?$/.test(req.path) && req.method === 'POST') {
@@ -110,6 +122,28 @@ async function registerNfcByUsername(req, res) {
 }
 
 /**
+ * Unregisters an NFC tag to a child.
+ */
+async function unregisterNfcByUsername(req, res) {
+    try {
+        // 1. Check if the child exists
+        const child = await getChildByUsername(req.params.username)
+        if (!child) { // child not found by given username
+            return res.status(400).send(msgChildNotFoundUsername(req.params.username))
+        }
+
+        // 2. Unregisters an NFC tag to a child.
+        await httpClient.delete(`${ACCOUNT_URL_BASE}/v1/children/${child.id}/nfc`, req.body)
+        res.status(204).send()
+    } catch (err) {
+        if (err.response && err.response.status) {
+            return res.status(err.response.status).send(err.response.data)
+        }
+        errorHandler(500, res, req)
+    }
+}
+
+/**
  * Save Weight measurement by username
  */
 async function postWeightByUsername(req, res) {
@@ -120,7 +154,14 @@ async function postWeightByUsername(req, res) {
             return res.status(400).send(msgChildNotFoundUsername(req.params.username))
         }
 
-        // 2. Post the measurement based on the ID retrieved by username
+        // 2. Compare child.tag_ass_time with req.body.timestamp
+        if (child.tag_ass_time && req.body.timestamp){
+            const tagTime = new Date(child.tag_ass_time).getTime()
+            const weightTime = new Date(req.body.timestamp).getTime()
+            if ( tagTime > weightTime ) return res.status(400).send(msgDivergeTimeNfcTag(req.params.username))
+        }
+
+        // 3. Post the measurement based on the ID retrieved by username
         const responseWeight = await httpClient
             .post(`${IOT_URL_BASE}/v1/children/${child.id}/weights`, req.body)
         res.status(responseWeight.status).send(responseWeight.data)
