@@ -20,6 +20,14 @@ const msgChildNotFoundNfc = (tag) => {
     }
 }
 
+const msgDivergeTimeNfcTag = () => {
+    return {
+        code: 400,
+        message: `The child has the divergent tag association time for this measurement `,
+        description: 'Please record the measurement with the valid tag association time... '
+    }
+}
+
 module.exports = function (actionParams) {
     ACCOUNT_URL_BASE = actionParams.accountServiceUrlBase
     IOT_URL_BASE = actionParams.iotServiceUrlBase
@@ -146,7 +154,14 @@ async function postWeightByUsername(req, res) {
             return res.status(400).send(msgChildNotFoundUsername(req.params.username))
         }
 
-        // 2. Post the measurement based on the ID retrieved by username
+        // 2. Compare child.tag_ass_time with req.body.timestamp
+        if (child.tag_ass_time && req.body.timestamp){
+            const tagTime = new Date(child.tag_ass_time).getTime()
+            const weightTime = new Date(req.body.timestamp).getTime()
+            if ( tagTime > weightTime ) return res.status(400).send(msgDivergeTimeNfcTag(req.params.username))
+        }
+
+        // 3. Post the measurement based on the ID retrieved by username
         const responseWeight = await httpClient
             .post(`${IOT_URL_BASE}/v1/children/${child.id}/weights`, req.body)
         res.status(responseWeight.status).send(responseWeight.data)
