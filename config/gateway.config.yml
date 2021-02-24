@@ -989,6 +989,7 @@ apiEndpoints:
 
     - host: '*'
       paths:
+        - '/v1/observations/get-all-child-questionnaires/:childId'
         - '/v1/observations/observations-severities/:childId' ### MISSION SELECTION ###
         - '/v1/observations/analyze-results/:childId' ### MISSION SELECTION ###
         - '/v1/observations/get-completed-missions/:childId' ### MISSION SELECTION ###
